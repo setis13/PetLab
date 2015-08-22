@@ -1,0 +1,6 @@
+/.vs/PetLab/v14/*.suo
+obj/
+bin/
+packages/
+/key
+/*.tgitconfig

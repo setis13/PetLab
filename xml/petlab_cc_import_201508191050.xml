@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<order
+shift="3"
+material_id="2000000185"
+dye_name="нет"
+color_shade="нет"
+batch_id="442"
+order_id="1000403"
+count_sockets="48"
+equipment="PETLIN03">
+<etalons>
+<color name="ГО-5" socket_number="3" pickup_mode="1">
+<range name="Допуск ВД" lim1="1.00" lim2="1.50" lim3="2.00" lim4="3.00" lim5="3.50"/>
+<range name="Допуск ИК" lim1="3.50" lim2="3.70" lim3="4.70" lim4="5.70" lim5="6.00"/>
+<pickup_rays>
+<ray id="ray_uv"  value="1"/>
+<ray id="ray_w"  value="1"/>
+<ray id="ray_b"  value="1"/>
+<ray id="ray_g"  value="1"/>
+<ray id="ray_o"  value="1"/>
+<ray id="ray_r"  value="1"/>
+<ray id="ray_i8"  value="1"/>
+<ray id="ray_i9"  value="1"/>
+</pickup_rays>
+</color>
+<weight name="39.00" lim1="38.50" lim2="38.60" lim3="39.00" lim4="39.40" lim5="39.50"/>
+<slip name="D" lim1="12.57" lim2="13.17" lim3="14.71" lim4="17.32" lim5="17.92"/>
+<thickness name="ALL_PREFORMS" lim3="0.10" lim4="0.15" lim5="0.20"/>
+</etalons>
+</order>

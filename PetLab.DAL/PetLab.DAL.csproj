@@ -30,8 +30,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,7 +53,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\PetLabDbContextInitializer.cs" />
+    <Compile Include="Context\PetLabXmlContext.cs" />
+    <Compile Include="Context\PetLabDbContextConfiguration.cs" />
+    <Compile Include="Migrations\201508261624589_Root.cs" />
+    <Compile Include="Migrations\201508261624589_Root.Designer.cs">
+      <DependentUpon>201508261624589_Root.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\defect.cs" />
+    <Compile Include="Models\equipment.cs" />
+    <Compile Include="Models\material.cs" />
+    <Compile Include="Context\PetLabDbContext.cs" />
+    <Compile Include="Models\order.cs" />
+    <Compile Include="Models\order_etalon_color.cs" />
+    <Compile Include="Models\order_etalon_color_range.cs" />
+    <Compile Include="Models\order_etalon_color_ray.cs" />
+    <Compile Include="Models\order_etalon_slip.cs" />
+    <Compile Include="Models\order_etalon_thickness.cs" />
+    <Compile Include="Models\order_etalon_weight.cs" />
+    <Compile Include="Models\pickup.cs" />
+    <Compile Include="Models\pickup_defects.cs" />
+    <Compile Include="Models\pickup_station_cooling.cs" />
+    <Compile Include="Models\shift.cs" />
+    <Compile Include="Models\shift_number.cs" />
+    <Compile Include="Models\shift_time.cs" />
+    <Compile Include="Models\user.cs" />
+    <Compile Include="Models\xml\materialsXml.cs" />
+    <Compile Include="Models\xml\defectsXml.cs" />
+    <Compile Include="Models\xml\orderXml.cs" />
+    <Compile Include="Models\xml\pickupXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Base\EntityRepository.cs" />
+    <Compile Include="Repositories\Mock\MockXmlDefectsRepository.cs" />
+    <Compile Include="Repositories\XmlDefectsRepository.cs" />
+    <Compile Include="Repositories\XmlMaterialsRepository.cs" />
+    <Compile Include="Repositories\Base\XmlRepositoryReader.cs" />
+    <Compile Include="Repositories\Base\XmlRepositoryWriter.cs" />
+    <Compile Include="Repositories\Base\XmlRepository.cs" />
+    <Compile Include="Repositories\XmlPickupRepository.cs" />
+    <Compile Include="Repositories\XmlOrderRepository.cs" />
+    <Compile Include="UnityOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\PetLab.WPF\App.config">
+      <Link>App.config</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PetLab.DAL.Contracts\PetLab.DAL.Contracts.csproj">
+      <Project>{A3C38DE1-542B-4171-A99C-8DC5A34B04C2}</Project>
+      <Name>PetLab.DAL.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201508261624589_Root.resx">
+      <DependentUpon>201508261624589_Root.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

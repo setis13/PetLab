@@ -71,6 +71,10 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Unity.AutoRegistration, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35372f2f493f82ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnityAutoRegistration.1.0.0.2\lib\net35\Unity.AutoRegistration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -113,6 +117,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Database.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -121,9 +129,19 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PetLab.BLL.Contracts\PetLab.BLL.Contracts.csproj">
+      <Project>{8c21c114-973d-4d65-9dd8-9566e38c14fc}</Project>
+      <Name>PetLab.BLL.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PetLab.BLL\PetLab.BLL.csproj">
+      <Project>{3019bf11-9bbb-48b6-9be0-e9d97936966c}</Project>
+      <Name>PetLab.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PetLab.DAL.Contracts\PetLab.DAL.Contracts.csproj">
       <Project>{A3C38DE1-542B-4171-A99C-8DC5A34B04C2}</Project>
       <Name>PetLab.DAL.Contracts</Name>

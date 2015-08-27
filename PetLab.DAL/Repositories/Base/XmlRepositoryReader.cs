@@ -66,7 +66,7 @@ namespace PetLab.DAL.Repositories.Base {
 		/// <summary>
 		/// синхронный запрос
 		/// </summary>
-		public virtual T Get(object value) {
+		public virtual T Get(object value = null) {
 			string fullPath;
 			var substring = CreateRequest(value, out fullPath);
 			try {

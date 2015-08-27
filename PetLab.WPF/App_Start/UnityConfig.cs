@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using PetLab.BLL;
 using PetLab.DAL;
 using PetLab.DAL.Context;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
+using PetLab.DAL.Contracts.Repositories.Base;
+using Unity.AutoRegistration;
 
 namespace PetLab.WPF.App_Start {
 	public class UnityConfig {
@@ -36,6 +40,25 @@ namespace PetLab.WPF.App_Start {
 			container.RegisterType<IPetLabDbContext, PetLabDbContext>(new ContainerControlledLifetimeManager());
 			// register Xml context
 			container.RegisterType<IPetLabXmlContext, PetLabXmlContext>(new ContainerControlledLifetimeManager());
+
+			var host = new ServicesHost();
+#if DEBUG
+			container
+			  .ConfigureAutoRegistration()
+			  .LoadAssemblyFrom(Assembly.GetExecutingAssembly().Location)
+			  .ExcludeAssemblies(a => !a.FullName.ToLowerInvariant().StartsWith("petlab.bll"))
+			  .Include((type) => type.Implements<IXmlRepository>() && type.IsClass && 
+			  !type.IsAbstract && !type.IsGenericType, Then.Register().
+			  UsingLifetime<HierarchicalLifetimeManager>().As<IXmlRepository>().WithName(t => t.FullName))
+			  .ApplyAutoRegistration();
+			//container.RegisterType<XmlDefectsRepository, MockXmlDefectsRepository>(new ContainerControlledLifetimeManager());
+			//container.RegisterType<XmlMaterialsRepository, MockXmlMaterialsRepository>(new ContainerControlledLifetimeManager());
+			//container.RegisterType<XmlOrderRepository, MockXmlOrderRepository>(new ContainerControlledLifetimeManager());
+			//container.RegisterType<XmlPickupRepository, MockXmlPickupRepository>(new ContainerControlledLifetimeManager());
+#else
+
+#endif
+
 			// register Unit of Work
 			container.RegisterType<IUnitOfWork, UnitOfWork>(new HierarchicalLifetimeManager(), new InjectionFactory(c => {
 				var uow = new UnitOfWork(c.Resolve<IPetLabDbContext>(), c.Resolve<IPetLabXmlContext>());

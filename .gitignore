@@ -4,3 +4,4 @@ bin/
 packages/
 /key
 /*.tgitconfig
+/PetLab.WPF/Database.config

@@ -60,6 +60,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="Unity.AutoRegistration, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35372f2f493f82ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnityAutoRegistration.1.0.0.2\lib\net35\Unity.AutoRegistration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -84,6 +88,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PetLab.BLL.Contracts\PetLab.BLL.Contracts.csproj">
+      <Project>{8c21c114-973d-4d65-9dd8-9566e38c14fc}</Project>
+      <Name>PetLab.BLL.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PetLab.BLL\PetLab.BLL.csproj">
+      <Project>{3019bf11-9bbb-48b6-9be0-e9d97936966c}</Project>
+      <Name>PetLab.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PetLab.DAL.Contracts\PetLab.DAL.Contracts.csproj">
       <Project>{A3C38DE1-542B-4171-A99C-8DC5A34B04C2}</Project>
       <Name>PetLab.DAL.Contracts</Name>
@@ -96,6 +108,10 @@
   <ItemGroup>
     <None Include="..\PetLab.WPF\App.config">
       <Link>App.config</Link>
+    </None>
+    <None Include="..\PetLab.WPF\Database.config">
+      <Link>Database.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

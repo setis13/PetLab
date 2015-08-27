@@ -7,7 +7,7 @@ namespace PetLab.DAL.Repositories {
 	/// <summary>
 	/// репозиторий для запроса заказов
 	/// </summary>
-	public class XmlOrderRepository : XmlRepositoryReader<defectsXml> {
+	public class XmlOrderRepository : XmlRepositoryReader<orderXml> {
 		public XmlOrderRepository(IUnitOfWork unitOfWork) : base(unitOfWork) {
 		}
 

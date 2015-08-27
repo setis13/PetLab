@@ -6,7 +6,7 @@ namespace PetLab.DAL.Repositories {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class XmlMaterialsRepository : XmlRepositoryReader<defectsXml> {
+	public class XmlMaterialsRepository : XmlRepositoryReader<materialsXml> {
 		public XmlMaterialsRepository(IUnitOfWork unitOfWork) : base(unitOfWork) {
 		}
 

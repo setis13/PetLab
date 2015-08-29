@@ -64,16 +64,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ModelToDto\ShiftConverter.cs" />
+    <Compile Include="Converters\ModelToDto\UserConverter.cs" />
+    <Compile Include="Mappings\BllMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicesHost.cs" />
     <Compile Include="Services\Base\EntityService.cs" />
     <Compile Include="Services\Base\HostService.cs" />
+    <Compile Include="Services\IdentityService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PetLab.BLL.Common\PetLab.BLL.Common.csproj">
+      <Project>{2EECA5F9-E09B-49A4-8BB5-451F7D917C19}</Project>
+      <Name>PetLab.BLL.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PetLab.BLL.Contracts\PetLab.BLL.Contracts.csproj">
       <Project>{8C21C114-973D-4D65-9DD8-9566E38C14FC}</Project>
       <Name>PetLab.BLL.Contracts</Name>
@@ -87,9 +95,7 @@
       <Name>PetLab.DAL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mappings\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

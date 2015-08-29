@@ -1,11 +1,12 @@
 ﻿using System;
 using PetLab.DAL.Contracts;
+using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Models.xml;
 using PetLab.DAL.Repositories.Base;
 
 namespace PetLab.DAL.Repositories {
 	public class XmlPickupRepository : XmlRepositoryWriter<pickupXml> {
-		public XmlPickupRepository(IUnitOfWork unitOfWork) : base(unitOfWork) {
+		public XmlPickupRepository(IPetLabXmlContext context) : base(context) {
 		}
 
 		protected override string GenerateQuerySubstring() {

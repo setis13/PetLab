@@ -1,5 +1,6 @@
 ﻿using System;
 using PetLab.DAL.Contracts;
+using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Models.xml;
 
 namespace PetLab.DAL.Repositories.Mock {
@@ -8,7 +9,7 @@ namespace PetLab.DAL.Repositories.Mock {
 	/// </summary>
 	public class MockXmlMaterialsRepository : XmlMaterialsRepository {
 
-		public MockXmlMaterialsRepository(IUnitOfWork unitOfWork) : base(unitOfWork) {
+		public MockXmlMaterialsRepository(IPetLabXmlContext context) : base(context) {
 		}
 
 		/// <summary>

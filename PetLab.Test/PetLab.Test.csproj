@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -43,6 +47,7 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -84,10 +89,14 @@
     <Compile Include="..\PetLab.WPF\App_Start\UnityConfig.cs">
       <Link>App_Start\UnityConfig.cs</Link>
     </Compile>
-    <Compile Include="DAL\UnitTest.DAL.cs" />
+    <Compile Include="UnitTest.DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PetLab.BLL.Common\PetLab.BLL.Common.csproj">
+      <Project>{2eeca5f9-e09b-49a4-8bb5-451f7d917c19}</Project>
+      <Name>PetLab.BLL.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PetLab.BLL.Contracts\PetLab.BLL.Contracts.csproj">
       <Project>{8c21c114-973d-4d65-9dd8-9566e38c14fc}</Project>
       <Name>PetLab.BLL.Contracts</Name>
@@ -106,11 +115,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\PetLab.WPF\App.config">
-      <Link>App.config</Link>
+    <Compile Include="UnitTest.BLL.cs" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
     </None>
-    <None Include="..\PetLab.WPF\Database.config">
-      <Link>Database.config</Link>
+    <None Include="App.Debug.config">
+      <DependentUpon>app.config</DependentUpon>
+    </None>
+    <None Include="App.Release.config">
+      <DependentUpon>app.config</DependentUpon>
+    </None>
+    <None Include="Database.config">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

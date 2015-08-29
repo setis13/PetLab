@@ -16,9 +16,9 @@ namespace PetLab.DAL.Repositories.Base {
 		/// <summary>
 		/// Creates custom repository
 		/// </summary>
-		/// <param name="unitOfWork"></param>
-		public XmlRepository(IUnitOfWork unitOfWork) {
-			unitOfWork.RegisterXmlRepository(this);
+		/// <param name="context"></param>
+		public XmlRepository(IPetLabXmlContext context) {
+			Context = context;
 		}
 
 		#region protectedfields

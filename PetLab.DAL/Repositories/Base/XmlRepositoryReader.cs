@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 using PetLab.DAL.Contracts;
+using PetLab.DAL.Contracts.Context;
 
 namespace PetLab.DAL.Repositories.Base {
 	/// <summary>
@@ -21,7 +22,7 @@ namespace PetLab.DAL.Repositories.Base {
 
 		#endregion private fields
 
-		protected XmlRepositoryReader(IUnitOfWork unitOfWork) : base(unitOfWork) {
+		protected XmlRepositoryReader(IPetLabXmlContext context) : base(context) {
 		}
 
 		#region private methods

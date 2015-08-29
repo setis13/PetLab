@@ -4,7 +4,10 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using PetLab.DAL.Contracts;
+using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Contracts.Repositories.Base;
 
 namespace PetLab.DAL.Repositories.Base {
@@ -24,7 +27,7 @@ namespace PetLab.DAL.Repositories.Base {
 
 		#endregion private
 
-		public XmlRepositoryWriter(IUnitOfWork unitOfWork) : base(unitOfWork) {
+		public XmlRepositoryWriter(IPetLabXmlContext context) : base(context) {
 		}
 
 		#region private methods
@@ -32,10 +35,14 @@ namespace PetLab.DAL.Repositories.Base {
 		/// <summary>
 		/// создать файл ответа
 		/// </summary>
-		private void CreateResponse(T entry) {
+		protected void CreateResponse(T entry) {
 			var queryString = GenerateQuerySubstring();
 			var fullPath = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, queryString));
-			File.WriteAllText(fullPath, Context.Serialize<T>((T)entry));
+			var serializer = new XmlSerializer(typeof(T));
+			using (var writer = new StreamWriter(fullPath))
+			using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true })) {
+				serializer.Serialize(xmlWriter, entry);
+			}
 		}
 
 		/// <summary>
@@ -67,7 +74,7 @@ namespace PetLab.DAL.Repositories.Base {
 
 		#region public
 
-		public void Insert(object entry) {
+		public void Insert(T entry) {
 			Context.Insert(entry, this);
 		}
 

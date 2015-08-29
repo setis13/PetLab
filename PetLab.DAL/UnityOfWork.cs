@@ -5,6 +5,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Microsoft.Practices.ServiceLocation;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Contracts.Repositories.Base;
@@ -83,10 +84,12 @@ namespace PetLab.DAL {
 		/// <returns>Custom repository instance</returns>
 		public T GetXmlRepository<T>() where T : IXmlRepository {
 			// check if repository exist in cache
-			if (_xmlRepositories.ContainsKey(typeof(T)))
+			if (_xmlRepositories.ContainsKey(typeof (T))) {
 				return (T)_xmlRepositories[typeof(T)];
-
-			return default(T);
+			}
+			var xmlRepository = (T) ServiceLocator.Current.GetService(typeof(T));
+			_xmlRepositories.Add(typeof(T), xmlRepository);
+			return xmlRepository;
 		}
 
 		/// <summary>

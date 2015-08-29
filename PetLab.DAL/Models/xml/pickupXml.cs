@@ -21,19 +21,19 @@ namespace PetLab.DAL.Models.xml {
 
 		private pickupDefect_meas[] defectField;
 
-		private string date_takeField;
+		private DateTime date_takeField;
 
-		private string date_beginField;
+		private DateTime date_beginField;
 
-		private string date_endField;
+		private DateTime date_endField;
 
 		private byte numberField;
 
 		private string station_coolingField;
 
-		private byte equipmentField;
+		private string equipmentField;
 
-		private byte etalon_matchField;
+		private bool etalon_matchField;
 
 		private string userField;
 
@@ -93,7 +93,7 @@ namespace PetLab.DAL.Models.xml {
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string date_take {
+		public DateTime date_take {
 			get {
 				return this.date_takeField;
 			}
@@ -104,7 +104,7 @@ namespace PetLab.DAL.Models.xml {
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string date_begin {
+		public DateTime date_begin {
 			get {
 				return this.date_beginField;
 			}
@@ -115,7 +115,7 @@ namespace PetLab.DAL.Models.xml {
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string date_end {
+		public DateTime date_end {
 			get {
 				return this.date_endField;
 			}
@@ -148,7 +148,7 @@ namespace PetLab.DAL.Models.xml {
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte equipment {
+		public string equipment {
 			get {
 				return this.equipmentField;
 			}
@@ -159,7 +159,7 @@ namespace PetLab.DAL.Models.xml {
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte etalon_match {
+		public bool etalon_match {
 			get {
 				return this.etalon_matchField;
 			}
@@ -336,7 +336,7 @@ namespace PetLab.DAL.Models.xml {
 
 		private byte socketField;
 
-		private ushort defect_idField;
+		private string defect_idField;
 
 		private byte gradeField;
 
@@ -353,7 +353,7 @@ namespace PetLab.DAL.Models.xml {
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public ushort defect_id {
+		public string defect_id {
 			get {
 				return this.defect_idField;
 			}

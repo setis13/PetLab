@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Models {
 	[Table("defect")]
-	public class defect {
+	public class defect : BaseEntity {
 		[SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public defect() {
 			pickup_defects = new HashSet<pickup_defects>();

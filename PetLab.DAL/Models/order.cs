@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Models {
 	[Table("order")]
-	public class order {
+	public class order : BaseEntity {
 		[SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public order() {
 			order_etalon_color_range = new HashSet<order_etalon_color_range>();

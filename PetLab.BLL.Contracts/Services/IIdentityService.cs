@@ -11,12 +11,12 @@ namespace PetLab.BLL.Contracts.Services {
 		/// <summary>
 		/// получить всех пользователей
 		/// </summary>
-		ServiceResult<IEnumerable<UserDto>> LookupUser();
+		ServiceResult<IEnumerable<UserDto>> LookupUsers();
 
 		/// <summary>
 		/// получить все смены
 		/// </summary>
-		ServiceResult<IEnumerable<ShiftDto>> LookupShift();
+		ServiceResult<IEnumerable<ShiftDto>> LookupShifts();
 
 		/// <summary>
 		/// попробовать авторизоваться

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Contracts.Repositories.Base {
 
@@ -12,7 +13,7 @@ namespace PetLab.DAL.Contracts.Repositories.Base {
 	/// Represents interface for base generic repository
 	/// </summary>
 	/// <typeparam name="T">Class</typeparam>
-	public interface IEntityRepository<T> : IEntityRepository where T : class {
+	public interface IEntityRepository<T> : IEntityRepository where T : BaseEntity {
 		void Update(T entity);
         void Insert(T entity);
 
@@ -43,5 +44,10 @@ namespace PetLab.DAL.Contracts.Repositories.Base {
 		/// <param name="predicate">Predicate</param>
 		/// <returns>List of entities</returns>
 		IQueryable<T> SearchFor(Expression<Func<T, bool>> predicate);
+		/// <summary>
+		/// Attaches new entity or saves existing entity to database context
+		/// </summary>
+		/// <param name="entity">Entity</param>
+		void Save(T entity);
 	}
 }

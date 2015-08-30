@@ -34,6 +34,9 @@ namespace PetLab.DAL.Context {
 				context.users.Add(user);
 				if (context.shift_number.Any() == false) {
 					context.shift_number.Add(new shift_number { number = 1, user = user });
+					context.shift_number.Add(new shift_number { number = 2, user = user });
+					context.shift_number.Add(new shift_number { number = 3, user = user });
+					context.shift_number.Add(new shift_number { number = 4, user = user });
 				}
 				if (context.shift_time.Any() == false) {
 					context.shift_time.Add(new shift_time {

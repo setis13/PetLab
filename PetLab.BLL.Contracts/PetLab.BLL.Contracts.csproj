@@ -45,6 +45,9 @@
     <Compile Include="Services\Base\ICrudService.cs" />
     <Compile Include="Services\Base\IReadonlyService.cs" />
     <Compile Include="Services\Base\IService.cs" />
+    <Compile Include="Services\IPickupService.cs" />
+    <Compile Include="Services\IMaterialsService.cs" />
+    <Compile Include="Services\IDefectsService.cs" />
     <Compile Include="Services\IIdentityService.cs" />
   </ItemGroup>
   <ItemGroup>

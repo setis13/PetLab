@@ -5,13 +5,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using PetLab.DAL.Context;
 using PetLab.DAL.Contracts.Context;
+using PetLab.DAL.Contracts.Models.Base;
 using PetLab.DAL.Contracts.Repositories.Base;
 
 namespace PetLab.DAL.Repositories.Base {
 	/// <summary>
 	/// Represents base generic repository
 	/// </summary>
-	public class EntityRepository<T> : IEntityRepository<T> where T: class {
+	public class EntityRepository<T> : IEntityRepository<T> where T : BaseEntity {
 		#region [ Protected Fields]
 
 		/// <summary>
@@ -114,6 +115,20 @@ namespace PetLab.DAL.Repositories.Base {
 		/// <returns>List of entities</returns>
 		public virtual IQueryable<T> SearchFor(Expression<Func<T, bool>> predicate) {
 			return _dbSet.Where(predicate);
+		}
+
+		/// <summary>
+		/// Attaches new entity or saves existing entity to database context
+		/// </summary>
+		/// <param name="entity">Entity</param>
+		public virtual void Save(T entity) {
+			var originEntity = GetById(entity.GetKey());
+            if (originEntity == null) {
+				Insert(entity);
+			} else {
+				_context.Entry(originEntity).State = EntityState.Detached;
+				Update(entity);
+			}
 		}
 
 		#endregion [ Public Methods ]

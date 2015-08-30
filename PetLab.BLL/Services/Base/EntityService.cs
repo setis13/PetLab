@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using PetLab.BLL.Contracts.Services.Base;
 using PetLab.DAL.Contracts;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.BLL.Services.Base {
 
     public class EntityService<TDto, TEntity> : ICrudService<TDto>
         where TDto: class 
-        where TEntity: class {
+        where TEntity: BaseEntity {
        /// <summary>
         /// The unit of work.
         /// </summary>

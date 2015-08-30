@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\DefectXmlDto.cs" />
+    <Compile Include="Dto\DefectDto.cs" />
+    <Compile Include="Dto\EquipmentDto.cs" />
+    <Compile Include="Dto\MaterialXmlDto.cs" />
+    <Compile Include="Dto\MaterialDto.cs" />
+    <Compile Include="Dto\OrderDto.cs" />
     <Compile Include="Dto\ShiftDto.cs" />
     <Compile Include="Dto\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

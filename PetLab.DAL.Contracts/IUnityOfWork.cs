@@ -1,4 +1,5 @@
 ﻿using PetLab.DAL.Contracts.Context;
+using PetLab.DAL.Contracts.Models.Base;
 using PetLab.DAL.Contracts.Repositories.Base;
 
 namespace PetLab.DAL.Contracts {
@@ -21,7 +22,7 @@ namespace PetLab.DAL.Contracts {
 		/// </summary>
 		/// <typeparam name="T">Entity type</typeparam>
 		/// <returns>Repository instance</returns>
-		IEntityRepository<T> GetRepository<T>() where T : class;
+		IEntityRepository<T> GetRepository<T>() where T : BaseEntity;
 		/// <summary>
 		/// Get repository by repository type
 		/// </summary>

@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Models {
-	public class pickup_defects {
+	public class pickup_defects : BaseEntity {
 		[Key]
 		[Column(Order = 0)]
 		public byte socket { get; set; }

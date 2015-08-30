@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Models {
-	public class order_etalon_color {
+	public class order_etalon_color : BaseEntity {
 		[Key, ForeignKey("order")]
 		[StringLength(10)]
 		public string order_id { get; set; }
@@ -13,7 +14,7 @@ namespace PetLab.DAL.Models {
 
 		public byte socket_number { get; set; }
 
-		public byte pivkup_mode { get; set; }
+		public byte pickup_mode { get; set; }
 
 		public virtual order order { get; set; }
 	}

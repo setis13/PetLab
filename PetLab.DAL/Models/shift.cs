@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Models {
 	[Table("shift")]
-	public class shift {
+	public class shift : BaseEntity {
 		[SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public shift() {
 			orders = new HashSet<order>();

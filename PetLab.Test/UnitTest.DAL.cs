@@ -94,7 +94,7 @@ namespace PetLab.Test {
 			var random = new Random();
 			var repository = uow.GetXmlRepository<XmlOrderRepository>();
 			var eqId = (byte)(random.Next(11) + 1);
-			var order = repository.Get(eqId);
+			var order = repository.Get("PETLIN" + eqId.ToString("D2"));
 			Assert.AreEqual<string>(order.equipment, "PETLIN" + eqId.ToString("D2"));
 		}
 		[TestMethod]

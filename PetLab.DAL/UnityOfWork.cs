@@ -8,6 +8,7 @@ using System.Threading;
 using Microsoft.Practices.ServiceLocation;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
+using PetLab.DAL.Contracts.Models.Base;
 using PetLab.DAL.Contracts.Repositories.Base;
 using PetLab.DAL.Repositories.Base;
 
@@ -65,7 +66,7 @@ namespace PetLab.DAL {
 		/// </summary>
 		/// <typeparam name="T">Entity type</typeparam>
 		/// <returns>Repository instance</returns>
-		public IEntityRepository<T> GetRepository<T>() where T : class {
+		public IEntityRepository<T> GetRepository<T>() where T : BaseEntity {
 			// check if repository exist in cache
 			if (_enityRepositories.ContainsKey(typeof(T)))
 				return _enityRepositories[typeof(T)] as IEntityRepository<T>;

@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Models {
-	public class order_etalon_weight {
+	public class order_etalon_weight : BaseEntity {
 		[Key, ForeignKey("order")]
 		[StringLength(10)]
 		public string order_id { get; set; }

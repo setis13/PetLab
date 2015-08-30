@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Base\BaseEntity.cs" />
     <Compile Include="Context\IPetLabDbContext.cs" />
     <Compile Include="Context\IXmlPetLabContext.cs" />
     <Compile Include="IUnityOfWork.cs" />

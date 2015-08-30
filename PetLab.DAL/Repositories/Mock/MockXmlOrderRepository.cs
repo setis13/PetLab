@@ -15,7 +15,8 @@ namespace PetLab.DAL.Repositories.Mock {
 		/// <summary>
 		/// возвращает дефекты. последний дефект имеет случайное имя
 		/// </summary>
-		public override orderXml Get(object value) {
+		/// <param name="value">string, Id машины</param>
+		public override orderXml Get(object value = null) {
 			var random = new Random();
 			var order = new orderXml();
 			order.batch_id = "000" + random.Next(7);
@@ -32,10 +33,12 @@ namespace PetLab.DAL.Repositories.Mock {
 					break;
 			}
 			order.dye_name = "краситель";
-			order.equipment = "PETLIN" + ((byte)value).ToString("D2");
+			order.equipment = (string)value;
 			order.material_id = "000000" + (random.Next(4) + 1);
 			order.order_id = "000000" + (random.Next(20) + 1).ToString("D2");
-			order.shift = (byte)(random.Next(4) + 1);
+			//созданная смена, 1 - MaxInt
+			//номер смены мне не сильно нужен
+			order.shift = 1;
 			order.etalons = new orderEtalons();
 			order.etalons.color = new orderEtalonsColor();
 			switch (random.Next(4)) {

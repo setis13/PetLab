@@ -91,7 +91,7 @@ namespace PetLab.DAL.Repositories.Base {
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public Task<T> GetAsync(object value) {
+		public Task<T> GetAsync(object value = null) {
 			return Task.Factory.StartNew(() => {
 				return Get(value);
 			});

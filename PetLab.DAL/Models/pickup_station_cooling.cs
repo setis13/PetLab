@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Models {
-	public class pickup_station_cooling {
+	public class pickup_station_cooling : BaseEntity {
 		[SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public pickup_station_cooling() {
 			pickups = new HashSet<pickup>();

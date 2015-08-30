@@ -21,7 +21,7 @@ namespace PetLab.BLL.Services {
 		/// <summary>
 		/// получить всех пользователей
 		/// </summary>
-		public ServiceResult<IEnumerable<UserDto>> LookupUser() {
+		public ServiceResult<IEnumerable<UserDto>> LookupUsers() {
 			try {
 				var repository = UnitOfWork.GetRepository<user>();
 				var users = repository.GetAll();
@@ -34,7 +34,7 @@ namespace PetLab.BLL.Services {
 		/// <summary>
 		/// получить все смены
 		/// </summary>
-		public ServiceResult<IEnumerable<ShiftDto>> LookupShift() {
+		public ServiceResult<IEnumerable<ShiftDto>> LookupShifts() {
 			try {
 				var repository = UnitOfWork.GetRepository<shift>();
 				var shifts = repository.GetAll();

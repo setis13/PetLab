@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Models {
-	public class order_etalon_color_ray {
+	public class order_etalon_color_ray : BaseEntity {
 		[Key, ForeignKey("order")]
 		[Column(Order = 0)]
 		[StringLength(10)]

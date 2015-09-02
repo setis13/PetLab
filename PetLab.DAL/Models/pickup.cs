@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using PetLab.DAL.Contracts.Models.Base;
+using PetLab.DAL.Models.xml;
 
 namespace PetLab.DAL.Models {
 	[Table("pickup")]
@@ -33,7 +34,7 @@ namespace PetLab.DAL.Models {
 		[Column(TypeName = "smalldatetime")]
 		public DateTime? datetime_close { get; set; }
 
-		public int? box_id { get; set; }
+		public string box_id { get; set; }
 
 		public byte station_id { get; set; }
 
@@ -52,6 +53,9 @@ namespace PetLab.DAL.Models {
 
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public virtual ICollection<pickup_defects> pickup_defects { get; set; }
+
+		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<pickup_etalon_color_range> pickup_etalon_color_ranges { get; set; }
 
 		public virtual pickup_station_cooling pickup_station_cooling { get; set; }
 

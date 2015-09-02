@@ -214,6 +214,14 @@ namespace PetLab.DAL.Context {
 				.WithRequired(e => e.pickup)
 				.WillCascadeOnDelete(false);
 
+			modelBuilder.Entity<pickup>()
+				.HasMany(e => e.pickup_etalon_color_ranges)
+				.WithRequired(e => e.pickup);
+
+			modelBuilder.Entity<order_etalon_color_range>()
+				.HasMany(e => e.pickup_etalon_color_ranges)
+				.WithRequired(e => e.order_etalon_color_range);
+
 			modelBuilder.Entity<pickup_defects>()
 				.Property(e => e.defect_id)
 				.IsFixedLength();

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 
 namespace PetLab.DAL.Contracts.Models.Base {
 	public abstract class BaseEntity {

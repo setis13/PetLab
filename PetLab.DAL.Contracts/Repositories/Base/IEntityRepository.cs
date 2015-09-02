@@ -15,7 +15,7 @@ namespace PetLab.DAL.Contracts.Repositories.Base {
 	/// <typeparam name="T">Class</typeparam>
 	public interface IEntityRepository<T> : IEntityRepository where T : BaseEntity {
 		void Update(T entity);
-        void Insert(T entity);
+		void Insert(T entity);
 
 		/// <summary>
 		/// Gets all entities
@@ -49,5 +49,12 @@ namespace PetLab.DAL.Contracts.Repositories.Base {
 		/// </summary>
 		/// <param name="entity">Entity</param>
 		void Save(T entity);
+		/// <summary>
+		/// https://msdn.microsoft.com/en-us/data/jj574232.aspx?f=255&MSPPError=-2147217396
+		/// context.Entry(blog).Collection(p => p.Posts).Load(); 
+		/// </summary>
+		/// <param name="pickup"></param>
+		/// <param name="func"></param>
+		void ReferenceLoad(T pickup, Expression<Func<T, object>> func);
 	}
 }

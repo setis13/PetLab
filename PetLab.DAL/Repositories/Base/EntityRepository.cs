@@ -123,12 +123,16 @@ namespace PetLab.DAL.Repositories.Base {
 		/// <param name="entity">Entity</param>
 		public virtual void Save(T entity) {
 			var originEntity = GetById(entity.GetKey());
-            if (originEntity == null) {
+			if (originEntity == null) {
 				Insert(entity);
 			} else {
 				_context.Entry(originEntity).State = EntityState.Detached;
 				Update(entity);
 			}
+		}
+
+		public void ReferenceLoad(T pickup, Expression<Func<T, object>> func) {
+			_context.Entry(pickup).Reference(func).Load();
 		}
 
 		#endregion [ Public Methods ]

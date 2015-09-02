@@ -18,6 +18,11 @@ namespace PetLab.BLL.Mappings {
 			CreateMap<material, MaterialDto>().ConvertUsing<Converters.ModelToDto.MaterialConverter>();
 			CreateMap<defect, DefectDto>().ConvertUsing<Converters.ModelToDto.DefectConverter>();
 			CreateMap<order, OrderDto>().ConvertUsing<Converters.ModelToDto.OrderConverter>();
+			CreateMap<pickup, PickupDto>().ConvertUsing<Converters.ModelToDto.PickupConverter>();
+			CreateMap<pickup_defects, PickupDefectDto>().ConvertUsing<Converters.ModelToDto.PickupDefectConverter>();
+			CreateMap<pickup_etalon_color_range, PickupEtalonColorRangeDto>().ConvertUsing<Converters.ModelToDto.PickupEtalonColorRangeConverter>();
+			CreateMap<order_etalon_color_range, OrderEtalonColorRangeDto>().ConvertUsing<Converters.ModelToDto.OrderEtalonColorRangeConverter>();
+
 			//xml model to dto
 			CreateMap<materialsmaterial, MaterialXmlDto>().ConvertUsing<Converters.XmlToDto.MaterialConverter>();
 			CreateMap<defectsDefect, DefectXmlDto>().ConvertUsing<Converters.XmlToDto.DefectConverter>();
@@ -31,6 +36,6 @@ namespace PetLab.BLL.Mappings {
 			CreateMap<orderXml, order_etalon_thickness>().ConvertUsing<Converters.XmlToModel.OrderEtalonThicknessConverter>();
 			CreateMap<orderXml, IEnumerable<order_etalon_color_range>>().ConvertUsing<Converters.XmlToModel.OrderEtalonColorRangesConverter>();
 			CreateMap<orderXml, IEnumerable<order_etalon_color_ray>>().ConvertUsing<Converters.XmlToModel.OrderEtalonColorRaysConverter>();
-	        }
+			}
 	}
 }

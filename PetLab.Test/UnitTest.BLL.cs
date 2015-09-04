@@ -40,8 +40,8 @@ namespace PetLab.Test {
 		[TestMethod]
 		public void LookupUser() {
 			var service = host.GetService<IIdentityService>();
-			IEnumerable<UserDto> users = CheckResult(service.LookupUsers());
-			CheckResult(service.Login(2, users.First().UserId, "2"));
+			IEnumerable<UserDto> users = service.LookupUsers().GetResult();
+			service.Login(2, users.First().UserId, "2").CheckResult();
 			Assert.IsTrue(true);
 		}
 
@@ -50,11 +50,11 @@ namespace PetLab.Test {
 			//получили сервис
 			var service = host.GetService<IDefectsService>();
 			//получили xml дефекты
-			IEnumerable<DefectXmlDto> xmlDefects = CheckResult(service.LookupXmlDefectsAsync().Result);
+			IEnumerable<DefectXmlDto> xmlDefects = service.LookupXmlDefectsAsync().Result.GetResult();
 			//обновляем дефекты в db по объектам dto
-			CheckResult(service.UpdateDefects(xmlDefects));
+			service.UpdateDefects(xmlDefects).CheckResult();
 			//получам дефекты из db
-			IEnumerable<DefectDto> defects = CheckResult(service.LookupDefects());
+			IEnumerable<DefectDto> defects = service.LookupDefects().GetResult();
 			//сравниваем результаты
 			foreach (var xmlDefect in xmlDefects) {
 				DefectDto dto = defects.FirstOrDefault(d => d.DefectId.Trim() == xmlDefect.DefectId.Trim());
@@ -75,11 +75,11 @@ namespace PetLab.Test {
 			//получили сервис
 			var service = host.GetService<IMaterialsService>();
 			//получили xml материалы
-			IEnumerable<MaterialXmlDto> xmlMaterials = CheckResult(service.LookupXmlMaterialsAsync().Result);
+			IEnumerable<MaterialXmlDto> xmlMaterials = service.LookupXmlMaterialsAsync().Result.GetResult();
 			//обновляем материалы в db по объектам dto
-			CheckResult(service.UpdateMaterials(xmlMaterials));
+			service.UpdateMaterials(xmlMaterials).CheckResult();
 			//получам материалы из db
-			IEnumerable<MaterialDto> defects = CheckResult(service.LookupMaterials());
+			IEnumerable<MaterialDto> defects = service.LookupMaterials().GetResult();
 			//сравниваем результаты
 			foreach (var xmlMaterial in xmlMaterials) {
 				MaterialDto dto = defects.FirstOrDefault(d => d.MaterialId.Trim() == xmlMaterial.MaterialId.Trim());
@@ -100,7 +100,7 @@ namespace PetLab.Test {
 			var random = new Random();
 			var service = host.GetService<IPickupService>();
 			for (int i = 0; i < 11; i++) {
-				CheckResult(service.LookupOrder("PETLIN" + (i + 1).ToString("D2")).Result);
+				service.LookupOrder("PETLIN" + (i + 1).ToString("D2")).Result.CheckResult();
 			}
 		}
 
@@ -117,17 +117,17 @@ namespace PetLab.Test {
 			var random = new Random();
 			var service = host.GetService<IPickupService>();
 			var eqId = "PETLIN" + (random.Next(11) + 1).ToString("D2");
-			var order = CheckResult(service.LookupOrder(eqId).Result);
+			var order = service.LookupOrder(eqId).Result.GetResult();
 			if (order == null) {
 				Assert.Inconclusive("нет заказа");
 			}
-			var pickup = CheckResult(service.LookupOpenPickup(eqId));
+			var pickup = service.LookupOpenPickup(eqId).GetResult();
 			if (pickup != null) {
-				CheckResult(service.ClosePickup(pickup.PickupId));
+				service.ClosePickup(pickup.PickupId).CheckResult();
 			}
 			var boxId = random.Next(1000).ToString("D8");
-			pickup = CheckResult(service.OpenPickup(order.OrderId, boxId, 1, 1, DateTime.Now, (byte)(random.Next(4) + 1)));
-			var defects = CheckResult(service.LookupDefects()).ToArray();
+			pickup = service.OpenPickup(order.OrderId, boxId, 1, 1, DateTime.Now, (byte)(random.Next(4) + 1)).GetResult();
+			var defects = service.LookupDefects().GetResult().ToArray();
 			for (int i = 0; i < random.Next(order.CountSocket); i++) {
 				byte? grade = 0;
 				switch (random.Next(3)) {
@@ -141,30 +141,17 @@ namespace PetLab.Test {
 						grade = 1;
 						break;
 				}
-				CheckResult(service.SetPickupDefect(pickup.PickupId,
+				service.SetPickupDefect(pickup.PickupId,
 					defects[random.Next(defects.Length)].DefectId,
-					(byte)random.Next(order.CountSocket), grade));
+					(byte)random.Next(order.CountSocket), grade).GetResult();
 			}
-			CheckResult(service.SetEtalonMatch(pickup.PickupId, random.Next(2) == 0));
-			CheckResult(service.SetVisualMatch(pickup.PickupId, random.Next(2) == 0));
-			var ranges = CheckResult(service.LookupEtalonColorRanges(pickup.OrderId)).ToArray();
+			service.SetEtalonMatch(pickup.PickupId, random.Next(2) == 0).CheckResult();
+			service.SetVisualMatch(pickup.PickupId, random.Next(2) == 0).CheckResult();
+			var ranges = service.LookupEtalonColorRanges(pickup.OrderId).GetResult().ToArray();
 			for (int i = 0; i < ranges.Length; i++) {
-				CheckResult(service.SetColor(pickup.PickupId, pickup.OrderId, ranges[i].Name, (decimal?)random.Next(100) / 10));
+				service.SetColor(pickup.PickupId, pickup.OrderId, ranges[i].Name, (decimal?)random.Next(100) / 10).GetResult();
 			}
-			CheckResult(service.ClosePickup(pickup.PickupId));
-		}
-
-		private T CheckResult<T>(ServiceResult<T> result) {
-			if (result.Successed == false) {
-				Assert.Fail(result.Exception.Message);
-			}
-			return result.Result;
-		}
-
-		private void CheckResult(ServiceResult result) {
-			if (result.Successed == false) {
-				Assert.Fail(result.Exception.Message);
-			}
+			service.ClosePickup(pickup.PickupId).CheckResult();
 		}
 	}
 }

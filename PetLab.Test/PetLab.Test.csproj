@@ -83,12 +83,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="..\PetLab.WPF\AppBootstrapper.cs">
-      <Link>AppBootstrapper.cs</Link>
-    </Compile>
-    <Compile Include="..\PetLab.WPF\App_Start\UnityConfig.cs">
-      <Link>App_Start\UnityConfig.cs</Link>
-    </Compile>
     <Compile Include="UnitTest.DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -112,6 +106,10 @@
     <ProjectReference Include="..\PetLab.DAL\PetLab.DAL.csproj">
       <Project>{E4B1D1F0-EAE7-454E-998B-40298BBF66BE}</Project>
       <Name>PetLab.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PetLab.WPF\PetLab.WPF.csproj">
+      <Project>{261709d9-f665-40e8-9138-1902072cc6f5}</Project>
+      <Name>PetLab.WPF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

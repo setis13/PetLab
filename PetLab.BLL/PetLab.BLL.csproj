@@ -94,6 +94,7 @@
     <Compile Include="Converters\XmlToModel\OrderEtalonThicknessConverter.cs" />
     <Compile Include="Converters\XmlToModel\OrderEtalonWeightConverter.cs" />
     <Compile Include="Mappings\BllMappingProfile.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicesHost.cs" />
     <Compile Include="Services\Base\EntityService.cs" />
@@ -102,10 +103,20 @@
     <Compile Include="Services\IdentityService.cs" />
     <Compile Include="Services\MaterialsService.cs" />
     <Compile Include="Services\PickupService.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\SettingsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PetLab.BLL.Common\PetLab.BLL.Common.csproj">

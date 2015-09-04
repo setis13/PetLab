@@ -1,0 +1,79 @@
+﻿<Window x:Class="PetLab.WPF.Dialogs.LoginDialog"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:helpers="clr-namespace:PetLab.WPF.Helpers"
+		Title="Login" Height="400" Width="320"
+		WindowStartupLocation="CenterScreen" 
+		ResizeMode="NoResize" 
+		Icon="pack://application:,,,/Resources/app_icon.png">
+	<Window.Resources>
+		<!--Converters-->
+	</Window.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="40"/>
+			<RowDefinition Height="40"/>
+			<RowDefinition Height="40"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="40"/>
+		</Grid.RowDefinitions>
+
+		<!--Logotype-->
+		<Image
+			Grid.ColumnSpan="3"
+			Margin="20" Source="pack://application:,,,/Resources/app_logo.png" />
+
+		<!--Text labels-->
+
+		<TextBlock
+			Grid.Row="1"
+			VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Смена:</TextBlock>
+		<TextBlock
+			Grid.Row="2"
+			VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Пользователь:</TextBlock>
+		<TextBlock
+			Grid.Row="3"
+			VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">Пароль:</TextBlock>
+
+		<!--Shift-->
+		<ComboBox x:Name="cbShift" 
+				  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+				  Margin="5" Padding="5" 
+				  DisplayMemberPath="ShiftId"
+				  SelectedValuePath="ShiftNumber"
+				  SelectedValue="{Binding SelectedShiftNumber, Mode=TwoWay}"
+				  ItemsSource="{Binding Shifts, Mode=OneTime}"/>
+		
+		<!--User name-->
+		<ComboBox x:Name="cbUserName" 
+				  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+				  Margin="5" Padding="5" 
+				  DisplayMemberPath="Fio"
+				  SelectedValuePath="UserId"
+				  SelectedValue="{Binding SelectedUserId, Mode=TwoWay}"
+				  ItemsSource="{Binding Users, Mode=OneTime}"/>
+
+		<!--User password-->
+		<PasswordBox x:Name="tbPassword"
+					 Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+					 Margin="5" Padding="5" helpers:PasswordHelper.Attach="True" helpers:PasswordHelper.Password="{Binding Password, Mode=TwoWay}" />
+
+		<!--Error message-->
+		<TextBlock x:Name="tbError"
+				   Grid.Row="4" Grid.ColumnSpan="4"
+				   Margin="5" Foreground="Red" HorizontalAlignment="Right" Text="{Binding ErrorMessage}"/>
+		  <!--Dialog buttons-->
+		<Button x:Name="btnOK"
+				Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+				IsDefault="True" Width="90" HorizontalAlignment="Left" Margin="5" Click="OnOKButtonClicked">OK</Button>
+		<Button x:Name="btnCancel"
+				Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+				IsCancel="True" Width="90" HorizontalAlignment="Right" Margin="5" Click="OnCancelButtonClicked">Cancel</Button>
+	</Grid>
+</Window>

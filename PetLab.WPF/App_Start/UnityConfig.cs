@@ -7,6 +7,8 @@ using Microsoft.Practices.Unity;
 using PetLab.BLL;
 using PetLab.BLL.Contracts;
 using PetLab.BLL.Contracts.Services.Base;
+using PetLab.BLL.Contracts.Settings;
+using PetLab.BLL.Settings;
 using PetLab.DAL;
 using PetLab.DAL.Context;
 using PetLab.DAL.Contracts;
@@ -40,6 +42,8 @@ namespace PetLab.WPF.App_Start {
 		/// <remarks>There is no need to register concrete types such as controllers or API controllers (unless you want to 
 		/// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
 		public static void RegisterTypes(IUnityContainer container) {
+			// setting service
+			container.RegisterType<ISettingsService, SettingsService>(new ContainerControlledLifetimeManager());
 			// register Db context
 			container.RegisterType<IPetLabDbContext, PetLabDbContext>(new ContainerControlledLifetimeManager());
 			// register Xml context

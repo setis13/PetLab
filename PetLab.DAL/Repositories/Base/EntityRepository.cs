@@ -136,7 +136,5 @@ namespace PetLab.DAL.Repositories.Base {
 		}
 
 		#endregion [ Public Methods ]
-
-
 	}
 }

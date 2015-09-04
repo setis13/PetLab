@@ -2,6 +2,7 @@
 using PetLab.BLL.Mappings;
 using PetLab.DAL.Context;
 using PetLab.WPF.App_Start;
+using PetLab.WPF.Mappings;
 
 namespace PetLab.WPF {
 	public class AppBootstrapper {
@@ -11,7 +12,7 @@ namespace PetLab.WPF {
 			Database.SetInitializer(new PetLabDbContextInitializer());
 			//// Automapper
 			AutoMapper.Mapper.AddProfile<BllMappingProfile>();
-			//AutoMapper.Mapper.AddProfile<MindBodyMappingProfile>();
+			AutoMapper.Mapper.AddProfile<ViewMappingProfile>();
 			//AutoMapper.Mapper.AssertConfigurationIsValid();
 		}
 	}

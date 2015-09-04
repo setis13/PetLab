@@ -13,26 +13,49 @@ namespace PetLab.BLL.Common.Services.Results {
 			}
 		}
 
+		public ServiceResult() {
+		}
+
 		public ServiceResult(Exception exception) {
 			Exception = exception;
 		}
 
-		public ServiceResult() {
+		public Exception GetBaseException() {
+			return Exception.GetBaseException();
 		}
+
+		public virtual void CheckResult() {
+			if (Successed == false) {
+				throw Exception;
+			}
+		}
+
+		#region factory
 
 		public static T ExceptionFactory<T>(Exception exception) where T : ServiceResult, new() {
 			return new T() { Exception = exception };
 		}
+
+		#endregion factory
+
 	}
 
 	public class ServiceResult<T> : ServiceResult {
-		public T Result { get; private set; }
+		private T _result;
 
 		public ServiceResult(T result) {
-			Result = result;
+			_result = result;
 		}
 
 		public ServiceResult() {
+		}
+
+		public T GetResult() {
+			if (Successed == true) {
+				return _result;
+			} else {
+				throw Exception;
+			}
 		}
 	}
 }

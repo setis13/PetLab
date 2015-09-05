@@ -91,12 +91,16 @@
     <Compile Include="Converters\ObjectToBoolConverter.cs" />
     <Compile Include="Converters\ObjectToBoolInvertConverter.cs" />
     <Compile Include="Converters\ObjectToVisibilityConverter.cs" />
+    <Compile Include="Dialogs\MaterialsDialog.xaml.cs">
+      <DependentUpon>MaterialsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DefectsDialog.xaml.cs">
       <DependentUpon>DefectsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\LoginDialog.xaml.cs">
       <DependentUpon>LoginDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Command.cs" />
     <Compile Include="Helpers\ConverterHelper.cs" />
     <Compile Include="Helpers\MultiConverterHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
@@ -104,18 +108,26 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mappings\ViewMappingProfile.cs" />
+    <Compile Include="Models\EquipmentViewModel.cs" />
+    <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="UserControls\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\GridUtils.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="Models\DefectViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MaterialSyncViewModel.cs" />
     <Compile Include="ViewModels\DefectSyncViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\ShiftViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Converters\ViewModelToSettings\LoginConverter.cs" />
+    <Page Include="Dialogs\MaterialsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\DefectsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

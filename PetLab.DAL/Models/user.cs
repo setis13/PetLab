@@ -19,6 +19,7 @@ namespace PetLab.DAL.Models {
 
 		[Required]
 		[StringLength(255)]
+		[Column(TypeName = "VARCHAR")]
 		public string fio { get; set; }
 
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

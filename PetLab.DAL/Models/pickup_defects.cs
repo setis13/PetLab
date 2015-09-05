@@ -9,7 +9,7 @@ namespace PetLab.DAL.Models {
 		public byte socket { get; set; }
 
 		[Key]
-		[Column(Order = 1)]
+		[Column(Order = 1, TypeName = "VARCHAR")]
 		[StringLength(4)]
 		public string defect_id { get; set; }
 

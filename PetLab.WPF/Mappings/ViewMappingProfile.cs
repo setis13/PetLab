@@ -12,11 +12,13 @@ namespace PetLab.WPF.Mappings {
 	public class ViewMappingProfile : Profile {
 		protected override void Configure() {
 			base.Configure();
-			//dto to ViewModel
+			//dto <-> ViewModel
 			CreateMap<ShiftDto, ShiftViewModel>().ReverseMap();
 			CreateMap<UserDto, UserViewModel>().ReverseMap();
 			CreateMap<DefectDto, DefectViewModel>().ReverseMap();
 			CreateMap<MaterialDto, MaterialViewModel>().ReverseMap();
+			CreateMap<EquipmentDto, EquipmentViewModel>().ReverseMap();
+			CreateMap<OrderDto, OrderViewModel>().ReverseMap();
 
 			//ViewModel to Settings
 			CreateMap<LoginViewModel, LoginSettings>().ConvertUsing<LoginConverter>();

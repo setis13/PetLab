@@ -14,6 +14,7 @@ namespace PetLab.DAL.Models {
 
 		[Key]
 		[StringLength(8)]
+		[Column(TypeName = "VARCHAR")]
 		public string equipment_id { get; set; }
 
 		public int? pickup_id { get; set; }

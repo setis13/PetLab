@@ -6,7 +6,7 @@ using PetLab.DAL.Models;
 namespace PetLab.DAL.Context {
 	public sealed class PetLabDbContextConfiguration : DbMigrationsConfiguration<PetLabDbContext> {
 		public PetLabDbContextConfiguration() {
-			AutomaticMigrationsEnabled = true;
+			AutomaticMigrationsEnabled = false;
 		}
 
 		protected override void Seed(PetLabDbContext context) {

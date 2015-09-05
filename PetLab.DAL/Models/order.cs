@@ -16,35 +16,43 @@ namespace PetLab.DAL.Models {
 
 		[Key]
 		[StringLength(10)]
+		[Column(TypeName = "VARCHAR")]
 		public string order_id { get; set; }
 
 		[Required]
 		[StringLength(10)]
+		[Column(TypeName = "VARCHAR")]
 		public string batch_id { get; set; }
 
 		[Required]
 		[StringLength(10)]
+		[Column(TypeName = "VARCHAR")]
 		public string material_id { get; set; }
 
 		public int shift_id { get; set; }
 
 		[Required]
 		[StringLength(50)]
+		[Column(TypeName = "VARCHAR")]
 		public string dye_name { get; set; }
 
 		[Required]
 		[StringLength(50)]
+		[Column(TypeName = "VARCHAR")]
 		public string color_shade { get; set; }
 
 		public short count_socket { get; set; }
 
 		[Required]
 		[StringLength(8)]
+		[Column(TypeName = "VARCHAR")]
 		public string equipment_id { get; set; }
 
 		public virtual equipment equipment { get; set; }
 
 		public virtual material material { get; set; }
+
+		public virtual shift shift { get; set; }
 
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public virtual ICollection<order_etalon_color_range> order_etalon_color_range { get; set; }
@@ -59,8 +67,6 @@ namespace PetLab.DAL.Models {
 		public virtual order_etalon_weight order_etalon_weight { get; set; }
 
 		public virtual order_etalon_color order_etalon_color { get; set; }
-
-		public virtual shift shift { get; set; }
 
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public virtual ICollection<pickup> pickups { get; set; }

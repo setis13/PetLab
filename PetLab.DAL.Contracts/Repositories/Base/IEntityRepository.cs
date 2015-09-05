@@ -53,8 +53,8 @@ namespace PetLab.DAL.Contracts.Repositories.Base {
 		/// https://msdn.microsoft.com/en-us/data/jj574232.aspx?f=255&MSPPError=-2147217396
 		/// context.Entry(blog).Collection(p => p.Posts).Load(); 
 		/// </summary>
-		/// <param name="pickup"></param>
+		/// <param name="entity"></param>
 		/// <param name="func"></param>
-		void ReferenceLoad(T pickup, Expression<Func<T, object>> func);
+		void ReferenceLoad(T entity, Expression<Func<T, object>> func);
 	}
 }

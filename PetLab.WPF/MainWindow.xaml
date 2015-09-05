@@ -5,19 +5,29 @@
 		xmlns:Views="clr-namespace:PetLab.WPF"
 		xmlns:converters="clr-namespace:PetLab.WPF.Converters"
 		xmlns:utils="clr-namespace:PetLab.WPF.Utils"
+		xmlns:userControls="clr-namespace:PetLab.WPF.UserControls"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:viewModels="clr-namespace:PetLab.WPF.ViewModels"
+		mc:Ignorable="d"
 		Closed="MainWindow_OnClosed" 
 		Loaded="MainWindow_OnLoaded"
 		Title="PetLab" 
 		Height="350" Width="525" MinWidth="500" 
+		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
-		Icon="pack://application:,,,/Resources/app_icon.png">
+		Icon="pack://application:,,,/Resources/app_icon.png" 
+		d:DataContext="{d:DesignInstance viewModels:MainViewModel, IsDesignTimeCreatable=True}">
+	<!-- resources -->
 	<Window.Resources>
 		<converters:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
 		<converters:ObjectToBoolInvertConverter x:Key="ObjectToBoolInvertConverter"/>
 		<converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
@@ -26,6 +36,7 @@
 			<ColumnDefinition Width="*"/>
 			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
+		<!-- menu -->
 		<Menu Grid.Row="0" Grid.ColumnSpan="3" Name="_mainMenu">
 			<MenuItem Header="Настройки">
 				<MenuItem Header="Импорт/Экспорт..." Click="SettingExportImportClick"/>
@@ -33,6 +44,72 @@
 				<MenuItem Header="Импорт материалов" Click="ImportMaterialsClick"/>
 			</MenuItem>
 		</Menu>
+		<!-- alert/error -->
+		<TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+				   Visibility="{Binding ErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+			HorizontalAlignment="Left" Margin="5"/>
+		<!-- equipments and open/close pickup -->
+		<StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical">
+			<ListBox Name="EqListBox" Margin="5" Width="160"
+					 SelectionChanged="EqListBox_SelectionChanged"
+					 ItemsSource="{Binding Equipments}" 
+					 SelectedItem="{Binding CurrentEquipment, Mode=OneWayToSource}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding EquipmentId}" FontSize="18"/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+			<Button Content="Новый съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold" Command="{Binding CreatePickupCommand}"/>
+			<Button Content="Закрыть съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold" Command="{Binding ClosePickupCommand}"/>
+		</StackPanel>
 
+		<Grid Grid.Column="1" Grid.Row="2" TextBlock.FontSize="16">
+			<Grid.Resources>
+				<Style x:Key="OrderTextBlockStyle" TargetType="TextBlock">
+					<Setter Property="Padding" Value="5"/>
+					<Setter Property="Margin" Value="5"/>
+				</Style>
+				<Style x:Key="OrderTextBoxStyle" TargetType="TextBox">
+					<Setter Property="Padding" Value="5"/>
+					<Setter Property="Margin" Value="5"/>
+				</Style>
+			</Grid.Resources>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<TextBlock DataContext="{Binding CurrentOrder}" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding MaterialName, StringFormat=Материал: {0}}"/>
+			<!-- заказ -->
+			<StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+
+				<TextBlock DataContext="{Binding CurrentOrder}" Text="{Binding DyeName, StringFormat=Краситель: {0}}" Style="{StaticResource OrderTextBlockStyle}"/>
+				<TextBlock DataContext="{Binding CurrentOrder}" Text="{Binding ColorShade, StringFormat=Цвет: {0}}" Style="{StaticResource OrderTextBlockStyle}"/>
+				<TextBlock DataContext="{Binding CurrentOrder}" Text="{Binding BatchId, StringFormat=Партия: {0}}" Style="{StaticResource OrderTextBlockStyle}"/>
+				<TextBlock DataContext="{Binding CurrentOrder}" Text="{Binding OrderId, StringFormat=Заказ: {0}}" Style="{StaticResource OrderTextBlockStyle}"/>
+
+			</StackPanel>
+			</Grid>
+
+		<!-- loading -->
+		<userControls:LoadingControl Grid.RowSpan="3" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0"
+				Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+				LoadingMessage="Loading data..."
+				Panel.ZIndex="100" />
 	</Grid>
 </Window>

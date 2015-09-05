@@ -9,14 +9,13 @@ namespace PetLab.DAL.Models {
 		public int pickup_id { get; set; }
 
 		[Key, ForeignKey("order_etalon_color_range")]
-		[Column(Order = 1)]
+		[Column(Order = 1, TypeName = "VARCHAR")]
 		[StringLength(10)]
 		public string order_id { get; set; }
 
 		[Key, ForeignKey("order_etalon_color_range")]
-		[StringLength(20)]
-		[Column(Order = 2)]
-
+		[StringLength(10)]
+		[Column(Order = 2, TypeName = "VARCHAR")]
 		public string range_name { get; set; }
 
 		public decimal value { get; set; }

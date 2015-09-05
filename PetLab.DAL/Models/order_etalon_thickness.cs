@@ -6,10 +6,12 @@ namespace PetLab.DAL.Models {
 	public class order_etalon_thickness : BaseEntity {
 		[Key, ForeignKey("order")]
 		[StringLength(10)]
+		[Column(TypeName = "VARCHAR")]
 		public string order_id { get; set; }
 
 		[Required]
 		[StringLength(50)]
+		[Column(TypeName = "VARCHAR")]
 		public string name { get; set; }
 
 		public decimal lim3 { get; set; }

@@ -14,10 +14,12 @@ namespace PetLab.DAL.Models {
 
 		[Key]
 		[StringLength(10)]
+		[Column(TypeName = "VARCHAR")]
 		public string material_id { get; set; }
 
 		[Required]
 		[StringLength(50)]
+		[Column(TypeName = "VARCHAR")]
 		public string name { get; set; }
 
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

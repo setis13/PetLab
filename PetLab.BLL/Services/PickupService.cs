@@ -34,7 +34,8 @@ namespace PetLab.BLL.Services {
 				var repositoryOrderEtalonColorRange = UnitOfWork.GetRepository<order_etalon_color_range>();
 				var repositoryOrderEtalonColorRay = UnitOfWork.GetRepository<order_etalon_color_ray>();
 				//нашли order в бд
-				order order = repositoryOrder.SearchFor(o => o.equipment_id == equipmentId).FirstOrDefault();
+				order order = repositoryOrder.SearchFor(o => o.equipment_id == equipmentId)
+					./*Include("material").*/FirstOrDefault();
 				//надо в любом случае обновить заказ
 				//if (order == null) {
 				var repositoryXml = UnitOfWork.GetXmlRepository<XmlOrderRepository>();
@@ -72,6 +73,7 @@ namespace PetLab.BLL.Services {
 					throw new Exception("SAP не вернул xml");
 				}
 				//}
+				repositoryOrder.ReferenceLoad(order, o => o.material);
 				return new ServiceResult<OrderDto>(AutoMapper.Mapper.Map<OrderDto>(order));
 			} catch (Exception exception) {
 				return ServiceResult.ExceptionFactory<ServiceResult<OrderDto>>(exception);
@@ -84,8 +86,8 @@ namespace PetLab.BLL.Services {
 		public ServiceResult<IEnumerable<EquipmentDto>> LookupEquipments() {
 			try {
 				var repository = UnitOfWork.GetRepository<equipment>();
-				var users = repository.GetAll();
-				return new ServiceResult<IEnumerable<EquipmentDto>>(AutoMapper.Mapper.Map<IEnumerable<EquipmentDto>>(users));
+				var equipments = repository.GetAll();
+				return new ServiceResult<IEnumerable<EquipmentDto>>(AutoMapper.Mapper.Map<IEnumerable<EquipmentDto>>(equipments));
 			} catch (Exception exception) {
 				return ServiceResult.ExceptionFactory<ServiceResult<IEnumerable<EquipmentDto>>>(exception);
 			}

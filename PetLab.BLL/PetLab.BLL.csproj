@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\ModelToDto\DefectConverter.cs" />
+    <Compile Include="Converters\ModelToDto\EquipmentConverter.cs" />
     <Compile Include="Converters\ModelToDto\OrderConverter.cs" />
     <Compile Include="Converters\ModelToDto\MaterialConverter.cs" />
     <Compile Include="Converters\ModelToDto\OrderEtalonColorRangeConverter.cs" />

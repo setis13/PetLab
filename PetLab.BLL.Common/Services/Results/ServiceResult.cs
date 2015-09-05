@@ -24,9 +24,12 @@ namespace PetLab.BLL.Common.Services.Results {
 			return Exception.GetBaseException();
 		}
 
+		/// <summary>
+		/// throw exception if occurred error
+		/// </summary>
 		public virtual void CheckResult() {
 			if (Successed == false) {
-				throw Exception;
+				throw GetBaseException();
 			}
 		}
 
@@ -50,11 +53,14 @@ namespace PetLab.BLL.Common.Services.Results {
 		public ServiceResult() {
 		}
 
+		/// <summary>
+		/// throw exception if occurred error
+		/// </summary>
 		public T GetResult() {
 			if (Successed == true) {
 				return _result;
 			} else {
-				throw Exception;
+				throw GetBaseException();
 			}
 		}
 	}

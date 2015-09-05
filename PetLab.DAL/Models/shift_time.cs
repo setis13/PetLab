@@ -17,6 +17,7 @@ namespace PetLab.DAL.Models {
 
 		[Required]
 		[StringLength(8)]
+		[Column(TypeName = "VARCHAR")]
 		public string name { get; set; }
 
 		public TimeSpan begin { get; set; }

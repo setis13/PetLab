@@ -5,12 +5,12 @@ using PetLab.DAL.Contracts.Models.Base;
 namespace PetLab.DAL.Models {
 	public class order_etalon_color_ray : BaseEntity {
 		[Key, ForeignKey("order")]
-		[Column(Order = 0)]
+		[Column(Order = 0, TypeName = "VARCHAR")]
 		[StringLength(10)]
 		public string order_id { get; set; }
 
 		[Key]
-		[Column(Order = 1)]
+		[Column(Order = 1, TypeName = "VARCHAR")]
 		[StringLength(10)]
 		public string ray_id { get; set; }
 

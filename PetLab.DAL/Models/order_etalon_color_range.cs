@@ -8,12 +8,12 @@ using PetLab.DAL.Models.xml;
 namespace PetLab.DAL.Models {
 	public class order_etalon_color_range : BaseEntity {
 		[Key, ForeignKey("order")]
-		[Column(Order = 0)]
+		[Column(Order = 0, TypeName = "VARCHAR")]
 		[StringLength(10)]
 		public string order_id { get; set; }
 
 		[Key]
-		[Column(Order = 1)]
+		[Column(Order = 1, TypeName = "VARCHAR")]
 		[StringLength(10)]
 		public string name { get; set; }
 

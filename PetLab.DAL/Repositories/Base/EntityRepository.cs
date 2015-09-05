@@ -131,8 +131,10 @@ namespace PetLab.DAL.Repositories.Base {
 			}
 		}
 
-		public void ReferenceLoad(T pickup, Expression<Func<T, object>> func) {
-			_context.Entry(pickup).Reference(func).Load();
+		public void ReferenceLoad(T entity, Expression<Func<T, object>> func) {
+			var m = _context.Entry(entity).Reference(func).EntityEntry;
+
+			_context.Entry(entity).Reference(func).Load();
 		}
 
 		#endregion [ Public Methods ]

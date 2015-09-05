@@ -21,6 +21,7 @@ namespace PetLab.DAL.Models {
 
 		[Required]
 		[StringLength(10)]
+		[Column(TypeName = "VARCHAR")]
 		public string order_id { get; set; }
 
 		public int shift_id { get; set; }

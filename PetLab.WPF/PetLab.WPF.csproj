@@ -88,21 +88,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ObjectToBoolConverter.cs" />
+    <Compile Include="Converters\ObjectToBoolInvertConverter.cs" />
+    <Compile Include="Converters\ObjectToVisibilityConverter.cs" />
+    <Compile Include="Dialogs\DefectsDialog.xaml.cs">
+      <DependentUpon>DefectsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\LoginDialog.xaml.cs">
       <DependentUpon>LoginDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ConverterHelper.cs" />
+    <Compile Include="Helpers\MultiConverterHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Mappings\ViewMappingProfile.cs" />
+    <Compile Include="UserControls\LoadingControl.xaml.cs">
+      <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\GridUtils.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
+    <Compile Include="Models\DefectViewModel.cs" />
+    <Compile Include="ViewModels\DefectSyncViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\ShiftViewModel.cs" />
-    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Models\MaterialViewModel.cs" />
+    <Compile Include="Models\ShiftViewModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Converters\ViewModelToSettings\LoginConverter.cs" />
-    <Page Include="Dialogs\LoginDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Dialogs\DefectsDialog.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Dialogs\LoginDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -112,10 +130,14 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\LoadingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

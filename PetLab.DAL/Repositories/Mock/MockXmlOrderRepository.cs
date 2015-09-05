@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Models.xml;
@@ -110,6 +111,7 @@ namespace PetLab.DAL.Repositories.Mock {
 				lim4 = (decimal) (38.4 + random.Next(10) / 10),
 				lim5 = (decimal)(39 + random.Next(10) / 10) };
 
+			Thread.Sleep(500);
 			return order;
 		}
 	}

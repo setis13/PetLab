@@ -10,6 +10,7 @@ using PetLab.BLL.Contracts;
 using PetLab.BLL.Contracts.Services;
 using PetLab.BLL.Contracts.Settings;
 using PetLab.BLL.Services;
+using PetLab.WPF.Models;
 using PetLab.WPF.ViewModels;
 
 namespace PetLab.WPF.Dialogs {
@@ -17,6 +18,7 @@ namespace PetLab.WPF.Dialogs {
 	/// Interaction logic for LoginDialog.xaml
 	/// </summary>
 	public partial class LoginDialog : Window {
+
 		#region [ Private Fields ]
 
 		/// <summary>
@@ -47,8 +49,7 @@ namespace PetLab.WPF.Dialogs {
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public LoginDialog(IServicesHost host,
-			ISettingsService settings) {
+		public LoginDialog(IServicesHost host, ISettingsService settings) {
 			InitializeComponent();
 
 			_service = host.GetService<IIdentityService>();
@@ -56,13 +57,12 @@ namespace PetLab.WPF.Dialogs {
 
 			Initialize();
 
-//#if DEBUG
-//			Loaded += (sender, e) => {
-//				Model.UserName = "total_cxn2";
-//				Model.Password = "totalcxn";
-//				btnOK.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-//			};
-//#endif
+#if DEBUG
+			Loaded += (sender, e) => {
+				Model.Password = "1";
+				btnOK.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+			};
+#endif
 		}
 
 		#endregion [ Constructors / Destructors ]

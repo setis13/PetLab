@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using PetLab.WPF.Models;
 using PetLab.WPF.ViewModels.Base;
 
 namespace PetLab.WPF.ViewModels {

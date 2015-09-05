@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Models.xml;
@@ -23,6 +24,7 @@ namespace PetLab.DAL.Repositories.Mock {
 				new defectsDefect() { id = "002", text = "дефект2"},
 				new defectsDefect() { id = "003" + random.Next(10), text = "дефект_" + random.Next(7) + 3}
 			};
+			Thread.Sleep(1000);
 			return defectsXml;
 		}
 	}

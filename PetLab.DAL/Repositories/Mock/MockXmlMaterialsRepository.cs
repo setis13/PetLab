@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Models.xml;
@@ -25,6 +26,7 @@ namespace PetLab.DAL.Repositories.Mock {
 				new materialsmaterial() { id = "0000004", text = "материал_" + random.Next(7) + 3},
 				new materialsmaterial() { id = "0000005" + random.Next(10), text = "материал_" + random.Next(7) + 3}
 			};
+			Thread.Sleep(1000);
 			return materialsXml;
 		}
 	}

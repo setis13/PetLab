@@ -20,6 +20,11 @@ namespace PetLab.BLL.Contracts.Services {
 		ServiceResult<IEnumerable<DefectDto>> LookupDefects();
 
 		/// <summary>
+		/// получить все станции охлаждения
+		/// </summary>
+		ServiceResult<IEnumerable<CoolingStationDto>> LookupCoolingStations();
+
+		/// <summary>
 		/// получить текущий заказ
 		/// </summary>
 		Task<ServiceResult<OrderDto>> LookupOrder(string equipmentId);
@@ -44,8 +49,7 @@ namespace PetLab.BLL.Contracts.Services {
 		/// <param name="take">когда взят съём</param>
 		/// <param name="stationId">станция охлаждения</param>
 		/// <returns>PickupDto</returns>
-		ServiceResult<PickupDto> OpenPickup(string orderId, string boxId, int shiftId, byte number, DateTime take,
-			byte stationId);
+		ServiceResult<PickupDto> OpenPickup(string orderId, string boxId, int shiftId,  DateTime take, byte stationId);
 
 		/// <summary>
 		/// закрыть съём

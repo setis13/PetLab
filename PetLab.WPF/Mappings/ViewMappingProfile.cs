@@ -19,6 +19,9 @@ namespace PetLab.WPF.Mappings {
 			CreateMap<MaterialDto, MaterialViewModel>().ReverseMap();
 			CreateMap<EquipmentDto, EquipmentViewModel>().ReverseMap();
 			CreateMap<OrderDto, OrderViewModel>().ReverseMap();
+			CreateMap<PickupDto, PickupViewModel>().ReverseMap();
+			CreateMap<CoolingStationDto, CoolingStationViewModel>().ReverseMap();
+			CreateMap<PickupEtalonColorRangeDto, PickupEtalonColorRangeViewModel>().ReverseMap();
 
 			//ViewModel to Settings
 			CreateMap<LoginViewModel, LoginSettings>().ConvertUsing<LoginConverter>();

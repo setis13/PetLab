@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
 using AutoMapper;
 using Microsoft.Practices.ServiceLocation;
 using PetLab.BLL.Common.Dto;
-using PetLab.BLL.Common.Settings;
 using PetLab.BLL.Contracts;
 using PetLab.BLL.Contracts.Services;
 using PetLab.BLL.Contracts.Settings;
 using PetLab.DAL.Models;
 using PetLab.WPF.Dialogs;
-using PetLab.WPF.Helpers;
 using PetLab.WPF.Models;
 using PetLab.WPF.ViewModels;
-using PetLab.WPF.ViewModels.Base;
 
 namespace PetLab.WPF {
 	public partial class MainWindow : Window {
@@ -121,8 +112,10 @@ namespace PetLab.WPF {
 		private async void EqListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			try {
 				Model.IsLoading = true;
-				var result = await _service.LookupOrder(Model.CurrentEquipment.EquipmentId);
-				Model.CurrentOrder = Mapper.Map<OrderViewModel>(result.GetResult());
+				var resultOrder = await _service.LookupOrder(Model.CurrentEquipment.EquipmentId);
+				Model.CurrentOrder = Mapper.Map<OrderViewModel>(resultOrder.GetResult());
+				var resultPickup = _service.LookupOpenPickup(Model.CurrentEquipment.EquipmentId);
+				Model.CurrentPickup = Mapper.Map<PickupViewModel>(resultPickup.GetResult());
 			} catch (Exception exception) {
 				Model.ErrorMessage = exception.Message;
 			} finally {
@@ -132,5 +125,25 @@ namespace PetLab.WPF {
 
 		#endregion [ Private Methods ]
 
+		private void CreatePickup_Clicked(object sender, RoutedEventArgs e) {
+			if (Model.CurrentEquipment != null) {
+				if (Model.CurrentOrder != null) {
+					var host = ServiceLocator.Current.GetInstance<IServicesHost>();
+					var settings = ServiceLocator.Current.GetInstance<ISettingsService>();
+					var dialog = new CreatePickupDialog(host, settings, Model.CurrentOrder);
+					if (dialog.ShowDialog() == true) {
+
+					}
+				} else {
+					MessageBox.Show("Нет заказа");
+				}
+			} else {
+				MessageBox.Show("Выбетите машину");
+			}
+		}
+
+		private void ClosePickup_Clicked(object sender, RoutedEventArgs e) {
+			throw new NotImplementedException();
+		}
 	}
 }

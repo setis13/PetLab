@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Dto\DefectXmlDto.cs" />
     <Compile Include="Dto\DefectDto.cs" />
+    <Compile Include="Dto\CoolingStationDto.cs" />
     <Compile Include="Dto\EquipmentDto.cs" />
     <Compile Include="Dto\MaterialXmlDto.cs" />
     <Compile Include="Dto\MaterialDto.cs" />

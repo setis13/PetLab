@@ -39,6 +39,9 @@
       <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AvalonControlsLibrary">
+      <HintPath>..\lib\AvalonControlsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -91,6 +94,9 @@
     <Compile Include="Converters\ObjectToBoolConverter.cs" />
     <Compile Include="Converters\ObjectToBoolInvertConverter.cs" />
     <Compile Include="Converters\ObjectToVisibilityConverter.cs" />
+    <Compile Include="Dialogs\CreatePickupDialog.xaml.cs">
+      <DependentUpon>CreatePickupDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\MaterialsDialog.xaml.cs">
       <DependentUpon>MaterialsDialog.xaml</DependentUpon>
     </Compile>
@@ -108,14 +114,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mappings\ViewMappingProfile.cs" />
+    <Compile Include="Models\CoolingStationViewModel.cs" />
     <Compile Include="Models\EquipmentViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
+    <Compile Include="Models\PickupEtalonColorRangeViewModel.cs" />
+    <Compile Include="Models\PickupViewModel.cs" />
     <Compile Include="UserControls\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\GridUtils.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="Models\DefectViewModel.cs" />
+    <Compile Include="ViewModels\CreatePickupViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MaterialSyncViewModel.cs" />
     <Compile Include="ViewModels\DefectSyncViewModel.cs" />
@@ -124,6 +134,10 @@
     <Compile Include="Models\ShiftViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Converters\ViewModelToSettings\LoginConverter.cs" />
+    <Page Include="Dialogs\CreatePickupDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\MaterialsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

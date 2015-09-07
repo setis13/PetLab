@@ -63,8 +63,8 @@
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
-			<Button Content="Новый съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold" Command="{Binding CreatePickupCommand}"/>
-			<Button Content="Закрыть съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold" Command="{Binding ClosePickupCommand}"/>
+			<Button Content="Новый съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold" Click="CreatePickup_Clicked" />
+            <Button Content="Закрыть съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold" Click="ClosePickup_Clicked" />
 		</StackPanel>
 
 		<Grid Grid.Column="1" Grid.Row="2" TextBlock.FontSize="16">

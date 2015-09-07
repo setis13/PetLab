@@ -86,10 +86,23 @@ namespace PetLab.BLL.Services {
 		public ServiceResult<IEnumerable<EquipmentDto>> LookupEquipments() {
 			try {
 				var repository = UnitOfWork.GetRepository<equipment>();
-				var equipments = repository.GetAll();
+				var equipments = repository.GetAll().OrderBy(e => e.equipment_id);
 				return new ServiceResult<IEnumerable<EquipmentDto>>(AutoMapper.Mapper.Map<IEnumerable<EquipmentDto>>(equipments));
 			} catch (Exception exception) {
 				return ServiceResult.ExceptionFactory<ServiceResult<IEnumerable<EquipmentDto>>>(exception);
+			}
+		}
+
+		/// <summary>
+		/// получить все станции охлаждения
+		/// </summary>
+		public ServiceResult<IEnumerable<CoolingStationDto>> LookupCoolingStations() {
+			try {
+				var repository = UnitOfWork.GetRepository<pickup_station_cooling>();
+				var pickupStationCoolings = repository.GetAll();
+				return new ServiceResult<IEnumerable<CoolingStationDto>>(AutoMapper.Mapper.Map<IEnumerable<CoolingStationDto>>(pickupStationCoolings));
+			} catch (Exception exception) {
+				return ServiceResult.ExceptionFactory<ServiceResult<IEnumerable<CoolingStationDto>>>(exception);
 			}
 		}
 
@@ -142,13 +155,17 @@ namespace PetLab.BLL.Services {
 		/// <param name="take">когда взят съём</param>
 		/// <param name="stationId">станция охлаждения</param>
 		/// <returns>PickupDto</returns>
-		public ServiceResult<PickupDto> OpenPickup(string orderId, string boxId, int shiftId, byte number, DateTime take, byte stationId) {
+		public ServiceResult<PickupDto> OpenPickup(string orderId, string boxId, int shiftId, DateTime take, byte stationId) {
 			try {
 				var pickupRepository = UnitOfWork.GetRepository<pickup>();
 				var orderRepository = UnitOfWork.GetRepository<order>();
 				var equipmentRepository = UnitOfWork.GetRepository<equipment>();
 				//получили указанный заказ
 				var order = orderRepository.SearchFor(o => o.order_id == orderId).First();
+				//получаем последний заказ за смену
+				var lastPickup = pickupRepository
+					.SearchFor(p => p.shift_id == shiftId && p.order.equipment_id == order.equipment_id);
+				var number = lastPickup.Any() ? lastPickup.Max(p => p.number) : 1;
 				//проверили на открытые съёмы
 				if (order.equipment.pickup != null) {
 					throw new Exception("Имеется незакрытый съём");
@@ -158,7 +175,7 @@ namespace PetLab.BLL.Services {
 				pickup.order_id = orderId;
 				pickup.box_id = boxId;
 				pickup.shift_id = shiftId;
-				pickup.number = number;
+				pickup.number = (byte)(number + 1);
 				pickup.datetime_take = take;
 				pickup.station_id = stationId;
 				pickup.datetime_create = DateTime.Now;

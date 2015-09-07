@@ -9,6 +9,11 @@ namespace PetLab.BLL.Contracts.Services {
 	public interface IIdentityService : IService {
 
 		/// <summary>
+		/// текущая смена
+		/// </summary>
+		ShiftDto Shift { get; }
+
+		/// <summary>
 		/// получить всех пользователей
 		/// </summary>
 		ServiceResult<IEnumerable<UserDto>> LookupUsers();

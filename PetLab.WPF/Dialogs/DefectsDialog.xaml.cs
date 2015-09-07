@@ -71,8 +71,6 @@ namespace PetLab.WPF.Dialogs {
 		/// Initializes dialog
 		/// </summary>
 		private void Initialize() {
-			var settings = _settings.GetLoginSettings();
-
 			IEnumerable<DefectDto> defects = _service.LookupDefects().GetResult();
 
 			// Create view model

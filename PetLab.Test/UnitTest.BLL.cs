@@ -126,7 +126,7 @@ namespace PetLab.Test {
 				service.ClosePickup(pickup.PickupId).CheckResult();
 			}
 			var boxId = random.Next(1000).ToString("D8");
-			pickup = service.OpenPickup(order.OrderId, boxId, 1, 1, DateTime.Now, (byte)(random.Next(4) + 1)).GetResult();
+			pickup = service.OpenPickup(order.OrderId, boxId, 1, DateTime.Now, (byte)(random.Next(4) + 1)).GetResult();
 			var defects = service.LookupDefects().GetResult().ToArray();
 			for (int i = 0; i < random.Next(order.CountSocket); i++) {
 				byte? grade = 0;

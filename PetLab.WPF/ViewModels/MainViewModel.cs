@@ -33,6 +33,8 @@ namespace PetLab.WPF.ViewModels {
 
 		private OrderViewModel _currentOrder;
 
+		private PickupViewModel _currentPickup;
+
 		#endregion [ Private Fields ]
 
 		#region [ Properties ]
@@ -71,6 +73,17 @@ namespace PetLab.WPF.ViewModels {
 			get { return _currentOrder; }
 			set {
 				_currentOrder = value;
+				OnPropertyChanged();
+			}
+		}
+
+		/// <summary>
+		/// текущий съём
+		/// </summary>
+		public PickupViewModel CurrentPickup {
+			get { return _currentPickup; }
+			set {
+				_currentPickup = value;
 				OnPropertyChanged();
 			}
 		}

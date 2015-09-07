@@ -19,6 +19,11 @@ namespace PetLab.BLL.Services {
 		}
 
 		/// <summary>
+		/// текущая смена
+		/// </summary>
+		public ShiftDto Shift { get; private set; }
+
+		/// <summary>
 		/// получить всех пользователей
 		/// </summary>
 		public ServiceResult<IEnumerable<UserDto>> LookupUsers() {
@@ -56,7 +61,7 @@ namespace PetLab.BLL.Services {
 
 					var repository = UnitOfWork.GetRepository<shift>();
 					var currentShift = repository.GetAll().OrderByDescending(o => o.shift_id).FirstOrDefault();
-
+					Shift = AutoMapper.Mapper.Map<ShiftDto>(currentShift);
 					var result = new LoginResult() { Result = true, ShiftNumber = currentShift?.shift_number };
 #if DEBUG
 					result.CheckNewShift = false;
@@ -88,6 +93,7 @@ namespace PetLab.BLL.Services {
 				var repository = UnitOfWork.GetRepository<shift>();
 				repository.Insert(shift);
 				UnitOfWork.SaveChanges();
+				Shift = AutoMapper.Mapper.Map<ShiftDto>(shift);
 				return new ServiceResult();
 			} catch (Exception exception) {
 				return ServiceResult.ExceptionFactory<ServiceResult>(exception);

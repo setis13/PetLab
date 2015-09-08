@@ -49,6 +49,8 @@
     <Compile Include="Dto\MaterialDto.cs" />
     <Compile Include="Dto\OrderDto.cs" />
     <Compile Include="Dto\OrderEtalonColorRangeDto.cs" />
+    <Compile Include="Dto\OrderEtalonColorDto.cs" />
+    <Compile Include="Dto\OrderEtalonColorRayDto.cs" />
     <Compile Include="Dto\PickupDefectDto.cs" />
     <Compile Include="Dto\PickupDto.cs" />
     <Compile Include="Dto\PickupEtalonColorRangeDto.cs" />

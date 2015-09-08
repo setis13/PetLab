@@ -13,12 +13,13 @@ namespace PetLab.BLL.Converters.ModelToDto {
 			result.ColorShade = source.color_shade;
 			result.CountSocket = source.count_socket;
 			result.DyeName = source.dye_name;
+			result.EtalonColor = Mapper.Map<OrderEtalonColorDto>(source.order_etalon_color);
 			if (source.material != null) {
 				result.MaterialName = source.material.name;
 			} else {
 				result.MaterialName = "НЕОПРЕДЕЛЕННЫЙ МАТЕРИАЛ";
 			}
-            return result;
+			return result;
 		}
 	}
 }

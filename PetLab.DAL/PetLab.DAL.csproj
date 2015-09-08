@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201509051653584_root.Designer.cs">
       <DependentUpon>201509051653584_root.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509081621096_color_etalon.cs" />
+    <Compile Include="Migrations\201509081621096_color_etalon.Designer.cs">
+      <DependentUpon>201509081621096_color_etalon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\defect.cs" />
     <Compile Include="Models\equipment.cs" />
     <Compile Include="Models\material.cs" />
@@ -120,6 +124,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201509051653584_root.resx">
       <DependentUpon>201509051653584_root.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509081621096_color_etalon.resx">
+      <DependentUpon>201509081621096_color_etalon.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

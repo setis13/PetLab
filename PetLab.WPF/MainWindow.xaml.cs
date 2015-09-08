@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using AutoMapper;
 using Microsoft.Practices.ServiceLocation;
 using PetLab.BLL.Common.Dto;
@@ -11,11 +14,45 @@ using PetLab.BLL.Contracts.Services;
 using PetLab.BLL.Contracts.Settings;
 using PetLab.DAL.Models;
 using PetLab.WPF.Dialogs;
+using PetLab.WPF.Helpers;
 using PetLab.WPF.Models;
 using PetLab.WPF.ViewModels;
 
 namespace PetLab.WPF {
 	public partial class MainWindow : Window {
+
+		#region [ Converters ]
+
+		public static IMultiValueConverter ColorEtalonToPickupColorConverter =
+			new MultiConverterHelper(ToPickupConvert);
+
+		/// <summary>
+		/// RangeName & PickupViewModel -> PickupEtalonColorRange
+		/// </summary>
+		private static object ToPickupConvert(object[] values) {
+			var rangeName = values[0] as string;
+			var pickup = values[1] as PickupViewModel;
+			if (rangeName != null && pickup != null) {
+				if (pickup.PickupEtalonColorRanges == null) {
+					pickup.PickupEtalonColorRanges = new List<PickupEtalonColorRangeViewModel>();
+				}
+				PickupEtalonColorRangeViewModel range = pickup.PickupEtalonColorRanges.FirstOrDefault(p => p.RangeName == rangeName);
+				if (range != null) {
+					return range;
+				} else {
+					range = new PickupEtalonColorRangeViewModel() {
+						RangeName = rangeName,
+						OrderId = pickup.OrderId,
+						PickupId = pickup.PickupId
+					};
+					((List<PickupEtalonColorRangeViewModel>)pickup.PickupEtalonColorRanges).Add(range);
+					return range;
+				}
+			}
+			return null;
+		}
+
+		#endregion [ Converters ]
 
 		#region [ Private Fields ]
 
@@ -142,8 +179,30 @@ namespace PetLab.WPF {
 			}
 		}
 
+		private void PickupColorTextBox_LostFocus(object sender, RoutedEventArgs e) {
+			var range = ((FrameworkElement) sender).DataContext as PickupEtalonColorRangeViewModel;
+            if (range != null) {
+				range.Value = Decimal.Parse(((TextBox) sender).Text);
+			_service.SetColor(
+				Model.CurrentPickup.PickupId,
+				Model.CurrentOrder.OrderId,
+				range.RangeName,
+				range.Value);
+			//((FrameworkElement)sender).GetBindingExpression(Control.BackgroundProperty).UpdateTarget();
+            }
+		}
+
+		private void PickupColorTextBox_KeyUp(object sender, KeyEventArgs e) {
+			if (e.Key == Key.Enter) {
+				PickupColorTextBox_LostFocus(sender, null);
+				Keyboard.ClearFocus();
+				e.Handled = true;
+			}
+		}
+
 		private void ClosePickup_Clicked(object sender, RoutedEventArgs e) {
 			throw new NotImplementedException();
 		}
+
 	}
 }

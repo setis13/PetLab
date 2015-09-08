@@ -116,6 +116,9 @@
     <Compile Include="Mappings\ViewMappingProfile.cs" />
     <Compile Include="Models\CoolingStationViewModel.cs" />
     <Compile Include="Models\EquipmentViewModel.cs" />
+    <Compile Include="Models\OrderEtalonColorViewModel.cs" />
+    <Compile Include="Models\OrderEtalonColorRangeViewModel.cs" />
+    <Compile Include="Models\OrderEtalonColorRayViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\PickupEtalonColorRangeViewModel.cs" />
     <Compile Include="Models\PickupViewModel.cs" />

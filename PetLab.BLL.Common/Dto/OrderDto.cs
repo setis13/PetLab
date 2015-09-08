@@ -8,5 +8,6 @@
 		public string ColorShade { get; set; }
 		public short CountSocket { get; set; }
 		public string EquipmentId { get; set; }
+		public OrderEtalonColorDto EtalonColor { get; set; }
 	}
 }

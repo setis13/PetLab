@@ -1,4 +1,4 @@
-﻿<Window	x:Class="PetLab.WPF.MainWindow"
+﻿<Window x:Class="PetLab.WPF.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:System="clr-namespace:System;assembly=mscorlib"
@@ -10,106 +10,164 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:viewModels="clr-namespace:PetLab.WPF.ViewModels"
 		mc:Ignorable="d"
-		Closed="MainWindow_OnClosed" 
+		Closed="MainWindow_OnClosed"
 		Loaded="MainWindow_OnLoaded"
-		Title="PetLab" 
-		Height="350" Width="525" MinWidth="500" 
+		Title="PetLab"
+		Height="350" Width="525" MinWidth="500"
 		WindowState="Maximized"
 		WindowStartupLocation="CenterScreen"
-		Icon="pack://application:,,,/Resources/app_icon.png" 
-		d:DataContext="{d:DesignInstance viewModels:MainViewModel, IsDesignTimeCreatable=True}">
+		Icon="pack://application:,,,/Resources/app_icon.png"
+		d:DataContext="{d:DesignInstance viewModels:MainViewModel, IsDesignTimeCreatable=True}"
+		Name="root">
 	<!-- resources -->
 	<Window.Resources>
-		<converters:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
-		<converters:ObjectToBoolInvertConverter x:Key="ObjectToBoolInvertConverter"/>
-		<converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
-		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+		<converters:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
+		<converters:ObjectToBoolInvertConverter x:Key="ObjectToBoolInvertConverter" />
+		<converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"/>
-			<ColumnDefinition Width="*"/>
-			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<!-- menu -->
 		<Menu Grid.Row="0" Grid.ColumnSpan="3" Name="_mainMenu">
 			<MenuItem Header="Настройки">
-				<MenuItem Header="Импорт/Экспорт..." Click="SettingExportImportClick"/>
-				<MenuItem Header="Импорт дефектов" Click="ImportDefectsClick"/>
-				<MenuItem Header="Импорт материалов" Click="ImportMaterialsClick"/>
+				<MenuItem Header="Импорт/Экспорт..." Click="SettingExportImportClick" />
+				<MenuItem Header="Импорт дефектов" Click="ImportDefectsClick" />
+				<MenuItem Header="Импорт материалов" Click="ImportMaterialsClick" />
 			</MenuItem>
 		</Menu>
 		<!-- alert/error -->
-		<TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
-				   Visibility="{Binding ErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}"
-			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
-			HorizontalAlignment="Left" Margin="5"/>
+		<TextBlock Text="{Binding ErrorMessage}" Foreground="Red"
+					Visibility="{Binding ErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}"
+					Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+					HorizontalAlignment="Left" Margin="5" />
 		<!-- equipments and open/close pickup -->
 		<StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical">
 			<ListBox Name="EqListBox" Margin="5" Width="160"
-					 SelectionChanged="EqListBox_SelectionChanged"
-					 ItemsSource="{Binding Equipments}" 
-					 SelectedItem="{Binding CurrentEquipment, Mode=OneWayToSource}">
+					SelectionChanged="EqListBox_SelectionChanged"
+					ItemsSource="{Binding Equipments}"
+					SelectedItem="{Binding CurrentEquipment, Mode=OneWayToSource}">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding EquipmentId}" FontSize="18"/>
+							<TextBlock Text="{Binding EquipmentId}" FontSize="18" />
 						</StackPanel>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
-			<Button Content="Новый съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold" Click="CreatePickup_Clicked" />
-            <Button Content="Закрыть съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold" Click="ClosePickup_Clicked" />
+			<Button Content="Новый съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold"
+					Click="CreatePickup_Clicked" />
+			<Button Content="Закрыть съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold"
+					Click="ClosePickup_Clicked" />
 		</StackPanel>
 
 		<Grid Grid.Column="1" Grid.Row="2" TextBlock.FontSize="16">
 			<Grid.Resources>
 				<Style x:Key="OrderTextBlockStyle" TargetType="TextBlock">
-					<Setter Property="Padding" Value="5"/>
-					<Setter Property="Margin" Value="5"/>
+					<Setter Property="Padding" Value="5" />
+					<Setter Property="Margin" Value="5" />
 				</Style>
 				<Style x:Key="OrderTextBoxStyle" TargetType="TextBox">
-					<Setter Property="Padding" Value="5"/>
-					<Setter Property="Margin" Value="5"/>
+					<Setter Property="Padding" Value="5" />
+					<Setter Property="Margin" Value="5" />
 				</Style>
 			</Grid.Resources>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<TextBlock DataContext="{Binding CurrentOrder}" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding MaterialName, StringFormat=Материал: {0}}"/>
+			<TextBlock DataContext="{Binding CurrentOrder}" Grid.Row="0" Grid.ColumnSpan="2"
+						Text="{Binding MaterialName, StringFormat=Материал: {0}}" />
 			<!-- заказ -->
-			<StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
-
-				<TextBlock DataContext="{Binding CurrentOrder}" Text="{Binding DyeName, StringFormat=Краситель: {0}}" Style="{StaticResource OrderTextBlockStyle}"/>
-				<TextBlock DataContext="{Binding CurrentOrder}" Text="{Binding ColorShade, StringFormat=Цвет: {0}}" Style="{StaticResource OrderTextBlockStyle}"/>
-				<TextBlock DataContext="{Binding CurrentOrder}" Text="{Binding BatchId, StringFormat=Партия: {0}}" Style="{StaticResource OrderTextBlockStyle}"/>
-				<TextBlock DataContext="{Binding CurrentOrder}" Text="{Binding OrderId, StringFormat=Заказ: {0}}" Style="{StaticResource OrderTextBlockStyle}"/>
-
+			<StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" DataContext="{Binding CurrentOrder}">
+				<TextBlock Text="{Binding DyeName, StringFormat=Краситель: {0}}" Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock Text="{Binding ColorShade, StringFormat=Цвет: {0}}" Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock Text="{Binding BatchId, StringFormat=Партия: {0}}" Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock Text="{Binding OrderId, StringFormat=Заказ: {0}}" Style="{StaticResource OrderTextBlockStyle}" />
 			</StackPanel>
-			</Grid>
+			<!-- эталон цвета -->
+			<StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">
+				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}" Text="{Binding Name, StringFormat=Название: {0}}"
+							Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}" Text="{Binding SocketNumber, StringFormat=Сокет: {0}}"
+							Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}" Text="{Binding PickupMode, StringFormat=Режим: {0}}"
+							Style="{StaticResource OrderTextBlockStyle}" />
+				<ListView DataContext="{Binding CurrentOrder.EtalonColor}" ItemsSource="{Binding Ranges}">
+					<ListBox.ItemContainerStyle>
+						<Style TargetType="Control">
+							<Setter Property="Focusable" Value="False" />
+						</Style>
+					</ListBox.ItemContainerStyle>
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+								<TextBlock Grid.Column="0" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Name}"
+											TextAlignment="Center" />
+								<TextBox Grid.Column="1" Style="{StaticResource OrderTextBoxStyle}" TextAlignment="Center"
+										LostFocus="PickupColorTextBox_LostFocus" KeyUp="PickupColorTextBox_KeyUp"
+										IsEnabled="{Binding DataContext.CurrentPickup, ElementName=root, Converter={StaticResource ObjectToBoolConverter}, Mode=OneWay}"
+										Text="{Binding Value, Mode=TwoWay}">
+									<!--Background="{Binding pickup_etalon, Converter={x:Static Views:MainWindow.PickupEtalonToBackgroundConverter}}"-->
+									<TextBox.DataContext>
+										<MultiBinding Mode="OneWay" Converter="{x:Static Views:MainWindow.ColorEtalonToPickupColorConverter}">
+											<Binding Path="Name" Mode="OneWay" />
+											<Binding Path="DataContext.CurrentPickup" ElementName="root" Mode="OneWay" />
+										</MultiBinding>
+									</TextBox.DataContext>
+								</TextBox>
+								<TextBlock Grid.Column="2" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim1}"
+											TextAlignment="Center" Background="OrangeRed" />
+								<TextBlock Grid.Column="3" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim2}"
+											TextAlignment="Center" Background="Yellow" />
+								<TextBlock Grid.Column="4" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim3}"
+											TextAlignment="Center" Background="LightGreen" />
+								<TextBlock Grid.Column="5" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim4}"
+											TextAlignment="Center" Background="Yellow" />
+								<TextBlock Grid.Column="6" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim5}"
+											TextAlignment="Center" Background="OrangeRed" />
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</StackPanel>
+
+		</Grid>
 
 		<!-- loading -->
 		<userControls:LoadingControl Grid.RowSpan="3" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0"
-				Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
-				LoadingMessage="Loading data..."
-				Panel.ZIndex="100" />
+									Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+									LoadingMessage="Loading data..."
+									Panel.ZIndex="100" />
 	</Grid>
 </Window>

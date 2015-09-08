@@ -23,7 +23,7 @@ namespace PetLab.BLL.Converters.ModelToDto {
 			result.PickupId = source.pickup_id;
 			result.ShiftId = source.shift_id;
 			result.StatioName = source.pickup_station_cooling.name;
-			result.PickupEtalonColorRangeDto = Mapper.Map<IEnumerable<PickupEtalonColorRangeDto>>(source.pickup_etalon_color_ranges);
+			result.PickupEtalonColorRanges = Mapper.Map<IEnumerable<PickupEtalonColorRangeDto>>(source.pickup_etalon_color_ranges);
 
 			return result;
 		}

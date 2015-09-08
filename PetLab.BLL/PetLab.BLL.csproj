@@ -77,6 +77,8 @@
     <Compile Include="Converters\ModelToDto\EquipmentConverter.cs" />
     <Compile Include="Converters\ModelToDto\OrderConverter.cs" />
     <Compile Include="Converters\ModelToDto\MaterialConverter.cs" />
+    <Compile Include="Converters\ModelToDto\OrderEtalonColorConverter.cs" />
+    <Compile Include="Converters\ModelToDto\OrderEtalonColorRayConverter.cs" />
     <Compile Include="Converters\ModelToDto\OrderEtalonColorRangeConverter.cs" />
     <Compile Include="Converters\ModelToDto\PickupConverter.cs" />
     <Compile Include="Converters\ModelToDto\PickupDefectConverter.cs" />

@@ -6,7 +6,6 @@ namespace PetLab.BLL.Converters.ModelToDto {
 	public class OrderEtalonColorRangeConverter : TypeConverter<order_etalon_color_range, OrderEtalonColorRangeDto> {
 		protected override OrderEtalonColorRangeDto ConvertCore(order_etalon_color_range source) {
 			var result = new OrderEtalonColorRangeDto();
-			result.OrderId = source.order_id;
 			result.Name = source.name;
 			result.Lim1 = source.lim1;
 			result.Lim2 = source.lim2;

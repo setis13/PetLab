@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PetLab.BLL.Common.Dto {
-	public class OrderEtalonColorRangeDto {
+﻿namespace PetLab.WPF.Models {
+	public class OrderEtalonColorRangeViewModel {
 		public string Name { get; set; }
 		public decimal Lim1 { get; set; }
 		public decimal Lim2 { get; set; }

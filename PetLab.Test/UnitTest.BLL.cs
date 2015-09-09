@@ -149,7 +149,8 @@ namespace PetLab.Test {
 			service.SetVisualMatch(pickup.PickupId, random.Next(2) == 0).CheckResult();
 			var ranges = service.LookupEtalonColorRanges(pickup.OrderId).GetResult().ToArray();
 			for (int i = 0; i < ranges.Length; i++) {
-				service.SetColor(pickup.PickupId, pickup.OrderId, ranges[i].Name, (decimal?)random.Next(100) / 10).GetResult();
+				var range = new PickupEtalonColorRangeDto() { PickupId = pickup.PickupId, OrderId = pickup.OrderId, RangeName = ranges[i].Name, Value = (decimal)random.Next(100) / 10 };
+				service.SetColor(range).CheckResult();
 			}
 			service.ClosePickup(pickup.PickupId).CheckResult();
 		}

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using AutoMapper;
 using Microsoft.Practices.ServiceLocation;
 using PetLab.BLL.Common.Dto;
@@ -17,6 +18,8 @@ using PetLab.WPF.Dialogs;
 using PetLab.WPF.Helpers;
 using PetLab.WPF.Models;
 using PetLab.WPF.ViewModels;
+using Xceed.Wpf.Toolkit;
+using MessageBox = System.Windows.MessageBox;
 
 namespace PetLab.WPF {
 	public partial class MainWindow : Window {
@@ -25,6 +28,9 @@ namespace PetLab.WPF {
 
 		public static IMultiValueConverter ColorEtalonToPickupColorConverter =
 			new MultiConverterHelper(ToPickupConvert);
+
+		public static IMultiValueConverter PickupEtalonToBackgroundConverter =
+			new MultiConverterHelper(ToBackgroundConvert);
 
 		/// <summary>
 		/// RangeName & PickupViewModel -> PickupEtalonColorRange
@@ -50,6 +56,23 @@ namespace PetLab.WPF {
 				}
 			}
 			return null;
+		}
+
+		private static object ToBackgroundConvert(object[] values) {
+			//PickupEtalonColorRangeViewModel
+			var etalon = values[0] as OrderEtalonColorRangeViewModel;
+			var pickup = values[1] as PickupEtalonColorRangeViewModel;
+			if (etalon != null && pickup != null) {
+					var value1 = pickup.Value;
+					if (value1 < etalon.Lim1 || value1 > etalon.Lim5) {
+						return Brushes.OrangeRed;
+					} else if (value1 < etalon.Lim2 || value1 > etalon.Lim4) {
+						return Brushes.Yellow;
+					} else {
+						return Brushes.LightGreen;
+				}
+			}
+			return Brushes.White;
 		}
 
 		#endregion [ Converters ]
@@ -179,22 +202,20 @@ namespace PetLab.WPF {
 			}
 		}
 
-		private void PickupColorTextBox_LostFocus(object sender, RoutedEventArgs e) {
-			var range = ((FrameworkElement) sender).DataContext as PickupEtalonColorRangeViewModel;
-            if (range != null) {
-				range.Value = Decimal.Parse(((TextBox) sender).Text);
-			_service.SetColor(
-				Model.CurrentPickup.PickupId,
-				Model.CurrentOrder.OrderId,
-				range.RangeName,
-				range.Value);
-			//((FrameworkElement)sender).GetBindingExpression(Control.BackgroundProperty).UpdateTarget();
-            }
+		private void PickupColorTextBox_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+			var range = ((FrameworkElement)sender).DataContext as PickupEtalonColorRangeViewModel;
+			var value = ((DecimalUpDown)sender).Value;
+			if (range != null && value != null) {
+				range.Value = value.Value;
+				_service.SetColor(Mapper.Map<PickupEtalonColorRangeDto>(range)).CheckResult();
+				MultiBindingExpression binding = BindingOperations.GetMultiBindingExpression(((FrameworkElement)sender), DecimalUpDown.BackgroundProperty);
+				binding.UpdateTarget();
+			}
 		}
 
 		private void PickupColorTextBox_KeyUp(object sender, KeyEventArgs e) {
 			if (e.Key == Key.Enter) {
-				PickupColorTextBox_LostFocus(sender, null);
+				PickupColorTextBox_ValueChanged(sender, null);
 				Keyboard.ClearFocus();
 				e.Handled = true;
 			}
@@ -203,6 +224,5 @@ namespace PetLab.WPF {
 		private void ClosePickup_Clicked(object sender, RoutedEventArgs e) {
 			throw new NotImplementedException();
 		}
-
 	}
 }

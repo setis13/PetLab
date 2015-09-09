@@ -277,33 +277,27 @@ namespace PetLab.BLL.Services {
 		}
 
 		/// <summary>
-		/// задать/удалить значение цвета
+		/// задать значение цвета
 		/// </summary>
-		public ServiceResult<PickupEtalonColorRangeDto> SetColor(int pickupId, string orderId, string rangeName, decimal? value = null) {
+		public ServiceResult SetColor(PickupEtalonColorRangeDto rangeDto) {
 			try {
 				var repository = UnitOfWork.GetRepository<pickup_etalon_color_range>();
-				var pickupEtalonColorRange = repository.GetById(pickupId, orderId, rangeName);
-				if (value != null) {
-					if (pickupEtalonColorRange != null) {
-						pickupEtalonColorRange.value = value.Value;
-					} else {
-						pickupEtalonColorRange = new pickup_etalon_color_range() {
-							range_name = rangeName,
-							value = value.Value,
-							pickup_id = pickupId,
-							order_id = orderId
-						};
-					}
-					repository.Save(pickupEtalonColorRange);
+				var pickupEtalonColorRange = repository.GetById(rangeDto.PickupId, rangeDto.OrderId, rangeDto.RangeName);
+				if (pickupEtalonColorRange == null) {
+					pickupEtalonColorRange = new pickup_etalon_color_range() {
+						range_name = rangeDto.RangeName,
+						value = rangeDto.Value,
+						pickup_id = rangeDto.PickupId,
+						order_id = rangeDto.OrderId
+					};
 				} else {
-					if (pickupEtalonColorRange != null) {
-						repository.Delete(pickupEtalonColorRange);
-					}
+					pickupEtalonColorRange.value = rangeDto.Value;
 				}
+				repository.Save(pickupEtalonColorRange);
 				UnitOfWork.SaveChanges();
-				return new ServiceResult<PickupEtalonColorRangeDto>(pickupEtalonColorRange != null ? AutoMapper.Mapper.Map<PickupEtalonColorRangeDto>(pickupEtalonColorRange) : null);
+				return new ServiceResult();
 			} catch (Exception exception) {
-				return ServiceResult.ExceptionFactory<ServiceResult<PickupEtalonColorRangeDto>>(exception);
+				return ServiceResult.ExceptionFactory<ServiceResult>(exception);
 			}
 		}
 

@@ -73,9 +73,9 @@ namespace PetLab.BLL.Contracts.Services {
 		ServiceResult<IEnumerable<OrderEtalonColorRangeDto>> LookupEtalonColorRanges(string orderId);
 
 		/// <summary>
-		/// задать/удалить значение цвета
+		/// задать значение цвета
 		/// </summary>
-		ServiceResult<PickupEtalonColorRangeDto> SetColor(int pickupId, string orderId, string rangeName, decimal? value = null);
+		ServiceResult SetColor(PickupEtalonColorRangeDto rangeDto);
 
 		/// <summary>
 		/// задать, эталон соответствует

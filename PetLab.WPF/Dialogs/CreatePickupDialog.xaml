@@ -6,6 +6,7 @@
 		xmlns:viewModels="clr-namespace:PetLab.WPF.ViewModels"
 		xmlns:controls="http://schemas.AvalonControls/AvalonControlsLibrary/Controls"
 		xmlns:userControls="clr-namespace:PetLab.WPF.UserControls"
+		xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 		mc:Ignorable="d"
 		Title="Создать съём" 
 		Height="400" Width="400"
@@ -58,8 +59,8 @@
 		<TextBlock Grid.Row="3" Text="Время съёма" HorizontalAlignment="Right"/>
 		<TextBlock Grid.Row="4" Text="Ст. охл." HorizontalAlignment="Right"/>
 		<!--<TextBlock Grid.Row="5" Text="№ упаковки" HorizontalAlignment="Right"/>-->
-		<controls:TimePicker Grid.Row="3" Grid.Column="1" SelectedTime="{Binding Take, Mode=TwoWay}" Margin="5" Width="70" HorizontalAlignment="Left" FontSize="14">
-		</controls:TimePicker>
+		<xctk:TimePicker Grid.Row="3" Grid.Column="1" Text ="{Binding Take, Mode=TwoWay}" Margin="5" Width="80" HorizontalAlignment="Left" FontSize="14">
+		</xctk:TimePicker>
 		<ComboBox Grid.Row="4" Grid.Column="1" DisplayMemberPath="Name"
 				  SelectedItem="{Binding SelectedCoolingStation, Mode=OneWayToSource}" 
 				  ItemsSource="{Binding CoolingStations, Mode=OneTime}" 

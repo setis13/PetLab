@@ -9,6 +9,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:viewModels="clr-namespace:PetLab.WPF.ViewModels"
+		xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 		mc:Ignorable="d"
 		Closed="MainWindow_OnClosed"
 		Loaded="MainWindow_OnLoaded"
@@ -101,18 +102,25 @@
 						Text="{Binding MaterialName, StringFormat=Материал: {0}}" />
 			<!-- заказ -->
 			<StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" DataContext="{Binding CurrentOrder}">
-				<TextBlock Text="{Binding DyeName, StringFormat=Краситель: {0}}" Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock Text="{Binding ColorShade, StringFormat=Цвет: {0}}" Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock Text="{Binding BatchId, StringFormat=Партия: {0}}" Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock Text="{Binding OrderId, StringFormat=Заказ: {0}}" Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock Text="{Binding DyeName, StringFormat=Краситель: {0}}"
+							Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock Text="{Binding ColorShade, StringFormat=Цвет: {0}}"
+							Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock Text="{Binding BatchId, StringFormat=Партия: {0}}"
+							Style="{StaticResource OrderTextBlockStyle}" />
+				<TextBlock Text="{Binding OrderId, StringFormat=Заказ: {0}}"
+							Style="{StaticResource OrderTextBlockStyle}" />
 			</StackPanel>
 			<!-- эталон цвета -->
 			<StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">
-				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}" Text="{Binding Name, StringFormat=Название: {0}}"
+				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}"
+							Text="{Binding Name, StringFormat=Название: {0}}"
 							Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}" Text="{Binding SocketNumber, StringFormat=Сокет: {0}}"
+				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}"
+							Text="{Binding SocketNumber, StringFormat=Сокет: {0}}"
 							Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}" Text="{Binding PickupMode, StringFormat=Режим: {0}}"
+				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}"
+							Text="{Binding PickupMode, StringFormat=Режим: {0}}"
 							Style="{StaticResource OrderTextBlockStyle}" />
 				<ListView DataContext="{Binding CurrentOrder.EtalonColor}" ItemsSource="{Binding Ranges}">
 					<ListBox.ItemContainerStyle>
@@ -132,30 +140,40 @@
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
-								<TextBlock Grid.Column="0" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Name}"
+								<TextBlock Grid.Column="0" Style="{StaticResource OrderTextBlockStyle}"
+											Text="{Binding Name}"
 											TextAlignment="Center" />
-								<TextBox Grid.Column="1" Style="{StaticResource OrderTextBoxStyle}" TextAlignment="Center"
-										LostFocus="PickupColorTextBox_LostFocus" KeyUp="PickupColorTextBox_KeyUp"
-										IsEnabled="{Binding DataContext.CurrentPickup, ElementName=root, Converter={StaticResource ObjectToBoolConverter}, Mode=OneWay}"
-										Text="{Binding Value, Mode=TwoWay}">
+								<!--Style="{StaticResource OrderTextBoxStyle}"-->
+								<xctk:DecimalUpDown Grid.Column="1" TextAlignment="Center"
+													ValueChanged="PickupColorTextBox_ValueChanged"
+													KeyUp="PickupColorTextBox_KeyUp"
+													IsEnabled="{Binding DataContext.CurrentPickup, ElementName=root, Converter={StaticResource ObjectToBoolConverter}, Mode=OneWay}"
+													Value="{Binding Value, Mode=TwoWay}">
 									<!--Background="{Binding pickup_etalon, Converter={x:Static Views:MainWindow.PickupEtalonToBackgroundConverter}}"-->
-									<TextBox.DataContext>
-										<MultiBinding Mode="OneWay" Converter="{x:Static Views:MainWindow.ColorEtalonToPickupColorConverter}">
+									<xctk:DecimalUpDown.Background>
+										<MultiBinding Converter="{x:Static Views:MainWindow.PickupEtalonToBackgroundConverter}">
+											<Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListViewItem}" Mode="OneWay" />
+											<Binding Mode="OneWay" />
+										</MultiBinding>
+									</xctk:DecimalUpDown.Background>
+									<xctk:DecimalUpDown.DataContext>
+										<MultiBinding Mode="OneWay"
+													Converter="{x:Static Views:MainWindow.ColorEtalonToPickupColorConverter}">
 											<Binding Path="Name" Mode="OneWay" />
 											<Binding Path="DataContext.CurrentPickup" ElementName="root" Mode="OneWay" />
 										</MultiBinding>
-									</TextBox.DataContext>
-								</TextBox>
-								<TextBlock Grid.Column="2" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim1}"
-											TextAlignment="Center" Background="OrangeRed" />
-								<TextBlock Grid.Column="3" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim2}"
-											TextAlignment="Center" Background="Yellow" />
-								<TextBlock Grid.Column="4" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim3}"
-											TextAlignment="Center" Background="LightGreen" />
-								<TextBlock Grid.Column="5" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim4}"
-											TextAlignment="Center" Background="Yellow" />
-								<TextBlock Grid.Column="6" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Lim5}"
-											TextAlignment="Center" Background="OrangeRed" />
+									</xctk:DecimalUpDown.DataContext>
+								</xctk:DecimalUpDown>
+								<TextBlock Grid.Column="2" Style="{StaticResource OrderTextBlockStyle}"
+											Text="{Binding Lim1}" TextAlignment="Center" Background="OrangeRed" />
+								<TextBlock Grid.Column="3" Style="{StaticResource OrderTextBlockStyle}"
+											Text="{Binding Lim2}" TextAlignment="Center" Background="Yellow" />
+								<TextBlock Grid.Column="4" Style="{StaticResource OrderTextBlockStyle}"
+											Text="{Binding Lim3}" TextAlignment="Center" Background="LightGreen" />
+								<TextBlock Grid.Column="5" Style="{StaticResource OrderTextBlockStyle}"
+											Text="{Binding Lim4}" TextAlignment="Center" Background="Yellow" />
+								<TextBlock Grid.Column="6" Style="{StaticResource OrderTextBlockStyle}"
+											Text="{Binding Lim5}" TextAlignment="Center" Background="OrangeRed" />
 							</Grid>
 						</DataTemplate>
 					</ListView.ItemTemplate>

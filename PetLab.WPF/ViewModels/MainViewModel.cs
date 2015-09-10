@@ -88,6 +88,8 @@ namespace PetLab.WPF.ViewModels {
 			}
 		}
 
+		public DefectViewModel CurrentDefect { get; set; }
+
 		/// <summary>
 		/// Gets or sets error message
 		/// </summary>

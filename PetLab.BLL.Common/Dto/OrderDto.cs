@@ -6,7 +6,7 @@
 		public int ShiftId { get; set; }
 		public string DyeName { get; set; }
 		public string ColorShade { get; set; }
-		public short CountSocket { get; set; }
+		public byte CountSocket { get; set; }
 		public string EquipmentId { get; set; }
 		public OrderEtalonColorDto EtalonColor { get; set; }
 	}

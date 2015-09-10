@@ -41,7 +41,7 @@ namespace PetLab.DAL.Models {
 		[Column(TypeName = "VARCHAR")]
 		public string color_shade { get; set; }
 
-		public short count_socket { get; set; }
+		public byte count_socket { get; set; }
 
 		[Required]
 		[StringLength(8)]

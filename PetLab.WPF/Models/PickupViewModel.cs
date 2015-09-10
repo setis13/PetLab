@@ -19,5 +19,6 @@ namespace PetLab.WPF.Models {
 		public bool VisualMatch { get; set; }
 		public bool Export { get; set; }
 		public IEnumerable<PickupEtalonColorRangeViewModel> PickupEtalonColorRanges { get; set; }
+		public IEnumerable<PickupDefectViewModel> PickupDefects { get; set; }
 	}
 }

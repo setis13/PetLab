@@ -17,6 +17,7 @@ using PetLab.DAL.Models;
 using PetLab.WPF.Dialogs;
 using PetLab.WPF.Helpers;
 using PetLab.WPF.Models;
+using PetLab.WPF.Utils;
 using PetLab.WPF.ViewModels;
 using Xceed.Wpf.Toolkit;
 using MessageBox = System.Windows.MessageBox;
@@ -26,11 +27,25 @@ namespace PetLab.WPF {
 
 		#region [ Converters ]
 
+		/// <summary>
+		/// на названию предела и списка съёмов цвета, получает/создаём съём цвета
+		/// string, PickupViewModel -> PickupEtalonColorRangeViewModel
+		/// </summary>
 		public static IMultiValueConverter ColorEtalonToPickupColorConverter =
 			new MultiConverterHelper(ToPickupConvert);
 
+		/// <summary>
+		/// значение цвета конвертится в цвет (красный, желтый, зеленый)
+		/// OrderEtalonColorRangeViewModel, PickupEtalonColorRangeViewModel -> Brush
+		/// </summary>
 		public static IMultiValueConverter PickupEtalonToBackgroundConverter =
 			new MultiConverterHelper(ToBackgroundConvert);
+
+		public static IMultiValueConverter CountSocketsToButtonsConverter { get { return new MultiConverterHelper(CountSocketsToButtonsConvert); } }
+		public static IMultiValueConverter GradeAndCurrentDefectToBrushConverter { get { return new MultiConverterHelper(GradeAndCurrentDefectToBrushConvert); } }
+		public static IValueConverter CountSockToBlockSockConverter { get { return new ConverterHelper(CountSockToBlockSockConvert); } }
+		//public static IValueConverter OrderToColorEtalonConverter { get { return new ConverterHelper(OrderToColorEtalonConvert); } }
+		//public static IValueConverter PickupEtalonCoBackgroundConverter { get { return new ConverterHelper(PickupEtalonCoBackgroundConvert); } }
 
 		/// <summary>
 		/// RangeName & PickupViewModel -> PickupEtalonColorRange
@@ -75,6 +90,51 @@ namespace PetLab.WPF {
 			return Brushes.White;
 		}
 
+		private static object GradeAndCurrentDefectToBrushConvert(object[] value) {
+			if (value[1] is DefectViewModel == false) {
+				return null;
+			}
+			var defect = (DefectViewModel)value[1];
+			var defectses = (IEnumerable<PickupDefectViewModel>)value[0];
+			var socketDefect = defectses.FirstOrDefault(d => defect != null && d.DefectId == defect.DefectId);
+			if (socketDefect == null) {
+				return Brushes.Gray;
+			}
+			if (socketDefect.Grade == 1) {
+				return Brushes.Blue;
+			}
+			if (socketDefect.Grade == 2) {
+				return Brushes.Red;
+			}
+			throw new NotImplementedException();
+		}
+
+		private static object CountSocketsToButtonsConvert(object[] value) {
+			var result = new List<PetSocketViewModel>();
+			if (value[0] != null) {
+				for (byte i = 0; i < GridUtils.BaseCountSockets(((OrderViewModel)value[0]).CountSocket); i++) {
+					var pickup = value[1] as PickupViewModel;
+					if (pickup != null) {
+						var listDefects = pickup.PickupDefects.Where(d => d.Socket == i).ToList();
+						var socket = new PetSocketViewModel() {
+							Defects = listDefects,
+							Number = i,
+							Pickup = pickup,
+							Service = (IPickupService)value[3],
+							CountSockets = ((OrderViewModel)value[0]).CountSocket
+						};
+						result.Add(socket);
+					}
+				}
+			}
+			return result;
+		}
+
+		private static object CountSockToBlockSockConvert(object value) {
+			var baseCount = GridUtils.BaseCountSockets(((byte)value));
+			return baseCount - (byte)value;
+		}
+
 		#endregion [ Converters ]
 
 		#region [ Private Fields ]
@@ -82,7 +142,8 @@ namespace PetLab.WPF {
 		/// <summary>
 		/// Main service
 		/// </summary>
-		private IPickupService _service;
+		public IPickupService Service { get; set; }
+
 		/// <summary>
 		/// Settings service
 		/// </summary>
@@ -102,25 +163,18 @@ namespace PetLab.WPF {
 
 		#endregion [ Properties ]
 
-		//public static IMultiValueConverter CountSocketsToButtonsConverter { get { return new MultiConverterHelper(CountSocketsToButtonsConvert); } }
-		//public static IMultiValueConverter GradeAndCurrentDefectToBrushConverter { get { return new MultiConverterHelper(GradeAndCurrentDefectToBrushConvert); } }
-		//public static IValueConverter CountSockToBlockSockConverter { get { return new ConverterHelper(CountSockToBlockSockConvert); } }
-		//public static IValueConverter OrderToColorEtalonConverter { get { return new ConverterHelper(OrderToColorEtalonConvert); } }
-		//public static IValueConverter PickupEtalonCoBackgroundConverter { get { return new ConverterHelper(PickupEtalonCoBackgroundConvert); } }
-
 		#region [ Constructors / Destructors ]
 
 		public MainWindow(IServicesHost host, ISettingsService settings) {
 			InitializeComponent();
 
-			_service = host.GetService<IPickupService>();
+			Service = host.GetService<IPickupService>();
 			_settings = settings;
 
 			Initialize();
 		}
 
 		#endregion [ Constructors / Destructors ]
-
 
 		#region [ Private Methods ]
 
@@ -130,8 +184,8 @@ namespace PetLab.WPF {
 		private void Initialize() {
 			//var settings = _settings.GetPickupSettings();
 
-			IEnumerable<EquipmentDto> equipments = _service.LookupEquipments().GetResult();
-			IEnumerable<DefectDto> defects = _service.LookupDefects().GetResult();
+			IEnumerable<EquipmentDto> equipments = Service.LookupEquipments().GetResult();
+			IEnumerable<DefectDto> defects = Service.LookupDefects().GetResult();
 
 			// Create view model
 			var viewModel = new MainViewModel() {
@@ -172,9 +226,9 @@ namespace PetLab.WPF {
 		private async void EqListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			try {
 				Model.IsLoading = true;
-				var resultOrder = await _service.LookupOrder(Model.CurrentEquipment.EquipmentId);
+				var resultOrder = await Service.LookupOrder(Model.CurrentEquipment.EquipmentId);
 				Model.CurrentOrder = Mapper.Map<OrderViewModel>(resultOrder.GetResult());
-				var resultPickup = _service.LookupOpenPickup(Model.CurrentEquipment.EquipmentId);
+				var resultPickup = Service.LookupOpenPickup(Model.CurrentEquipment.EquipmentId);
 				Model.CurrentPickup = Mapper.Map<PickupViewModel>(resultPickup.GetResult());
 			} catch (Exception exception) {
 				Model.ErrorMessage = exception.Message;
@@ -182,8 +236,6 @@ namespace PetLab.WPF {
 				Model.IsLoading = false;
 			}
 		}
-
-		#endregion [ Private Methods ]
 
 		private void CreatePickup_Clicked(object sender, RoutedEventArgs e) {
 			if (Model.CurrentEquipment != null) {
@@ -207,7 +259,7 @@ namespace PetLab.WPF {
 			var value = ((DecimalUpDown)sender).Value;
 			if (range != null && value != null) {
 				range.Value = value.Value;
-				_service.SetColor(Mapper.Map<PickupEtalonColorRangeDto>(range)).CheckResult();
+				Service.SetColor(Mapper.Map<PickupEtalonColorRangeDto>(range)).CheckResult();
 				MultiBindingExpression binding = BindingOperations.GetMultiBindingExpression(((FrameworkElement)sender), DecimalUpDown.BackgroundProperty);
 				binding.UpdateTarget();
 			}
@@ -222,6 +274,12 @@ namespace PetLab.WPF {
 		}
 
 		private void ClosePickup_Clicked(object sender, RoutedEventArgs e) {
+			throw new NotImplementedException();
+		}
+
+		#endregion [ Private Methods ]
+
+		private void SocketButton_Click(object sender, RoutedEventArgs e) {
 			throw new NotImplementedException();
 		}
 	}

@@ -34,6 +34,7 @@ namespace PetLab.WPF.ViewModels {
 		private OrderViewModel _currentOrder;
 
 		private PickupViewModel _currentPickup;
+		private DefectViewModel _currentDefect;
 
 		#endregion [ Private Fields ]
 
@@ -88,7 +89,13 @@ namespace PetLab.WPF.ViewModels {
 			}
 		}
 
-		public DefectViewModel CurrentDefect { get; set; }
+		public DefectViewModel CurrentDefect {
+			get { return _currentDefect; }
+			set {
+				_currentDefect = value;
+				OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets error message

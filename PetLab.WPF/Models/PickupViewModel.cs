@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using PetLab.BLL.Common.Dto;
 using PetLab.WPF.ViewModels.Base;
 
 namespace PetLab.WPF.Models {
@@ -19,6 +18,6 @@ namespace PetLab.WPF.Models {
 		public bool VisualMatch { get; set; }
 		public bool Export { get; set; }
 		public IEnumerable<PickupEtalonColorRangeViewModel> PickupEtalonColorRanges { get; set; }
-		public IEnumerable<PickupDefectViewModel> PickupDefects { get; set; }
+		public Dictionary<string, PickupDefectViewModel[]> PickupDefects { get; set; }
 	}
 }

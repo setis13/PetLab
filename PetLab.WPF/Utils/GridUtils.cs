@@ -41,8 +41,8 @@ namespace PetLab.WPF.Utils {
 				var maxRow = 16;
 
 				foreach (FrameworkElement child in grid.Children) {
-					Grid.SetColumn(child, NumberToColumnConvert((PetSocketViewModel)child.DataContext));
-					Grid.SetRow(child, NumberToRowConvert((PetSocketViewModel)child.DataContext));
+					Grid.SetColumn(child, NumberToColumnConvert((PickupDefectViewModel)child.DataContext));
+					Grid.SetRow(child, NumberToRowConvert((PickupDefectViewModel)child.DataContext));
 				}
 
 				for (int row = 0; row < maxRow - grid.RowDefinitions.Count; row++) {
@@ -69,9 +69,9 @@ namespace PetLab.WPF.Utils {
 			throw new Exception("Неверное кол-во гнёзд");
 		}
 
-		private static int NumberToRowConvert(PetSocketViewModel petSocket) {
-			var number = petSocket.Number;
-			switch (BaseCountSockets(petSocket.CountSockets)) {
+		private static int NumberToRowConvert(PickupDefectViewModel petSocket) {
+			var number = petSocket.Socket;
+			switch (/*BaseCountSockets*/(petSocket.CountSockets)) {
 				case 48:
 					return number / 4;
 				case 72:
@@ -82,8 +82,8 @@ namespace PetLab.WPF.Utils {
 			throw new Exception("Неверное кол-во гнёзд");
 		}
 
-		private static int NumberToColumnConvert(PetSocketViewModel petSocket) {
-			var number = petSocket.Number;
+		private static int NumberToColumnConvert(PickupDefectViewModel petSocket) {
+			var number = petSocket.Socket;
 			switch (BaseCountSockets(petSocket.CountSockets)) {
 				case 48:
 					return number % 4;

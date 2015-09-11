@@ -112,9 +112,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\ObjectToBoolConverter.cs" />
-    <Compile Include="Converters\ObjectToBoolInvertConverter.cs" />
-    <Compile Include="Converters\ObjectToVisibilityConverter.cs" />
+    <Compile Include="Converters\DtoToViewModel\PickupConverter.cs" />
+    <Compile Include="Converters\IValueConverters\ObjectToBoolConverter.cs" />
+    <Compile Include="Converters\IValueConverters\ObjectToBoolInvertConverter.cs" />
+    <Compile Include="Converters\IValueConverters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Dialogs\CreatePickupDialog.xaml.cs">
       <DependentUpon>CreatePickupDialog.xaml</DependentUpon>
     </Compile>

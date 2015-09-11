@@ -15,7 +15,9 @@ namespace PetLab.BLL.Common.Dto {
 		public bool EtalonMatch { get; set; }
 		public bool VisualMatch { get; set; }
 		public bool Export { get; set; }
-		public IEnumerable<PickupEtalonColorRangeDto> PickupEtalonColorRanges { get; set; }
+		public byte CountSockets { get; set; }
+        public IEnumerable<PickupEtalonColorRangeDto> PickupEtalonColorRanges { get; set; }
 		public IEnumerable<PickupDefectDto> PickupDefects { get; set; }
+		public IEnumerable<DefectDto> Defects { get; set; }
 	}
 }

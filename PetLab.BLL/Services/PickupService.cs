@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Practices.ObjectBuilder2;
 using PetLab.BLL.Common.Dto;
 using PetLab.BLL.Common.Services.Results;
 using PetLab.BLL.Contracts;
@@ -126,7 +127,12 @@ namespace PetLab.BLL.Services {
 			try {
 				var repository = UnitOfWork.GetRepository<pickup>();
 				var pickups = repository.SearchFor(p => p.shift_id == shiftId && p.order.equipment_id == equipmentId && (export == null || p.export == export)).Include("pickup_station_cooling");
-				return new ServiceResult<IEnumerable<PickupDto>>(AutoMapper.Mapper.Map<IEnumerable<PickupDto>>(pickups));
+				var pickupsDto = AutoMapper.Mapper.Map<IEnumerable<PickupDto>>(pickups);
+				#region attach defects
+				IEnumerable<DefectDto> defects = LookupDefects().GetResult();
+				pickupsDto.ForEach(p => p.Defects = defects);
+				#endregion attach defects
+				return new ServiceResult<IEnumerable<PickupDto>>(pickupsDto);
 			} catch (Exception exception) {
 				return ServiceResult.ExceptionFactory<ServiceResult<IEnumerable<PickupDto>>>(exception);
 			}
@@ -139,7 +145,16 @@ namespace PetLab.BLL.Services {
 			try {
 				var repository = UnitOfWork.GetRepository<equipment>();
 				var pickup = repository.GetById(equipmentId).pickup;
-				return new ServiceResult<PickupDto>(pickup != null ? AutoMapper.Mapper.Map<PickupDto>(pickup) : null);
+				if (pickup != null) {
+					var pickupDto = AutoMapper.Mapper.Map<PickupDto>(pickup);
+					#region attach defects
+					IEnumerable<DefectDto> defects = LookupDefects().GetResult();
+					pickupDto.Defects = defects;
+					#endregion attach defects
+					return new ServiceResult<PickupDto>(pickupDto);
+				} else {
+					return new ServiceResult<PickupDto>(null);
+				}
 			} catch (Exception exception) {
 				return ServiceResult.ExceptionFactory<ServiceResult<PickupDto>>(exception);
 			}
@@ -186,7 +201,12 @@ namespace PetLab.BLL.Services {
 				equipmentRepository.Save(order.equipment);
 				UnitOfWork.SaveChanges();
 				pickupRepository.ReferenceLoad(pickup, p => p.pickup_station_cooling);
-				return new ServiceResult<PickupDto>(AutoMapper.Mapper.Map<PickupDto>(pickup));
+				var pickupDto = AutoMapper.Mapper.Map<PickupDto>(pickup);
+				#region attach defects
+				IEnumerable<DefectDto> defects = LookupDefects().GetResult();
+				pickupDto.Defects = defects;
+				#endregion attach defects
+				return new ServiceResult<PickupDto>(pickupDto);
 			} catch (Exception exception) {
 				return ServiceResult.ExceptionFactory<ServiceResult<PickupDto>>(exception);
 			}

@@ -41,9 +41,14 @@ namespace PetLab.WPF {
 		public static IMultiValueConverter PickupEtalonToBackgroundConverter =
 			new MultiConverterHelper(ToBackgroundConvert);
 
-		public static IMultiValueConverter CountSocketsToButtonsConverter { get { return new MultiConverterHelper(CountSocketsToButtonsConvert); } }
 		public static IMultiValueConverter GradeAndCurrentDefectToBrushConverter { get { return new MultiConverterHelper(GradeAndCurrentDefectToBrushConvert); } }
-		public static IValueConverter CountSockToBlockSockConverter { get { return new ConverterHelper(CountSockToBlockSockConvert); } }
+		public static IMultiValueConverter PickupDefectsSelector { get { return new MultiConverterHelper(PickupDefectsSelect); } }
+		public static IValueConverter Inc1Converter { get { return new ConverterHelper(Inc1Convert); } }
+
+		private static object Inc1Convert(object value) {
+			return (byte)value + 1;
+		}
+
 		//public static IValueConverter OrderToColorEtalonConverter { get { return new ConverterHelper(OrderToColorEtalonConvert); } }
 		//public static IValueConverter PickupEtalonCoBackgroundConverter { get { return new ConverterHelper(PickupEtalonCoBackgroundConvert); } }
 
@@ -109,30 +114,13 @@ namespace PetLab.WPF {
 			throw new NotImplementedException();
 		}
 
-		private static object CountSocketsToButtonsConvert(object[] value) {
-			var result = new List<PetSocketViewModel>();
-			if (value[0] != null) {
-				for (byte i = 0; i < GridUtils.BaseCountSockets(((OrderViewModel)value[0]).CountSocket); i++) {
-					var pickup = value[1] as PickupViewModel;
-					if (pickup != null) {
-						var listDefects = pickup.PickupDefects.Where(d => d.Socket == i).ToList();
-						var socket = new PetSocketViewModel() {
-							Defects = listDefects,
-							Number = i,
-							Pickup = pickup,
-							Service = (IPickupService)value[3],
-							CountSockets = ((OrderViewModel)value[0]).CountSocket
-						};
-						result.Add(socket);
-					}
-				}
+		private static object PickupDefectsSelect(object[] values) {
+			var defect = values[0] as DefectViewModel;
+			var pickup = values[1] as PickupViewModel;
+			if (defect != null && pickup != null) {
+				return pickup.PickupDefects[defect.DefectId];
 			}
-			return result;
-		}
-
-		private static object CountSockToBlockSockConvert(object value) {
-			var baseCount = GridUtils.BaseCountSockets(((byte)value));
-			return baseCount - (byte)value;
+			return null;
 		}
 
 		#endregion [ Converters ]

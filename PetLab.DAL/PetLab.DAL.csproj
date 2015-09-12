@@ -23,7 +23,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -59,17 +59,9 @@
     <Compile Include="Context\PetLabDbContextInitializer.cs" />
     <Compile Include="Context\PetLabXmlContext.cs" />
     <Compile Include="Context\PetLabDbContextConfiguration.cs" />
-    <Compile Include="Migrations\201509051653584_root.cs" />
-    <Compile Include="Migrations\201509051653584_root.Designer.cs">
-      <DependentUpon>201509051653584_root.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509081621096_color_etalon.cs" />
-    <Compile Include="Migrations\201509081621096_color_etalon.Designer.cs">
-      <DependentUpon>201509081621096_color_etalon.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509101607369_socket_to_byte.cs" />
-    <Compile Include="Migrations\201509101607369_socket_to_byte.Designer.cs">
-      <DependentUpon>201509101607369_socket_to_byte.cs</DependentUpon>
+    <Compile Include="Migrations\201509120652043_root.cs" />
+    <Compile Include="Migrations\201509120652043_root.Designer.cs">
+      <DependentUpon>201509120652043_root.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\defect.cs" />
     <Compile Include="Models\equipment.cs" />
@@ -126,14 +118,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509051653584_root.resx">
-      <DependentUpon>201509051653584_root.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509081621096_color_etalon.resx">
-      <DependentUpon>201509081621096_color_etalon.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509101607369_socket_to_byte.resx">
-      <DependentUpon>201509101607369_socket_to_byte.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509120652043_root.resx">
+      <DependentUpon>201509120652043_root.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

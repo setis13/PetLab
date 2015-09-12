@@ -51,7 +51,7 @@ namespace PetLab.Test {
 			order.equipment_id = "PETLIN01";
 			order.material_id = "9999999999";
 			order.order_id = "0099999900";
-			order.shift_id = 1;
+			order.shift_number_number = 1;
 			repository.Insert(order);
 			uow.SaveChanges();
 		}

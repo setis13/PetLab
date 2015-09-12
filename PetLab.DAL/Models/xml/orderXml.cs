@@ -8,7 +8,7 @@ namespace PetLab.DAL.Models.xml {
 
 	/// <remarks/>
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+	[System.Xml.Serialization.XmlRootAttribute("order", Namespace = "", IsNullable = false)]
 	public partial class orderXml {
 
 		private orderEtalons etalonsField;

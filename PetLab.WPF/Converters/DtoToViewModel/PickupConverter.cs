@@ -36,10 +36,13 @@ namespace PetLab.WPF.Converters.DtoToViewModel {
 						.FirstOrDefault(p => p.DefectId == defectDto.DefectId && p.Socket == i);
 					if (pickupDefectDto != null) {
 						pickupDefectsViewModel[i] = Mapper.Map<PickupDefectViewModel>(pickupDefectDto);
+						pickupDefectsViewModel[i].CountSockets = source.CountSockets;
 					} else {
 						pickupDefectsViewModel[i] = new PickupDefectViewModel() {
-							CountSockets = source.CountSockets,
-							Socket = i
+							Socket = i,
+							DefectId = defectDto.DefectId,
+							PickupId = source.PickupId,
+							CountSockets = source.CountSockets
 						};
 					}
 				}

@@ -77,6 +77,7 @@ namespace PetLab.BLL.Services {
 				repositoryOrder.ReferenceLoad(order, o => o.material);
 				return new ServiceResult<OrderDto>(AutoMapper.Mapper.Map<OrderDto>(order));
 			} catch (Exception exception) {
+				UnitOfWork.RollBack();
 				return ServiceResult.ExceptionFactory<ServiceResult<OrderDto>>(exception);
 			}
 		}
@@ -254,19 +255,22 @@ namespace PetLab.BLL.Services {
 		/// <summary>
 		/// задать/удалить дефект. Если grade не задан, то удалить дефект
 		/// </summary>
-		public ServiceResult<PickupDefectDto> SetPickupDefect(int pickupId, string defectId, byte socket, byte? grade = null) {
+		public ServiceResult SetPickupDefect(PickupDefectDto pickupDefectDto) {
 			try {
 				var repository = UnitOfWork.GetRepository<pickup_defects>();
-				var pickupDefect = repository.GetById(socket, defectId, pickupId);
-				if (grade != null) {
+				var pickupDefect = repository.GetById(
+					pickupDefectDto.Socket,
+					pickupDefectDto.DefectId, 
+					pickupDefectDto.PickupId);
+				if (pickupDefectDto.Grade != 0) {
 					if (pickupDefect != null) {
-						pickupDefect.grade = grade.Value;
+						pickupDefect.grade = pickupDefectDto.Grade;
 					} else {
 						pickupDefect = new pickup_defects() {
-							defect_id = defectId,
-							grade = grade.Value,
-							pickup_id = pickupId,
-							socket = socket
+							defect_id = pickupDefectDto.DefectId,
+							grade = pickupDefectDto.Grade,
+							pickup_id = pickupDefectDto.PickupId,
+							socket = pickupDefectDto.Socket
 						};
 					}
 					repository.Save(pickupDefect);

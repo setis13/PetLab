@@ -9,6 +9,7 @@ namespace PetLab.BLL.Converters.ModelToDto {
 			result.DefectId = source.defect_id;
 			result.Grade = source.grade;
 			result.Socket = source.socket;
+			result.PickupId = source.pickup_id;
 			return result;
 		}
 	}

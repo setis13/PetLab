@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,7 +42,7 @@ namespace PetLab.WPF {
 		public static IMultiValueConverter PickupEtalonToBackgroundConverter =
 			new MultiConverterHelper(ToBackgroundConvert);
 
-		public static IMultiValueConverter GradeAndCurrentDefectToBrushConverter { get { return new MultiConverterHelper(GradeAndCurrentDefectToBrushConvert); } }
+		public static IValueConverter GradeAndCurrentDefectToBrushConverter { get { return new ConverterHelper(GradeAndCurrentDefectToBrushConvert); } }
 		public static IMultiValueConverter PickupDefectsSelector { get { return new MultiConverterHelper(PickupDefectsSelect); } }
 		public static IValueConverter Inc1Converter { get { return new ConverterHelper(Inc1Convert); } }
 
@@ -83,35 +84,27 @@ namespace PetLab.WPF {
 			var etalon = values[0] as OrderEtalonColorRangeViewModel;
 			var pickup = values[1] as PickupEtalonColorRangeViewModel;
 			if (etalon != null && pickup != null) {
-					var value1 = pickup.Value;
-					if (value1 < etalon.Lim1 || value1 > etalon.Lim5) {
-						return Brushes.OrangeRed;
-					} else if (value1 < etalon.Lim2 || value1 > etalon.Lim4) {
-						return Brushes.Yellow;
-					} else {
-						return Brushes.LightGreen;
+				var value1 = pickup.Value;
+				if (value1 < etalon.Lim1 || value1 > etalon.Lim5) {
+					return Brushes.OrangeRed;
+				} else if (value1 < etalon.Lim2 || value1 > etalon.Lim4) {
+					return Brushes.Yellow;
+				} else {
+					return Brushes.LightGreen;
 				}
 			}
 			return Brushes.White;
 		}
 
-		private static object GradeAndCurrentDefectToBrushConvert(object[] value) {
-			if (value[1] is DefectViewModel == false) {
-				return null;
+		private static object GradeAndCurrentDefectToBrushConvert(object value) {
+			switch (value as byte?) {
+				case 1:
+					return Brushes.Blue;
+				case 2:
+					return Brushes.Red;
+				default:
+					return Brushes.Gray;
 			}
-			var defect = (DefectViewModel)value[1];
-			var defectses = (IEnumerable<PickupDefectViewModel>)value[0];
-			var socketDefect = defectses.FirstOrDefault(d => defect != null && d.DefectId == defect.DefectId);
-			if (socketDefect == null) {
-				return Brushes.Gray;
-			}
-			if (socketDefect.Grade == 1) {
-				return Brushes.Blue;
-			}
-			if (socketDefect.Grade == 2) {
-				return Brushes.Red;
-			}
-			throw new NotImplementedException();
 		}
 
 		private static object PickupDefectsSelect(object[] values) {
@@ -175,10 +168,14 @@ namespace PetLab.WPF {
 			IEnumerable<EquipmentDto> equipments = Service.LookupEquipments().GetResult();
 			IEnumerable<DefectDto> defects = Service.LookupDefects().GetResult();
 
+			var defectsViewModel = Mapper.Map<ObservableCollection<DefectViewModel>>(defects);
+			var equipmentsViewModel = Mapper.Map<IEnumerable<EquipmentViewModel>>(equipments);
+
 			// Create view model
 			var viewModel = new MainViewModel() {
-				Equipments = Mapper.Map<IEnumerable<EquipmentViewModel>>(equipments),
-				Defects = Mapper.Map<ObservableCollection<DefectViewModel>>(defects)
+				Equipments = equipmentsViewModel,
+				Defects = defectsViewModel,
+				CurrentDefect = defectsViewModel.FirstOrDefault()
 			};
 
 			// Set view model to data context
@@ -232,7 +229,7 @@ namespace PetLab.WPF {
 					var settings = ServiceLocator.Current.GetInstance<ISettingsService>();
 					var dialog = new CreatePickupDialog(host, settings, Model.CurrentOrder);
 					if (dialog.ShowDialog() == true) {
-
+						Model.CurrentPickup = dialog.Pickup;
 					}
 				} else {
 					MessageBox.Show("Нет заказа");
@@ -268,7 +265,26 @@ namespace PetLab.WPF {
 		#endregion [ Private Methods ]
 
 		private void SocketButton_Click(object sender, RoutedEventArgs e) {
-			throw new NotImplementedException();
+			var pickupDefectViewModel = (PickupDefectViewModel)((FrameworkElement)sender).DataContext;
+			switch (pickupDefectViewModel.Grade) {
+				case 0:
+					pickupDefectViewModel.Grade = 1;
+					break;
+				case 1:
+					pickupDefectViewModel.Grade = 2;
+					break;
+				case 2:
+					pickupDefectViewModel.Grade = 0;
+					break;
+			}
+			Service.SetPickupDefect(Mapper.Map<PickupDefectDto>(pickupDefectViewModel));
+		}
+
+		private void EtalonMatchCheckBox_CheckChanged(object sender, RoutedEventArgs e) {
+			bool? isChecked = ((CheckBox)sender).IsChecked;
+			if (Model.CurrentPickup != null && isChecked != null) {
+				Service.SetEtalonMatch(Model.CurrentPickup.PickupId, (bool)isChecked);
+			}
 		}
 	}
 }

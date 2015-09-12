@@ -10,7 +10,6 @@ namespace PetLab.DAL.Models {
 	public class shift : BaseEntity {
 		[SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public shift() {
-			orders = new HashSet<order>();
 			pickups = new HashSet<pickup>();
 		}
 
@@ -26,9 +25,6 @@ namespace PetLab.DAL.Models {
 		public byte time_id { get; set; }
 
 		public int user_id { get; set; }
-
-		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<order> orders { get; set; }
 
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public virtual ICollection<pickup> pickups { get; set; }

@@ -7,13 +7,13 @@ namespace PetLab.DAL.Context
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Root : IMigrationMetadata
+    public sealed partial class root : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Root));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(root));
         
         string IMigrationMetadata.Id
         {
-            get { return "201508261624589_Root"; }
+            get { return "201509120652043_root"; }
         }
         
         string IMigrationMetadata.Source

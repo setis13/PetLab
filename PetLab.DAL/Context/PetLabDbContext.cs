@@ -237,11 +237,6 @@ namespace PetLab.DAL.Context {
 				.WillCascadeOnDelete(false);
 
 			modelBuilder.Entity<shift>()
-				.HasMany(e => e.orders)
-				.WithRequired(e => e.shift)
-				.WillCascadeOnDelete(false);
-
-			modelBuilder.Entity<shift>()
 				.HasMany(e => e.pickups)
 				.WithRequired(e => e.shift)
 				.WillCascadeOnDelete(false);

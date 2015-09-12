@@ -4,6 +4,7 @@ using PetLab.WPF.ViewModels.Base;
 
 namespace PetLab.WPF.Models {
 	public class PickupViewModel : BaseViewModel {
+		private bool _etalonMatch;
 
 		public int PickupId { get; set; }
 		public string OrderId { get; set; }
@@ -14,7 +15,13 @@ namespace PetLab.WPF.Models {
 		public string BoxId { get; set; }
 		public string StatioName { get; set; }
 		public byte Number { get; set; }
-		public bool EtalonMatch { get; set; }
+		public bool EtalonMatch {
+			get { return _etalonMatch; }
+			set {
+				_etalonMatch = value;
+				OnPropertyChanged();
+			}
+		}
 		public bool VisualMatch { get; set; }
 		public bool Export { get; set; }
 		public IEnumerable<PickupEtalonColorRangeViewModel> PickupEtalonColorRanges { get; set; }

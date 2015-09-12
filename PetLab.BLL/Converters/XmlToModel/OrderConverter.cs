@@ -8,7 +8,7 @@ namespace PetLab.BLL.Converters.XmlToModel {
 		protected override order ConvertCore(orderXml source) {
 			var result = new order();
 			result.batch_id = source.batch_id;
-			result.shift_id = source.shift;
+			result.shift_number_number = source.shift;
 			result.order_id = source.order_id;
 			result.equipment_id = source.equipment;
 			result.color_shade = source.color_shade;

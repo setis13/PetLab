@@ -63,9 +63,9 @@ namespace PetLab.BLL.Contracts.Services {
 		ServiceResult<IEnumerable<PickupDefectDto>> LookupPickupDefect(int pickupId);
 
 		/// <summary>
-		/// задать/удалить дефект. Если grade не задан, то удалить дефект
+		/// задать/удалить дефект
 		/// </summary>
-		ServiceResult<PickupDefectDto> SetPickupDefect(int pickupId, string defectId, byte socket, byte? grade = null);
+		ServiceResult SetPickupDefect(PickupDefectDto pickupDefectDto);
 
 		/// <summary>
 		/// получить пределы измерений цвета для заказа

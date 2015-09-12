@@ -29,7 +29,7 @@ namespace PetLab.DAL.Models {
 		[Column(TypeName = "VARCHAR")]
 		public string material_id { get; set; }
 
-		public int shift_id { get; set; }
+		public byte shift_number_number { get; set; }
 
 		[Required]
 		[StringLength(50)]
@@ -52,7 +52,7 @@ namespace PetLab.DAL.Models {
 
 		public virtual material material { get; set; }
 
-		public virtual shift shift { get; set; }
+		public virtual shift_number shift_number { get; set; }
 
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public virtual ICollection<order_etalon_color_range> order_etalon_color_range { get; set; }

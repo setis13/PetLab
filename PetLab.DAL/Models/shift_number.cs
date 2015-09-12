@@ -20,5 +20,8 @@ namespace PetLab.DAL.Models {
 		public virtual ICollection<shift> shifts { get; set; }
 
 		public virtual user user { get; set; }
+
+		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<order> orders { get; set; }
 	}
 }

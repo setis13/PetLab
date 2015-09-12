@@ -64,7 +64,7 @@
 		<ComboBox Grid.Row="4" Grid.Column="1" DisplayMemberPath="Name"
 				  SelectedItem="{Binding SelectedCoolingStation, Mode=OneWayToSource}" 
 				  ItemsSource="{Binding CoolingStations, Mode=OneTime}" 
-				  SelectedValuePath="station_id" Margin="5" Width="50" HorizontalAlignment="Left"/>
+				  SelectedValuePath="StationId" Margin="5" Width="50" HorizontalAlignment="Left"/>
 		<!--Error/Alert message-->
 		<TextBlock x:Name="tbError"
 				   Grid.Row="6" Grid.ColumnSpan="3"

@@ -22,227 +22,282 @@
 		Icon="pack://application:,,,/Resources/app_icon.png"
 		d:DataContext="{d:DesignInstance viewModels:MainViewModel, IsDesignTimeCreatable=True}"
 		Name="root">
-	<!-- resources -->
-	<Window.Resources>
-		<iValueConverters:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
-		<iValueConverters:ObjectToBoolInvertConverter x:Key="ObjectToBoolInvertConverter" />
-		<iValueConverters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
-		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-	</Window.Resources>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
-		<!-- menu -->
-		<Menu Grid.Row="0" Grid.ColumnSpan="4" Name="_mainMenu">
-			<MenuItem Header="Настройки">
-				<MenuItem Header="Импорт/Экспорт..." Click="SettingExportImportClick" />
-				<MenuItem Header="Импорт дефектов" Click="ImportDefectsClick" />
-				<MenuItem Header="Импорт материалов" Click="ImportMaterialsClick" />
-			</MenuItem>
-		</Menu>
-		<!-- alert/error -->
-		<TextBlock Text="{Binding ErrorMessage}" Foreground="Red"
+    <!-- resources -->
+    <Window.Resources>
+        <Style x:Key="OrderHeaderStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="50,5,5,0" />
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+        <Style x:Key="OrderLabelStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,5,5,5" />
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style x:Key="OrderTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,5,10,5" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+        <iValueConverters:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
+        <iValueConverters:ObjectToBoolInvertConverter x:Key="ObjectToBoolInvertConverter" />
+        <iValueConverters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- menu -->
+        <Menu Grid.Row="0" Grid.ColumnSpan="4" Name="_mainMenu">
+            <MenuItem Header="Настройки">
+                <MenuItem Header="Импорт/Экспорт..." Click="SettingExportImportClick" />
+                <MenuItem Header="Импорт дефектов" Click="ImportDefectsClick" />
+                <MenuItem Header="Импорт материалов" Click="ImportMaterialsClick" />
+            </MenuItem>
+        </Menu>
+
+        <!-- alert/error -->
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"
 					Visibility="{Binding ErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}"
-					Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"
+					Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"
 					HorizontalAlignment="Left" Margin="5" />
-		<!-- equipments and open/close pickup -->
-		<StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical">
-			<ListBox Name="EqListBox" Margin="5" Width="160"
+
+        <!-- equipments and open/close pickup -->
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
+            <ListBox Name="EqListBox" Margin="5" Width="160"
 					SelectionChanged="EqListBox_SelectionChanged"
 					ItemsSource="{Binding Equipments}"
 					SelectedItem="{Binding CurrentEquipment, Mode=OneWayToSource}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding EquipmentId}" FontSize="18" />
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-			<Button Content="Новый съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold"
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding EquipmentId}" FontSize="18" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Content="Новый съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold"
 					Click="CreatePickup_Clicked" />
-			<Button Content="Закрыть съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold"
+            <Button Content="Закрыть съём" FontSize="16" Padding="5" Margin="5" Width="120" FontWeight="Bold"
 					Click="ClosePickup_Clicked" />
-		</StackPanel>
+        </StackPanel>
 
-		<Grid Grid.Column="1" Grid.Row="2" TextBlock.FontSize="16">
-			<Grid.Resources>
-				<Style x:Key="OrderTextBlockStyle" TargetType="TextBlock">
-					<Setter Property="Padding" Value="5" />
-					<Setter Property="Margin" Value="5" />
-				</Style>
-				<Style x:Key="OrderTextBoxStyle" TargetType="TextBox">
-					<Setter Property="Padding" Value="5" />
-					<Setter Property="Margin" Value="5" />
-				</Style>
-			</Grid.Resources>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" MaxWidth="500" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<TextBlock DataContext="{Binding CurrentOrder}" Grid.Row="0" Grid.ColumnSpan="2"
-						Text="{Binding MaterialName, StringFormat=Материал: {0}}" />
-			<!-- заказ -->
-			<StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" DataContext="{Binding CurrentOrder}">
-				<TextBlock Text="{Binding DyeName, StringFormat=Краситель: {0}}"
-							Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock Text="{Binding ColorShade, StringFormat=Цвет: {0}}"
-							Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock Text="{Binding BatchId, StringFormat=Партия: {0}}"
-							Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock Text="{Binding OrderId, StringFormat=Заказ: {0}}"
-							Style="{StaticResource OrderTextBlockStyle}" />
-			</StackPanel>
-			<!-- эталон цвета -->
-			<StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch">
-				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}"
-							Text="{Binding Name, StringFormat=Название: {0}}"
-							Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}"
-							Text="{Binding SocketNumber, StringFormat=Сокет: {0}}"
-							Style="{StaticResource OrderTextBlockStyle}" />
-				<TextBlock DataContext="{Binding CurrentOrder.EtalonColor}"
-							Text="{Binding PickupMode, StringFormat=Режим: {0}}"
-							Style="{StaticResource OrderTextBlockStyle}" />
-				<!-- пределы -->
-				<ListView DataContext="{Binding CurrentOrder.EtalonColor}" ItemsSource="{Binding Ranges}"
+        <!-- заказ - съём -->
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock Text="Заказ" Style="{StaticResource OrderHeaderStyle}"/>
+            <!-- заказ -->
+            <Grid DataContext="{Binding CurrentOrder}" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MaxWidth="500" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="материал" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding MaterialName, FallbackValue=-}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="цвет" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding ColorShade, FallbackValue=-}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="оттенок" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding DyeName, FallbackValue=-}" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="партия" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding BatchId, FallbackValue=-}" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="заказ" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding OrderId, FallbackValue=-}" />
+            </Grid>
+            <!-- съём -->
+            <Grid DataContext="{Binding CurrentPickup}" Visibility="{Binding Converter={StaticResource ObjectToVisibilityConverter}}" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MaxWidth="500" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource OrderHeaderStyle}" Text="{Binding Number, StringFormat=съём № {0}}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="взят" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding DatetimeTake, StringFormat={}{0:dd.MM.yyyy HH:mm}}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="создан" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding DatetimeCreate, StringFormat={}{0:dd.MM.yyyy HH:mm}}" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="закрыт" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding DatetimeClose, StringFormat={}{0:dd.MM.yyyy HH:mm}, TargetNullValue=-}" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="смена" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding ShiftId}" />
+                <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="ст.охлаждения" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding StatioName}" />
+                <!-- эталон соответствует -->
+                <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" FontSize="16" TextAlignment="Right" Text="эталон&#x0a;соответствует"/>
+                <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding EtalonMatch}" 
+						  VerticalAlignment="Center"
+						  Checked="EtalonMatchCheckBox_CheckChanged" 
+						  Unchecked="EtalonMatchCheckBox_CheckChanged"
+						  IsEnabled="{Binding DataContext, RelativeSource={RelativeSource Self}, 
+						  Converter={StaticResource ObjectToBoolConverter}}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+            </Grid>
+
+            <!-- эталон цвета -->
+            <TextBlock Text="эталон цвета" Style="{StaticResource OrderHeaderStyle}"/>
+            <Grid DataContext="{Binding CurrentOrder.EtalonColor}" Visibility="{Binding Converter={StaticResource ObjectToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="Название" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding Name}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource OrderLabelStyle}" Text="Сокет" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding SocketNumber}" />
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource OrderLabelStyle}" Text="Режим" />
+                <TextBlock Grid.Row="1" Grid.Column="3" Style="{StaticResource OrderTextBlockStyle}" Text="{Binding PickupMode}" />
+                <!-- пределы -->
+                <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" ItemsSource="{Binding Ranges}"
 						Visibility="{Binding Converter={StaticResource ObjectToVisibilityConverter}}">
-					<ListBox.ItemContainerStyle>
-						<Style TargetType="Control">
-							<Setter Property="Focusable" Value="False" />
-							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-						</Style>
-					</ListBox.ItemContainerStyle>
-					<ListView.ItemTemplate>
-						<DataTemplate>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" SharedSizeGroup="ListViewItem0" />
-									<ColumnDefinition Width="3*" />
-									<ColumnDefinition Width="2*" />
-									<ColumnDefinition Width="2*" />
-									<ColumnDefinition Width="2*" />
-									<ColumnDefinition Width="2*" />
-									<ColumnDefinition Width="2*" />
-								</Grid.ColumnDefinitions>
-								<TextBlock Grid.Column="0" Style="{StaticResource OrderTextBlockStyle}"
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="Control">
+                            <Setter Property="Focusable" Value="False" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="ListViewItem0" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Style="{StaticResource OrderLabelStyle}"
 											Text="{Binding Name}"
 											TextAlignment="Center" />
-								<!--Style="{StaticResource OrderTextBoxStyle}"-->
-								<xctk:DecimalUpDown Grid.Column="1" TextAlignment="Center"
+                                <!--Style="{StaticResource OrderTextBoxStyle}"-->
+                                <xctk:DecimalUpDown Grid.Column="1" TextAlignment="Center"
 													ValueChanged="PickupColorTextBox_ValueChanged"
 													KeyUp="PickupColorTextBox_KeyUp"
-													IsEnabled="{Binding DataContext.CurrentPickup, ElementName=root, Converter={StaticResource ObjectToBoolConverter}, Mode=OneWay}"
+													FontSize="18" FontWeight="Bold"
+													Visibility="{Binding DataContext.CurrentPickup, ElementName=root, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}"
 													Value="{Binding Value, Mode=TwoWay}">
-									<xctk:DecimalUpDown.Background>
-										<MultiBinding Converter="{x:Static Views:MainWindow.PickupEtalonToBackgroundConverter}">
-											<Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListViewItem}" Mode="OneWay" />
-											<Binding Mode="OneWay" />
-										</MultiBinding>
-									</xctk:DecimalUpDown.Background>
-									<xctk:DecimalUpDown.DataContext>
-										<MultiBinding Mode="OneWay"
+                                    <xctk:DecimalUpDown.Background>
+                                        <MultiBinding Converter="{x:Static Views:MainWindow.PickupEtalonToBackgroundConverter}">
+                                            <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=ListViewItem}" Mode="OneWay" />
+                                            <Binding Mode="OneWay" />
+                                        </MultiBinding>
+                                    </xctk:DecimalUpDown.Background>
+                                    <xctk:DecimalUpDown.DataContext>
+                                        <MultiBinding Mode="OneWay"
 													Converter="{x:Static Views:MainWindow.ColorEtalonToPickupColorConverter}">
-											<Binding Path="Name" Mode="OneWay" />
-											<Binding Path="DataContext.CurrentPickup" ElementName="root" Mode="OneWay" />
-										</MultiBinding>
-									</xctk:DecimalUpDown.DataContext>
-								</xctk:DecimalUpDown>
-								<TextBlock Grid.Column="2" Style="{StaticResource OrderTextBlockStyle}"
+                                            <Binding Path="Name" Mode="OneWay" />
+                                            <Binding Path="DataContext.CurrentPickup" ElementName="root" Mode="OneWay" />
+                                        </MultiBinding>
+                                    </xctk:DecimalUpDown.DataContext>
+                                </xctk:DecimalUpDown>
+                                <TextBlock Grid.Column="2" Style="{StaticResource OrderLabelStyle}" HorizontalAlignment="Stretch"
 											Text="{Binding Lim1}" TextAlignment="Center" Background="OrangeRed" />
-								<TextBlock Grid.Column="3" Style="{StaticResource OrderTextBlockStyle}"
+                                <TextBlock Grid.Column="3" Style="{StaticResource OrderLabelStyle}" HorizontalAlignment="Stretch"
 											Text="{Binding Lim2}" TextAlignment="Center" Background="Yellow" />
-								<TextBlock Grid.Column="4" Style="{StaticResource OrderTextBlockStyle}"
+                                <TextBlock Grid.Column="4" Style="{StaticResource OrderLabelStyle}" HorizontalAlignment="Stretch"
 											Text="{Binding Lim3}" TextAlignment="Center" Background="LightGreen" />
-								<TextBlock Grid.Column="5" Style="{StaticResource OrderTextBlockStyle}"
+                                <TextBlock Grid.Column="5" Style="{StaticResource OrderLabelStyle}" HorizontalAlignment="Stretch"
 											Text="{Binding Lim4}" TextAlignment="Center" Background="Yellow" />
-								<TextBlock Grid.Column="6" Style="{StaticResource OrderTextBlockStyle}"
+                                <TextBlock Grid.Column="6" Style="{StaticResource OrderLabelStyle}" HorizontalAlignment="Stretch"
 											Text="{Binding Lim5}" TextAlignment="Center" Background="OrangeRed" />
-							</Grid>
-						</DataTemplate>
-					</ListView.ItemTemplate>
-				</ListView>
-			</StackPanel>
-		</Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </StackPanel>
 
-		<!-- матрица -->
-		<StackPanel Grid.Column="2" Grid.Row="2"
+        <!-- матрица -->
+        <StackPanel Grid.Column="2" Grid.Row="1" MinWidth="300"
 					IsEnabled="{Binding CurrentPickup.EtalonMatch, FallbackValue=False}">
-			<ItemsControl Margin="5" HorizontalAlignment="Center" Name="_socketsItemsControl"
-						IsEnabled="{Binding CanSocketClickExecute}" MinWidth="160" MinHeight="160">
-				<ItemsControl.ItemsSource>
-					<MultiBinding Converter="{x:Static Views:MainWindow.PickupDefectsSelector}">
-						<Binding Path="CurrentDefect" Mode="OneWay" />
-						<Binding Path="CurrentPickup" Mode="OneWay" />
-					</MultiBinding>
-				</ItemsControl.ItemsSource>
-				<!-- host the items generated by this ItemsControl in a grid -->
-				<ItemsControl.ItemsPanel>
-					<ItemsPanelTemplate>
-						<Grid utils:GridUtils.PetSocket="True" />
-					</ItemsPanelTemplate>
-				</ItemsControl.ItemsPanel>
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Button Click="SocketButton_Click"
+            <ItemsControl Margin="5" HorizontalAlignment="Center" Name="_socketsItemsControl"
+						  MinWidth="160" MinHeight="160"
+						  IsEnabled="{Binding CurrentPickup.EtalonMatch, FallbackValue=False}">
+                <ItemsControl.ItemsSource>
+                    <MultiBinding Converter="{x:Static Views:MainWindow.PickupDefectsSelector}">
+                        <Binding Path="CurrentDefect" Mode="OneWay" />
+                        <Binding Path="CurrentPickup" Mode="OneWay" />
+                    </MultiBinding>
+                </ItemsControl.ItemsSource>
+                <!-- host the items generated by this ItemsControl in a grid -->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid utils:GridUtils.PetSocket="True" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Click="SocketButton_Click" Content="{Binding Socket, Converter={x:Static Views:MainWindow.Inc1Converter}}"
 								d:DataContext="{d:DesignInstance models:PickupDefectViewModel, IsDesignTimeCreatable=True}"
-								Command="{Binding DataContext.SocketClickCommand, ElementName=_socketsItemsControl}"
-								CommandParameter="{Binding}" Content="{Binding Socket, Converter={x:Static  Views:MainWindow.Inc1Converter}}"
 								Width="40" Height="40" TextBlock.FontSize="22"
-								TextBlock.FontWeight="Bold" Focusable="False">
-							<Button.Foreground>
-								<MultiBinding Converter="{x:Static Views:MainWindow.GradeAndCurrentDefectToBrushConverter}">
-									<Binding Path="Defects" Mode="OneWay" />
-									<Binding Path="SelectedItem" ElementName="_defectsListBox" />
-								</MultiBinding>
-							</Button.Foreground>
-						</Button>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-			<Button Content="Все" Margin="5" Padding="5" Width="70" FontSize="18" Command="{Binding SocketAllClickCommand}"
-					HorizontalAlignment="Center" IsEnabled="{Binding CanSocketClickExecute}" />
-		</StackPanel>
-		<!--IsEnabled="{Binding CurrentPickup.EtalonMatch, FallbackValue=False}"-->
-		<!-- дефекты -->
-		<Grid Grid.Column="3" Grid.Row="2">
-			<ListBox Name="defectsListBox" Margin="5" Width="300"
-					ItemsSource="{Binding Defects}"
-					SelectedItem="{Binding CurrentDefect, Mode=OneWayToSource}"
-					IsEnabled="{Binding CurrentOrder, Converter={StaticResource ObjectToBoolConverter}}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" FontSize="18" />
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</Grid>
+								TextBlock.FontWeight="Bold" Focusable="False"
+								Foreground="{Binding Grade, Converter={x:Static Views:MainWindow.GradeAndCurrentDefectToBrushConverter}}">
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="Все" Margin="5" Padding="5" Width="70" FontSize="18"
+					HorizontalAlignment="Center" Click="SocketButton_Click" />
+        </StackPanel>
 
-		<!-- loading -->
-		<userControls:LoadingControl Grid.RowSpan="3" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0"
+        <!--IsEnabled="{Binding CurrentPickup.EtalonMatch, FallbackValue=False}"-->
+        <!-- дефекты -->
+        <Grid Grid.Column="3" Grid.Row="1">
+            <ListBox Name="defectsListBox" Margin="5" Width="300"
+					ItemsSource="{Binding Defects}"
+					SelectedItem="{Binding CurrentDefect, Mode=TwoWay}"
+					IsEnabled="{Binding CurrentOrder, Converter={StaticResource ObjectToBoolConverter}}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" FontSize="18" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <!-- loading -->
+        <userControls:LoadingControl Grid.RowSpan="3" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0"
 									Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
 									LoadingMessage="Loading data..."
 									Panel.ZIndex="100" />
-	</Grid>
+    </Grid>
 </Window>

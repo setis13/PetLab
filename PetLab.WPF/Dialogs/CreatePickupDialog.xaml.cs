@@ -99,7 +99,7 @@ namespace PetLab.WPF.Dialogs {
 			Pickup = Mapper.Map<PickupViewModel>(result.GetResult());
 
 			if (result.Successed) {
-				Close();
+				DialogResult = true;
 			} else {
 				Model.ErrorMessage = result.GetBaseException().Message;
 			}
@@ -109,7 +109,7 @@ namespace PetLab.WPF.Dialogs {
 		/// </summary>
 		private void OnCancelButtonClicked(object sender, RoutedEventArgs e) {
 			// Close application
-			Close();
+			DialogResult = false;
 		}
 
 		#endregion [ Private Methods ]

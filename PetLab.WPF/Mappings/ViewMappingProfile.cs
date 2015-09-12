@@ -24,6 +24,7 @@ namespace PetLab.WPF.Mappings {
 			CreateMap<OrderEtalonColorDto, OrderEtalonColorViewModel>().ReverseMap();
 			CreateMap<OrderEtalonColorRangeDto, OrderEtalonColorRangeViewModel>().ReverseMap();
 			CreateMap<OrderEtalonColorRayDto, OrderEtalonColorRayViewModel>().ReverseMap();
+			CreateMap<PickupDefectDto, PickupDefectViewModel>().ReverseMap();
 			CreateMap<PickupDto, PickupViewModel>().ConvertUsing<Converters.DtoToViewModel.PickupConverter>();
 
 			//ViewModel to Settings

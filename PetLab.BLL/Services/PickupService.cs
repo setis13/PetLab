@@ -262,7 +262,7 @@ namespace PetLab.BLL.Services {
 			try {
 				var repository = UnitOfWork.GetRepository<pickup>();
 				var repositoryXml = UnitOfWork.GetXmlRepository<XmlPickupRepository>();
-				List<pickup> pickups = repository.SearchFor(p => p.export).ToList();
+				List<pickup> pickups = repository.SearchFor(p => p.export == false).ToList();
 				var tasks = pickups.Select(async p => {
 					try {
 						var pickupXml = AutoMapper.Mapper.Map<pickupXml>(p);

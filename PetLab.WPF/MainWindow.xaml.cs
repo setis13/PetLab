@@ -182,8 +182,12 @@ namespace PetLab.WPF {
 			Model = viewModel;
 		}
 
-		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e) {
-			_service.ExportPickups();
+		private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e) {
+			var results = await _service.ExportPickups();
+			var pickupsResult = results.GetResult();
+			foreach (var serviceResult in pickupsResult) {
+				serviceResult.GetResult();
+			}
 		}
 
 		private void MainWindow_OnClosed(object sender, EventArgs e) {

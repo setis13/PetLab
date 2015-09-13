@@ -59,9 +59,9 @@
     <Compile Include="Context\PetLabDbContextInitializer.cs" />
     <Compile Include="Context\PetLabXmlContext.cs" />
     <Compile Include="Context\PetLabDbContextConfiguration.cs" />
-    <Compile Include="Migrations\201509120652043_root.cs" />
-    <Compile Include="Migrations\201509120652043_root.Designer.cs">
-      <DependentUpon>201509120652043_root.cs</DependentUpon>
+    <Compile Include="Migrations\201509130614060_root.cs" />
+    <Compile Include="Migrations\201509130614060_root.Designer.cs">
+      <DependentUpon>201509130614060_root.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\defect.cs" />
     <Compile Include="Models\equipment.cs" />
@@ -118,8 +118,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509120652043_root.resx">
-      <DependentUpon>201509120652043_root.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509130614060_root.resx">
+      <DependentUpon>201509130614060_root.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

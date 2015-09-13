@@ -13,7 +13,7 @@ namespace PetLab.DAL.Context
         
         string IMigrationMetadata.Id
         {
-            get { return "201509120652043_root"; }
+            get { return "201509130614060_root"; }
         }
         
         string IMigrationMetadata.Source

@@ -86,6 +86,7 @@
     <Compile Include="Converters\ModelToDto\ShiftConverter.cs" />
     <Compile Include="Converters\ModelToDto\CoolingStationConverter.cs" />
     <Compile Include="Converters\ModelToDto\UserConverter.cs" />
+    <Compile Include="Converters\ModelToXml\PickupConverter.cs" />
     <Compile Include="Converters\XmlToDto\DefectConverter.cs" />
     <Compile Include="Converters\XmlToDto\MaterialConverter.cs" />
     <Compile Include="Converters\XmlToModel\OrderConverter.cs" />

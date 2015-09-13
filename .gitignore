@@ -5,3 +5,4 @@ packages/
 /key
 /*.tgitconfig
 /PetLab.WPF/Database.config
+/PetLab.WPF/AppSettings.config

@@ -26,7 +26,8 @@ namespace PetLab.BLL.Mappings {
 			CreateMap<order_etalon_color, OrderEtalonColorDto>().ConvertUsing<Converters.ModelToDto.OrderEtalonColorConverter>();
 			CreateMap<order_etalon_color_range, OrderEtalonColorRangeDto>().ConvertUsing<Converters.ModelToDto.OrderEtalonColorRangeConverter>();
 			CreateMap<order_etalon_color_ray, OrderEtalonColorRayDto>().ConvertUsing<Converters.ModelToDto.OrderEtalonColorRayConverter>();
-
+			//model to xml
+			CreateMap<pickup, pickupXml>().ConvertUsing<Converters.ModelToXml.PickupConverter>();
 			//xml model to dto
 			CreateMap<materialsmaterial, MaterialXmlDto>().ConvertUsing<Converters.XmlToDto.MaterialConverter>();
 			CreateMap<defectsDefect, DefectXmlDto>().ConvertUsing<Converters.XmlToDto.DefectConverter>();

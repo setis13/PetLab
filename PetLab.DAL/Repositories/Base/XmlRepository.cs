@@ -12,7 +12,14 @@ namespace PetLab.DAL.Repositories.Base {
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public abstract class XmlRepository<T> : IXmlRepository where T : class {
-
+		/// <summary>
+		/// обработанные xml
+		/// </summary>
+		protected string PathXmlLog => Path.Combine(ConfigurationManager.AppSettings["xml_log"], DateTime.Now.ToString("yyyy-MM-dd"));
+		/// <summary>
+		/// обработанные xml
+		/// </summary>
+		protected string PathXmlErr => Path.Combine(ConfigurationManager.AppSettings["xml_err"], DateTime.Now.ToString("yyyy-MM-dd"));
 		/// <summary>
 		/// Creates custom repository
 		/// </summary>
@@ -71,7 +78,10 @@ namespace PetLab.DAL.Repositories.Base {
 		/// </summary>
 		protected void MoveToErrorFile(string fullPath) {
 			try {
-				File.Move(fullPath, Path.Combine(PathError, Path.GetFileName(fullPath)));
+				if (Directory.Exists(PathXmlErr) == false) {
+					Directory.CreateDirectory(PathXmlErr);
+				}
+				File.Move(fullPath, Path.Combine(PathXmlErr, Path.GetFileName(fullPath)));
 			} catch (Exception) {
 				// ignored
 			}
@@ -82,7 +92,10 @@ namespace PetLab.DAL.Repositories.Base {
 		/// </summary>
 		protected void DeleteFile(string fullPath) {
 			try {
-				File.Delete(fullPath);
+				if (Directory.Exists(PathXmlLog) == false) {
+					Directory.CreateDirectory(PathXmlLog);
+				}
+				File.Move(fullPath, Path.Combine(PathXmlLog, Path.GetFileName(fullPath)));
 			} catch (Exception) {
 				// ignored
 			}

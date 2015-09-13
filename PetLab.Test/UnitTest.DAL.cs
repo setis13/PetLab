@@ -107,7 +107,11 @@ namespace PetLab.Test {
 				new pickupDefect_meas() { defect_id = "00" + (random.Next(3)+1),grade =(byte) random.Next(1),socket = (byte) random.Next(96)},
 				new pickupDefect_meas() { defect_id = "00" + (random.Next(3)+1),grade =(byte) random.Next(1),socket = (byte) random.Next(96)},
 			};
-			pickup.color = new pickupColor() { name = "Б0-1", value_ik = (decimal)10.1, value_vd = (decimal)5.6 };
+			pickup.color.range = new pickupColorRange[1];
+			pickup.color.range[0] = new pickupColorRange {
+				name = "ИК",
+				value = (decimal) 10.1
+			};
 			pickup.date_begin = DateTime.Now;
 			pickup.date_end = DateTime.Now - new TimeSpan(0, 0, 10);
 			pickup.date_take = DateTime.Now - new TimeSpan(0, 0, 2);

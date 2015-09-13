@@ -52,7 +52,7 @@ namespace PetLab.DAL.Repositories.Base {
 		/// </summary>
 		private Dictionary<string, string> FindAllRequest() {
 			var result = new Dictionary<string, string>();
-			var files = Directory.GetFiles(Path.Combine(PathRequest, FileRequestStringFormat));
+			var files = Directory.GetFiles(PathRequest, FileRequestStringFormat);
 			if (files.Length > 0) {
 				foreach (var file in files) {
 					result.Add(file, File.ReadAllText(file));

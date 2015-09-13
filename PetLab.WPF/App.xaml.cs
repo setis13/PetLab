@@ -1,15 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Practices.ServiceLocation;
+using PetLab.Common;
 using PetLab.WPF.Dialogs;
 
-namespace PetLab.WPF
-{
+namespace PetLab.WPF {
 	/// <summary>
 	///     Interaction logic for App.xaml
 	/// </summary>
-	public partial class App : Application
-	{
+	public partial class App : Application {
 		private void Application_Startup(object sender, StartupEventArgs e) {
 			AppBootstrapper.Init();
 
@@ -32,6 +31,7 @@ namespace PetLab.WPF
 		}
 
 		private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) {
+			Logger.Error(e.Exception.Message, e.Exception.GetBaseException());
 			MessageBox.Show(e.Exception.Message);
 			e.Handled = true;
 		}

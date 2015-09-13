@@ -1,4 +1,5 @@
 ﻿using System;
+using PetLab.Common;
 
 namespace PetLab.BLL.Common.Services.Results {
 	public class ServiceResult {
@@ -36,6 +37,7 @@ namespace PetLab.BLL.Common.Services.Results {
 		#region factory
 
 		public static T ExceptionFactory<T>(Exception exception) where T : ServiceResult, new() {
+			Logger.Error(exception.Message, exception.GetBaseException());
 			return new T() { Exception = exception };
 		}
 

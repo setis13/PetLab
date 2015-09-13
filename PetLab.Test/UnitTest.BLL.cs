@@ -129,21 +129,13 @@ namespace PetLab.Test {
 			pickup = service.OpenPickup(order.OrderId, boxId, 1, DateTime.Now, (byte)(random.Next(4) + 1)).GetResult();
 			var defects = service.LookupDefects().GetResult().ToArray();
 			for (int i = 0; i < random.Next(order.CountSocket); i++) {
-				byte? grade = 0;
-				switch (random.Next(3)) {
-					case 0:
-						grade = null;
-						break;
-					case 1:
-						grade = 0;
-						break;
-					case 2:
-						grade = 1;
-						break;
-				}
-				service.SetPickupDefect(pickup.PickupId,
-					defects[random.Next(defects.Length)].DefectId,
-					(byte)random.Next(order.CountSocket), grade).GetResult();
+				service.SetPickupDefect(
+					new PickupDefectDto() {
+						PickupId = pickup.PickupId,
+						DefectId = defects[random.Next(defects.Length)].DefectId,
+						Socket = (byte)random.Next(order.CountSocket),
+						Grade = (byte)random.Next(3)
+					}).CheckResult();
 			}
 			service.SetEtalonMatch(pickup.PickupId, random.Next(2) == 0).CheckResult();
 			service.SetVisualMatch(pickup.PickupId, random.Next(2) == 0).CheckResult();

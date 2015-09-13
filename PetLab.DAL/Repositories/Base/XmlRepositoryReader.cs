@@ -53,9 +53,13 @@ namespace PetLab.DAL.Repositories.Base {
 		/// petlab_cc_import_201508191050.xml
 		/// </summary>
 		private string FindResponse(string substring) {
-			var fullPath = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, substring));
-			if (File.Exists(fullPath)) {
-				return File.ReadAllText(fullPath);
+			var fullPathResponse = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, substring));
+			if (File.Exists(fullPathResponse)) {
+				return File.ReadAllText(fullPathResponse);
+			}
+			var fullPathError = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, substring));
+			if (File.Exists(fullPathError)) {
+				throw new Exception("Файл запроса в SAP был скопирован в папку ошибок");
 			}
 			return null;
 		}
@@ -90,7 +94,6 @@ namespace PetLab.DAL.Repositories.Base {
 		/// асинхронный запрос
 		/// </summary>
 		/// <param name="value"></param>
-		/// <returns></returns>
 		public Task<T> GetAsync(object value = null) {
 			return Task.Factory.StartNew(() => {
 				return Get(value);

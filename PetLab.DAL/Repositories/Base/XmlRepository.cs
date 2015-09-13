@@ -89,11 +89,5 @@ namespace PetLab.DAL.Repositories.Base {
 		}
 
 		#endregion protected methods
-
-		#region public methods
-
-		public abstract void SaveChanges();
-
-		#endregion punlic methods
 	}
 }

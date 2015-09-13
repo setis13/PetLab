@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
+using PetLab.DAL.Models;
 using PetLab.DAL.Models.xml;
 using PetLab.DAL.Repositories.Base;
 

@@ -123,7 +123,7 @@ namespace PetLab.WPF {
 		/// <summary>
 		/// Main service
 		/// </summary>
-		public IPickupService Service { get; set; }
+		private IPickupService _service;
 
 		/// <summary>
 		/// Settings service
@@ -149,7 +149,7 @@ namespace PetLab.WPF {
 		public MainWindow(IServicesHost host, ISettingsService settings) {
 			InitializeComponent();
 
-			Service = host.GetService<IPickupService>();
+			_service = host.GetService<IPickupService>();
 			_settings = settings;
 
 			Initialize();
@@ -165,8 +165,8 @@ namespace PetLab.WPF {
 		private void Initialize() {
 			//var settings = _settings.GetPickupSettings();
 
-			IEnumerable<EquipmentDto> equipments = Service.LookupEquipments().GetResult();
-			IEnumerable<DefectDto> defects = Service.LookupDefects().GetResult();
+			IEnumerable<EquipmentDto> equipments = _service.LookupEquipments().GetResult();
+			IEnumerable<DefectDto> defects = _service.LookupDefects().GetResult();
 
 			var defectsViewModel = Mapper.Map<ObservableCollection<DefectViewModel>>(defects);
 			var equipmentsViewModel = Mapper.Map<IEnumerable<EquipmentViewModel>>(equipments);
@@ -183,15 +183,13 @@ namespace PetLab.WPF {
 		}
 
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e) {
+			_service.ExportPickups();
 		}
 
 		private void MainWindow_OnClosed(object sender, EventArgs e) {
 			// Save user name into settings file
 			//var settings = Mapper.Map<PickupSettings>(Model);
 			//_settings.SetPickupSettings(settings);
-		}
-
-		private void SettingExportImportClick(object sender, RoutedEventArgs e) {
 		}
 
 		private void ImportDefectsClick(object sender, RoutedEventArgs e) {
@@ -211,9 +209,9 @@ namespace PetLab.WPF {
 		private async void EqListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			try {
 				Model.IsLoading = true;
-				var resultOrder = await Service.LookupOrder(Model.CurrentEquipment.EquipmentId);
+				var resultOrder = await _service.LookupOrder(Model.CurrentEquipment.EquipmentId);
 				Model.CurrentOrder = Mapper.Map<OrderViewModel>(resultOrder.GetResult());
-				var resultPickup = Service.LookupOpenPickup(Model.CurrentEquipment.EquipmentId);
+				var resultPickup = _service.LookupOpenPickup(Model.CurrentEquipment.EquipmentId);
 				Model.CurrentPickup = Mapper.Map<PickupViewModel>(resultPickup.GetResult());
 			} catch (Exception exception) {
 				Model.ErrorMessage = exception.Message;
@@ -239,27 +237,27 @@ namespace PetLab.WPF {
 			}
 		}
 
-		private void PickupColorTextBox_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+		private void PickupColorDecimalUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
 			var range = ((FrameworkElement)sender).DataContext as PickupEtalonColorRangeViewModel;
 			var value = ((DecimalUpDown)sender).Value;
-			if (range != null && value != null) {
+			if (range != null && value != null && value != 0) {
 				range.Value = value.Value;
-				Service.SetColor(Mapper.Map<PickupEtalonColorRangeDto>(range)).CheckResult();
+				_service.SetColor(Mapper.Map<PickupEtalonColorRangeDto>(range)).CheckResult();
 				MultiBindingExpression binding = BindingOperations.GetMultiBindingExpression(((FrameworkElement)sender), DecimalUpDown.BackgroundProperty);
 				binding.UpdateTarget();
 			}
 		}
 
-		private void PickupColorTextBox_KeyUp(object sender, KeyEventArgs e) {
+		private void PickupColorDecimalUpDown_KeyUp(object sender, KeyEventArgs e) {
 			if (e.Key == Key.Enter) {
-				PickupColorTextBox_ValueChanged(sender, null);
+				PickupColorDecimalUpDown_ValueChanged(sender, null);
 				Keyboard.ClearFocus();
 				e.Handled = true;
 			}
 		}
 
 		private void ClosePickup_Clicked(object sender, RoutedEventArgs e) {
-			Service.ClosePickup(Model.CurrentPickup.PickupId);
+			_service.ClosePickup(Model.CurrentPickup.PickupId);
 			Model.CurrentPickup = null;
 		}
 
@@ -278,13 +276,13 @@ namespace PetLab.WPF {
 					pickupDefectViewModel.Grade = 0;
 					break;
 			}
-			Service.SetPickupDefect(Mapper.Map<PickupDefectDto>(pickupDefectViewModel));
+			_service.SetPickupDefect(Mapper.Map<PickupDefectDto>(pickupDefectViewModel));
 		}
 
 		private void EtalonMatchCheckBox_CheckChanged(object sender, RoutedEventArgs e) {
 			bool? isChecked = ((CheckBox)sender).IsChecked;
 			if (Model.CurrentPickup != null && isChecked != null) {
-				Service.SetEtalonMatch(Model.CurrentPickup.PickupId, (bool)isChecked);
+				_service.SetEtalonMatch(Model.CurrentPickup.PickupId, (bool)isChecked);
 			}
 		}
 	}

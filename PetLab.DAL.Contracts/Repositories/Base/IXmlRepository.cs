@@ -3,9 +3,5 @@
 	/// интерфейс для xml репазиторий
 	/// </summary>
 	public interface IXmlRepository {
-		/// <summary>
-		/// сохранить данные
-		/// </summary>
-		void SaveChanges();
 	}
 }

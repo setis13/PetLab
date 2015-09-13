@@ -75,6 +75,8 @@ namespace PetLab.WPF.ViewModels {
 			set {
 				_currentOrder = value;
 				OnPropertyChanged();
+				AlertMessage = null;
+				ErrorMessage = null;
 			}
 		}
 

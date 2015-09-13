@@ -12,8 +12,6 @@ namespace PetLab.DAL.Repositories {
 		public XmlOrderRepository(IPetLabXmlContext context) : base(context) {
 		}
 
-		public override void SaveChanges() { }
-
 		protected override string GenerateQuerySubstring() {
 			return DateTime.Now.ToString("yyyyMMddHHmmss");
 		}

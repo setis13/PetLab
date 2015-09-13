@@ -59,7 +59,6 @@
         <!-- menu -->
         <Menu Grid.Row="0" Grid.ColumnSpan="4" Name="_mainMenu">
             <MenuItem Header="Настройки">
-                <MenuItem Header="Импорт/Экспорт..." Click="SettingExportImportClick" />
                 <MenuItem Header="Импорт дефектов" Click="ImportDefectsClick" />
                 <MenuItem Header="Импорт материалов" Click="ImportMaterialsClick" />
             </MenuItem>
@@ -210,8 +209,8 @@
 											TextAlignment="Center" />
                                 <!--Style="{StaticResource OrderTextBoxStyle}"-->
                                 <xctk:DecimalUpDown Grid.Column="1" TextAlignment="Center"
-													ValueChanged="PickupColorTextBox_ValueChanged"
-													KeyUp="PickupColorTextBox_KeyUp"
+													ValueChanged="PickupColorDecimalUpDown_ValueChanged"
+													KeyUp="PickupColorDecimalUpDown_KeyUp"
 													FontSize="18" FontWeight="Bold"
 													Visibility="{Binding DataContext.CurrentPickup, ElementName=root, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}"
 													Value="{Binding Value, Mode=TwoWay}">

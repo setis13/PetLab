@@ -11,28 +11,6 @@ namespace PetLab.DAL.Context {
 	public class PetLabXmlContext : IPetLabXmlContext {
 		private Dictionary<object, IXmlRepository> _savingList = new Dictionary<object, IXmlRepository>();
 
-		public List<T> GetEntries<T>() {
-			return _savingList.Keys.Where(e => e is T).Cast<T>().ToList();
-		}
-
-		public void Insert(object entry, IXmlRepository repository) {
-			_savingList.Add(entry, repository);
-		}
-
-		public void Remove(object entry) {
-			_savingList.Remove(entry);
-		}
-
-		public void SaveChanges() {
-			foreach (var keyValue in _savingList) {
-				keyValue.Value.SaveChanges();
-			}
-		}
-
-		public void RollBack() {
-			_savingList.Clear();
-		}
-
 		public string Serialize<T>(T entry) {
 			XmlSerializer formatter = new XmlSerializer(typeof(T));
 			StringWriter stream = new StringWriter();

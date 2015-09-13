@@ -16,7 +16,7 @@ namespace PetLab.DAL.Repositories.Mock {
 		public MockXmlPickupRepository(IPetLabXmlContext context) : base(context) {
 		}
 
-		public override void SaveChanges() {
+		public override void Export(pickupXml entry) {
 
 			if (Directory.Exists(PathRequest) == false) {
 				Directory.CreateDirectory(PathRequest);
@@ -24,15 +24,7 @@ namespace PetLab.DAL.Repositories.Mock {
 			if (Directory.Exists(PathResponse) == false) {
 				Directory.CreateDirectory(PathResponse);
 			}
-
-			var exportList = Context.GetEntries<pickupXml>();
-			while (exportList.Count > 0) {
-				for (int i = exportList.Count - 1; i >= 0; i--) {
-					pickupXml entry = exportList[i];
-					CreateResponse(entry);
-					exportList.Remove(entry);
-				}
-			}
+			CreateResponse(entry);
 		}
 	}
 }

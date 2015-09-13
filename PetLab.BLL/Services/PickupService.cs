@@ -236,6 +236,52 @@ namespace PetLab.BLL.Services {
 		}
 
 		/// <summary>
+		/// экпортировать съёмы
+		/// </summary>
+		public async Task<ServiceResult<PickupDto>> ExportPickup(int pickupId) {
+			try {
+				var repository = UnitOfWork.GetRepository<pickup>();
+				var repositoryXml = UnitOfWork.GetXmlRepository<XmlPickupRepository>();
+				var pickup = repository.GetById(pickupId);
+				if (pickup != null) {
+					await repositoryXml.ExportAsync(AutoMapper.Mapper.Map<pickupXml>(pickup));
+					pickup.export = true;
+					UnitOfWork.SaveChanges();
+				}
+				return new ServiceResult<PickupDto>(AutoMapper.Mapper.Map<PickupDto>(pickup));
+			} catch (Exception exception) {
+				return ServiceResult.ExceptionFactory<ServiceResult<PickupDto>>(exception);
+			}
+		}
+
+		/// <summary>
+		/// экпортировать съёмы
+		/// </summary>
+		public async Task<ServiceResult<IEnumerable<ServiceResult<PickupDto>>>> ExportPickups() {
+				var results = new List<ServiceResult<PickupDto>>();
+			try {
+				var repository = UnitOfWork.GetRepository<pickup>();
+				var repositoryXml = UnitOfWork.GetXmlRepository<XmlPickupRepository>();
+				List<pickup> pickups = repository.SearchFor(p => p.export).ToList();
+				var tasks = pickups.Select(async p => {
+					try {
+						var pickupXml = AutoMapper.Mapper.Map<pickupXml>(p);
+						await repositoryXml.ExportAsync(pickupXml);
+						p.export = true;
+						UnitOfWork.SaveChanges();
+						results.Add(new ServiceResult<PickupDto>(AutoMapper.Mapper.Map<PickupDto>(p)));
+					} catch (Exception exception) {
+						results.Add(ServiceResult.ExceptionFactory<ServiceResult<PickupDto>>(exception));
+					}
+				});
+				await Task.WhenAll(tasks);
+				return new ServiceResult<IEnumerable<ServiceResult<PickupDto>>>(results);
+			} catch (Exception exception) {
+				return ServiceResult.ExceptionFactory<ServiceResult<IEnumerable<ServiceResult<PickupDto>>>>(exception);
+			}
+		}
+
+		/// <summary>
 		/// получить отмеченных дефектов к съему
 		/// </summary>
 		/// <returns></returns>
@@ -260,7 +306,7 @@ namespace PetLab.BLL.Services {
 				var repository = UnitOfWork.GetRepository<pickup_defects>();
 				var pickupDefect = repository.GetById(
 					pickupDefectDto.Socket,
-					pickupDefectDto.DefectId, 
+					pickupDefectDto.DefectId,
 					pickupDefectDto.PickupId);
 				if (pickupDefectDto.Grade != 0) {
 					if (pickupDefect != null) {

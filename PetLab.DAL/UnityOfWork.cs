@@ -97,8 +97,6 @@ namespace PetLab.DAL {
 		/// The roll back.
 		/// </summary>
 		public void RollBack() {
-			this.XmlContext.RollBack();
-
 			var changedEntries = this.Context.ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList();
 
 			foreach (var entry in changedEntries.Where(x => x.State == EntityState.Modified)) {
@@ -123,7 +121,6 @@ namespace PetLab.DAL {
 			try {
 				Monitor.Enter(_lockObject);
 				this.Context.SaveChanges();
-				this.XmlContext.SaveChanges();
 			} catch (DbEntityValidationException ex) {
 				var sb = new StringBuilder();
 

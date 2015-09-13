@@ -126,8 +126,7 @@ namespace PetLab.Test {
 				new pickupWeight_meas() {value = (decimal) 12.1, socket = (byte) random.Next(96)}
 			};
 
-			repository.Insert(pickup);
-			repository.SaveChanges();
+			repository.Export(pickup);
 		}
 
 		#endregion testing xml

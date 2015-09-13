@@ -11,8 +11,6 @@ namespace PetLab.DAL.Repositories {
 		public XmlDefectsRepository(IPetLabXmlContext context) : base(context) {
 		}
 
-		public override void SaveChanges() {}
-
 		protected override string GenerateQuerySubstring() {
 			return "defects";
 		}

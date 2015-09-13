@@ -57,6 +57,16 @@ namespace PetLab.BLL.Contracts.Services {
 		ServiceResult ClosePickup(int pickupId);
 
 		/// <summary>
+		/// экспортировать съёмы
+		/// </summary>
+		Task<ServiceResult<IEnumerable<ServiceResult<PickupDto>>>> ExportPickups();
+
+		/// <summary>
+		/// экпортировать съём
+		/// </summary>
+		Task<ServiceResult<PickupDto>> ExportPickup(int pickupId);
+
+		/// <summary>
 		/// получить отмеченных дефектов к съему
 		/// </summary>
 		/// <returns></returns>

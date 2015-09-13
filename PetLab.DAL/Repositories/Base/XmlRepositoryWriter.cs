@@ -74,38 +74,31 @@ namespace PetLab.DAL.Repositories.Base {
 
 		#region public
 
-		public void Insert(T entry) {
-			Context.Insert(entry, this);
-		}
+		//public void Insert(T entry) {
+		//	Context.Insert(entry, this);
+		//}
 
 		/// <summary>
 		/// сохраняет в xml все добавленные entry
 		/// </summary>
-		public override void SaveChanges() {
+		public virtual void Export(T entry) {
 			var dt = DateTime.Now;
-			var exportList = Context.GetEntries<T>();
-			while (exportList.Count > 0) {
-				if (DateTime.Now - dt > Timeout) {
-					throw new TimeoutException();
-				}
-				var keyValues = FindAllRequest();
-				for (int i = exportList.Count - 1; i >= 0; i--) {
-					T entry = exportList[i];
-					foreach (var keyValue in keyValues) {
-						if (FileCheckContent(keyValue.Value, entry)) {
-							CreateResponse(entry);
-							exportList.Remove(entry);
-							break;
-						}
-					}
-				}
-				keyValues.ToList().ForEach(kv => DeleteFile(kv.Key));
+			if (DateTime.Now - dt > Timeout) {
+				throw new TimeoutException();
 			}
+			var keyValues = FindAllRequest();
+			foreach (var keyValue in keyValues) {
+				if (FileCheckContent(keyValue.Value, entry)) {
+					CreateResponse(entry);
+					break;
+				}
+			}
+			keyValues.ToList().ForEach(kv => DeleteFile(kv.Key));
 		}
 
-		public Task SaveShangesAsync() {
+		public Task ExportAsync(T entry) {
 			return Task.Factory.StartNew(() => {
-				SaveChanges();
+				Export(entry);
 			});
 		}
 

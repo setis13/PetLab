@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PetLab.DAL.Models.xml {
 	/// <remarks/>
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	[System.Xml.Serialization.XmlRootAttribute("defect", Namespace = "", IsNullable = false)]
+	[System.Xml.Serialization.XmlRootAttribute("defects", Namespace = "", IsNullable = false)]
 	public partial class defectsXml {
 
 		private defectsDefect[] defectField;

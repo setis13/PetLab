@@ -57,7 +57,7 @@ namespace PetLab.DAL.Repositories.Base {
 			if (File.Exists(fullPathResponse)) {
 				return File.ReadAllText(fullPathResponse);
 			}
-			var fullPathError = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, substring));
+			var fullPathError = Path.Combine(PathError, String.Format(FileRequestStringFormat, substring));
 			if (File.Exists(fullPathError)) {
 				throw new Exception("Файл запроса в SAP был скопирован в папку ошибок");
 			}

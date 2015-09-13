@@ -259,7 +259,8 @@ namespace PetLab.WPF {
 		}
 
 		private void ClosePickup_Clicked(object sender, RoutedEventArgs e) {
-			throw new NotImplementedException();
+			Service.ClosePickup(Model.CurrentPickup.PickupId);
+			Model.CurrentPickup = null;
 		}
 
 		#endregion [ Private Methods ]

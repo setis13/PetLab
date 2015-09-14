@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
-using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
 
 namespace PetLab.DAL.Repositories.Base {
@@ -39,6 +38,7 @@ namespace PetLab.DAL.Repositories.Base {
 		/// <param name="fullPath"></param>
 		/// <returns>substring</returns>
 		private string CreateRequest(object value, out string fullPath) {
+
 			var queryString = GenerateQuerySubstring();
 			fullPath = Path.Combine(PathRequest, String.Format(FileRequestStringFormat, queryString));
 			File.WriteAllText(fullPath, CreateContentFile(value));

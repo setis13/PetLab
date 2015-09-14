@@ -17,6 +17,7 @@ namespace PetLab.BLL.Converters.ModelToXml {
 			result.equipment = source.order.equipment_id;
 			result.etalon_match = source.etalon_match;
 			result.station_cooling = source.pickup_station_cooling.name;
+			result.number = source.number;
 			//color
 			var colors = source.pickup_etalon_color_ranges.ToList();
 			if (colors.Count > 0) {

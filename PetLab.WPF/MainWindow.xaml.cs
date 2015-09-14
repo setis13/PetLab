@@ -211,6 +211,7 @@ namespace PetLab.WPF {
 		}
 
 		private async void EqListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			//можно будет разделить и обнулять или order или pickip, вставить 2 try catch
 			try {
 				Model.IsLoading = true;
 				var resultOrder = await _service.LookupOrder(Model.CurrentEquipment.EquipmentId);
@@ -219,6 +220,8 @@ namespace PetLab.WPF {
 				Model.CurrentPickup = Mapper.Map<PickupViewModel>(resultPickup.GetResult());
 			} catch (Exception exception) {
 				Model.ErrorMessage = exception.Message;
+				Model.CurrentOrder = null;
+				Model.CurrentPickup = null;
 			} finally {
 				Model.IsLoading = false;
 			}

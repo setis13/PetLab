@@ -5,6 +5,7 @@ using PetLab.DAL.Context;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Contracts.Repositories.Base;
+using PetLab.DAL.Helper;
 
 namespace PetLab.DAL.Repositories.Base {
 	/// <summary>
@@ -21,10 +22,22 @@ namespace PetLab.DAL.Repositories.Base {
 		/// </summary>
 		protected string PathXmlErr => Path.Combine(ConfigurationManager.AppSettings["xml_err"], DateTime.Now.ToString("yyyy-MM-dd"));
 		/// <summary>
+		/// логин/пароль к сетевой папке
+		/// </summary>
+		protected string PathUserName => ConfigurationManager.AppSettings["idoc_user_name"];
+		/// <summary>
+		/// логин/пароль к сетевой папке
+		/// </summary>
+		protected string PathPassword => ConfigurationManager.AppSettings["idoc_password"];
+		/// <summary>
 		/// Creates custom repository
 		/// </summary>
 		/// <param name="context"></param>
 		public XmlRepository(IPetLabXmlContext context) {
+			AccessFileHelper.ConnectShare(PathRequest, PathUserName, PathPassword);
+			AccessFileHelper.ConnectShare(PathResponse, PathUserName, PathPassword);
+			AccessFileHelper.ConnectShare(PathError, PathUserName, PathPassword);
+
 			Context = context;
 		}
 

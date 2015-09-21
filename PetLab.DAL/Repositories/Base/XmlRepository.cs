@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Reflection;
 using PetLab.DAL.Context;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
@@ -14,13 +15,21 @@ namespace PetLab.DAL.Repositories.Base {
 	/// <typeparam name="T"></typeparam>
 	public abstract class XmlRepository<T> : IXmlRepository where T : class {
 		/// <summary>
-		/// обработанные xml
+		/// если папка не существует, то возвращаем относительный путь
 		/// </summary>
-		protected string PathXmlLog => Path.Combine(ConfigurationManager.AppSettings["xml_log"], DateTime.Now.ToString("yyyy-MM-dd"));
+		private string AbsolutePath(string dir) {
+			return Directory.Exists(dir) ? dir :
+				// ReSharper disable once AssignNullToNotNullAttribute
+				Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), dir);
+		}
 		/// <summary>
 		/// обработанные xml
 		/// </summary>
-		protected string PathXmlErr => Path.Combine(ConfigurationManager.AppSettings["xml_err"], DateTime.Now.ToString("yyyy-MM-dd"));
+		protected string PathXmlLog => Path.Combine(AbsolutePath(ConfigurationManager.AppSettings["xml_log"]), DateTime.Now.ToString("yyyy-MM-dd"));
+		/// <summary>
+		/// обработанные xml
+		/// </summary>
+		protected string PathXmlErr => Path.Combine(AbsolutePath(ConfigurationManager.AppSettings["xml_err"]), DateTime.Now.ToString("yyyy-MM-dd"));
 		/// <summary>
 		/// логин/пароль к сетевой папке
 		/// </summary>
@@ -32,7 +41,6 @@ namespace PetLab.DAL.Repositories.Base {
 		/// <summary>
 		/// Creates custom repository
 		/// </summary>
-		/// <param name="context"></param>
 		public XmlRepository(IPetLabXmlContext context) {
 			AccessFileHelper.ConnectShare(PathRequest, PathUserName, PathPassword);
 			AccessFileHelper.ConnectShare(PathResponse, PathUserName, PathPassword);

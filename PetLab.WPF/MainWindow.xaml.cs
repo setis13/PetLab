@@ -226,6 +226,12 @@ namespace PetLab.WPF {
 				Model.IsLoading = false;
 			}
 		}
+		/// <summary>
+		/// двойной клик, перегрузить заказ
+		/// </summary>
+		private void EqListBox_MouseDoubleClicked(object sender, MouseButtonEventArgs e) {
+			EqListBox_SelectionChanged(sender, null);
+		}
 
 		private void CreatePickup_Clicked(object sender, RoutedEventArgs e) {
 			if (Model.CurrentEquipment != null) {

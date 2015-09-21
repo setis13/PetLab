@@ -32,7 +32,7 @@ namespace PetLab.WPF {
 
 		private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) {
 			Logger.Error(e.Exception.Message, e.Exception.GetBaseException());
-			MessageBox.Show(e.Exception.Message);
+			MessageBox.Show(e.Exception.Message, "PetLab Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			e.Handled = true;
 		}
 	}

@@ -73,6 +73,7 @@
         <!-- equipments and open/close pickup -->
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
             <ListBox Name="EqListBox" Margin="5" Width="160"
+					MouseDoubleClick="EqListBox_MouseDoubleClicked"
 					SelectionChanged="EqListBox_SelectionChanged"
 					ItemsSource="{Binding Equipments}"
 					SelectedItem="{Binding CurrentEquipment, Mode=OneWayToSource}">

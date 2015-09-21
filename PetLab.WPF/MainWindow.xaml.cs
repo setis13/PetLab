@@ -219,9 +219,9 @@ namespace PetLab.WPF {
 				var resultPickup = _service.LookupOpenPickup(Model.CurrentEquipment.EquipmentId);
 				Model.CurrentPickup = Mapper.Map<PickupViewModel>(resultPickup.GetResult());
 			} catch (Exception exception) {
-				Model.ErrorMessage = exception.Message;
 				Model.CurrentOrder = null;
 				Model.CurrentPickup = null;
+				Model.ErrorMessage = exception.Message;
 			} finally {
 				Model.IsLoading = false;
 			}

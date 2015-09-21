@@ -68,7 +68,7 @@
         <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"
 					Visibility="{Binding ErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}"
 					Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2"
-					HorizontalAlignment="Left" Margin="5" />
+					HorizontalAlignment="Left" Margin="5" FontSize="16" FontWeight="Bold" />
 
         <!-- equipments and open/close pickup -->
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">

@@ -19,10 +19,10 @@ namespace PetLab.BLL.Converters.ModelToXml {
 			result.station_cooling = source.pickup_station_cooling.name;
 			result.number = source.number;
 			//color
-			var colors = source.pickup_etalon_color_ranges.ToList();
-			if (colors.Count > 0) {
+			if (source.pickup_etalon_color_ranges != null && source.pickup_etalon_color_ranges.Count > 0) {
+				var colors = source.pickup_etalon_color_ranges.ToList();
 				result.color = new pickupColor();
-                result.color.range = new pickupColorRange[colors.Count];
+				result.color.range = new pickupColorRange[colors.Count];
 				for (int i = 0; i < colors.Count; i++) {
 					result.color.range[i] = new pickupColorRange();
 					result.color.range[i].value = colors[i].value;
@@ -30,8 +30,8 @@ namespace PetLab.BLL.Converters.ModelToXml {
 				}
 			}
 			//defects
-			var defects = source.pickup_defects.ToList();
-			if (defects.Count > 0) {
+			if (source.pickup_defects != null && source.pickup_defects.Count > 0) {
+				var defects = source.pickup_defects.ToList();
 				result.defect = new pickupDefect_meas[defects.Count];
 				for (int i = 0; i < defects.Count; i++) {
 					result.defect[i] = new pickupDefect_meas();

@@ -258,7 +258,7 @@ namespace PetLab.BLL.Services {
 		/// экпортировать съёмы
 		/// </summary>
 		public async Task<ServiceResult<IEnumerable<ServiceResult<PickupDto>>>> ExportPickups() {
-				var results = new List<ServiceResult<PickupDto>>();
+			var results = new List<ServiceResult<PickupDto>>();
 			try {
 				var repository = UnitOfWork.GetRepository<pickup>();
 				var repositoryXml = UnitOfWork.GetXmlRepository<XmlPickupRepository>();

@@ -19,7 +19,9 @@ namespace PetLab.DAL.Repositories {
 			var parts = content.Split(';');
 			byte eqId;
 			//проверяем EqId в файле
-			return parts.Length >= 1 && byte.TryParse(parts[0], out eqId);
+			return parts.Length >= 2 && byte.TryParse(parts[0], out eqId) &&
+				DateTime.ParseExact(parts[2], "yyyyMMddHHmm", System.Globalization.CultureInfo.InvariantCulture) >
+				DateTime.ParseExact(entry.date_end, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 		}
 	}
 }

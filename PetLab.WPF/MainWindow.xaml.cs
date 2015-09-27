@@ -271,8 +271,8 @@ namespace PetLab.WPF {
 
 		private void ClosePickup_Clicked(object sender, RoutedEventArgs e) {
 			_service.ClosePickup(Model.CurrentPickup.PickupId);
-			Model.CurrentPickup = null;
 			_service.ExportPickup(Model.CurrentPickup.PickupId);
+			Model.CurrentPickup = null;
 		}
 
 		#endregion [ Private Methods ]

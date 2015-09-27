@@ -17,7 +17,7 @@ namespace PetLab.DAL.Repositories {
 		}
 
 		protected override string CreateContentFile(object value) {
-			return $"{DateTime.Now:dd.MM.yyyy HH.mm} {value}";
+			return $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {value}";
 		}
 	}
 }

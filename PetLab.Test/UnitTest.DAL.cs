@@ -112,9 +112,9 @@ namespace PetLab.Test {
 				name = "ИК",
 				value = (decimal) 10.1
 			};
-			pickup.date_begin = DateTime.Now;
-			pickup.date_end = DateTime.Now - new TimeSpan(0, 0, 10);
-			pickup.date_take = DateTime.Now - new TimeSpan(0, 0, 2);
+			pickup.date_begin = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+			pickup.date_end = (DateTime.Now - new TimeSpan(0, 0, 10)).ToString("yyyy-MM-dd HH:mm:ss");
+			pickup.date_take = (DateTime.Now - new TimeSpan(0, 0, 2)).ToString("yyyy-MM-dd HH:mm:ss");
 			pickup.equipment = "PETLIN" + (random.Next(11) + 1).ToString("D2");
 			pickup.etalon_match = random.Next(2) == 1;
 			pickup.number = (byte)random.Next(10);

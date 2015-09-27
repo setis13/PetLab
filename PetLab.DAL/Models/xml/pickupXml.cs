@@ -16,11 +16,11 @@ public partial class pickupXml {
 
 	private pickupDefect_meas[] defectField;
 
-	private DateTime date_takeField;
+	private string date_takeField;
 
-	private DateTime date_beginField;
+	private string date_beginField;
 
-	private DateTime date_endField;
+	private string date_endField;
 
 	private byte numberField;
 
@@ -88,7 +88,7 @@ public partial class pickupXml {
 
 	/// <remarks/>
 	[System.Xml.Serialization.XmlAttributeAttribute()]
-	public DateTime date_take {
+	public string date_take {
 		get {
 			return this.date_takeField;
 		}
@@ -99,7 +99,7 @@ public partial class pickupXml {
 
 	/// <remarks/>
 	[System.Xml.Serialization.XmlAttributeAttribute()]
-	public DateTime date_begin {
+	public string date_begin {
 		get {
 			return this.date_beginField;
 		}
@@ -110,7 +110,7 @@ public partial class pickupXml {
 
 	/// <remarks/>
 	[System.Xml.Serialization.XmlAttributeAttribute()]
-	public DateTime date_end {
+	public string date_end {
 		get {
 			return this.date_endField;
 		}

@@ -39,7 +39,7 @@ namespace PetLab.DAL.Repositories.Base {
 			var fullPath = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, queryString));
 			var serializer = new XmlSerializer(typeof(T));
 			using (var writer = new StreamWriter(fullPath))
-			using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true })) {
+			using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true,  })) {
 				serializer.Serialize(xmlWriter, entry);
 			}
 		}

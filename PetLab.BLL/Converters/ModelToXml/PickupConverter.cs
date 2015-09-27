@@ -7,10 +7,10 @@ namespace PetLab.BLL.Converters.ModelToXml {
 	public class PickupConverter : TypeConverter<pickup, pickupXml> {
 		protected override pickupXml ConvertCore(pickup source) {
 			var result = new pickupXml();
-			result.date_take = source.datetime_take;
-			result.date_begin = source.datetime_create;
+			result.date_take = source.datetime_take.ToString("yyyy-MM-dd HH:mm:ss");
+			result.date_begin = source.datetime_create.ToString("yyyy-MM-dd HH:mm:ss");
 			if (source.datetime_close != null) {
-				result.date_end = source.datetime_close.Value;
+				result.date_end = source.datetime_close.Value.ToString("yyyy-MM-dd HH:mm:ss");
 			} else {
 				throw new Exception("Нет даты закрытия съёма");
 			}

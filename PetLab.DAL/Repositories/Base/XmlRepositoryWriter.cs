@@ -39,7 +39,7 @@ namespace PetLab.DAL.Repositories.Base {
 			var fullPath = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, queryString));
 			var serializer = new XmlSerializer(typeof(T));
 			using (var writer = new StreamWriter(fullPath))
-			using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true,  })) {
+			using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true, })) {
 				serializer.Serialize(xmlWriter, entry);
 			}
 		}
@@ -54,7 +54,7 @@ namespace PetLab.DAL.Repositories.Base {
 			var files = Directory.GetFiles(PathRequest, FileRequestStringFormat);
 			if (files.Length > 0) {
 				foreach (var file in files) {
-					result.Add(file, File.ReadAllText(file));
+					result.Add(file, TryReadAllText(file));
 				}
 			}
 			return result;
@@ -81,18 +81,22 @@ namespace PetLab.DAL.Repositories.Base {
 		/// сохраняет в xml все добавленные entry
 		/// </summary>
 		public virtual void Export(T entry) {
-			var dt = DateTime.Now;
-			if (DateTime.Now - dt > Timeout) {
-				throw new TimeoutException();
-			}
-			var keyValues = FindAllRequest();
-			foreach (var keyValue in keyValues) {
-				if (FileCheckContent(keyValue.Value, entry)) {
-					CreateResponse(entry);
-					break;
+			try {
+				var dt = DateTime.Now;
+				while (DateTime.Now - dt < Timeout) {
+					var keyValues = FindAllRequest();
+					foreach (var keyValue in keyValues) {
+						if (FileCheckContent(keyValue.Value, entry)) {
+							CreateResponse(entry);
+							break;
+						}
+					}
+					keyValues.ToList().ForEach(kv => DeleteFile(kv.Key));
 				}
+				throw new TimeoutException();
+			} catch (Exception) {
+				throw;
 			}
-			keyValues.ToList().ForEach(kv => DeleteFile(kv.Key));
 		}
 
 		public Task ExportAsync(T entry) {

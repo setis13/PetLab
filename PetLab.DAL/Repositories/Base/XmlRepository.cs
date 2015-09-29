@@ -2,8 +2,6 @@
 using System.Configuration;
 using System.IO;
 using System.Reflection;
-using PetLab.DAL.Context;
-using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Contracts.Repositories.Base;
 using PetLab.DAL.Helper;
@@ -39,12 +37,18 @@ namespace PetLab.DAL.Repositories.Base {
 		/// </summary>
 		protected string PathPassword => ConfigurationManager.AppSettings["idoc_password"];
 		/// <summary>
+		/// корневая папка idoc
+		/// </summary>
+		private string PathIDoc => ConfigurationManager.AppSettings["idoc_root"];
+		/// <summary>
+		/// файл может быть временно занят другим процессом, надо подождать перед повтором операции
+		/// </summary>
+		private TimeSpan IDocAccessTimeout => TimeSpan.Parse(ConfigurationManager.AppSettings["idoc_access_timeout"]);
+		/// <summary>
 		/// Creates custom repository
 		/// </summary>
 		public XmlRepository(IPetLabXmlContext context) {
-			AccessFileHelper.ConnectShare(PathRequest, PathUserName, PathPassword);
-			AccessFileHelper.ConnectShare(PathResponse, PathUserName, PathPassword);
-			AccessFileHelper.ConnectShare(PathError, PathUserName, PathPassword);
+			AccessFileHelper.ConnectShare(PathIDoc, PathUserName, PathPassword);
 
 			Context = context;
 		}
@@ -93,6 +97,24 @@ namespace PetLab.DAL.Repositories.Base {
 		#endregion [ abstract methods ]
 
 		#region protected methods
+
+		/// <summary>
+		/// пытаться прочитать содержимое файла за заданный промежуток времени 
+		/// </summary>
+		protected string TryReadAllText(string file) {
+			var dt = DateTime.Now;
+			while (true) {
+				try {
+					return File.ReadAllText(file);
+				} catch (Exception) {
+					if (DateTime.Now - dt < IDocAccessTimeout) {
+						continue;
+					} else {
+						throw;
+					}
+				}
+			}
+		}
 
 		/// <summary>
 		/// переместить файл запроса в папку ошибок

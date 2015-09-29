@@ -55,7 +55,7 @@ namespace PetLab.DAL.Repositories.Base {
 		private string FindResponse(string substring) {
 			var fullPathResponse = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, substring));
 			if (File.Exists(fullPathResponse)) {
-				return File.ReadAllText(fullPathResponse);
+				return TryReadAllText(fullPathResponse);
 			}
 			var fullPathError = Path.Combine(PathError, String.Format(FileRequestStringFormat, substring));
 			if (File.Exists(fullPathError)) {

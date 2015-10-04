@@ -14,7 +14,6 @@
 		xmlns:models="clr-namespace:PetLab.WPF.Models"
 		mc:Ignorable="d"
 		Closed="MainWindow_OnClosed"
-		Loaded="MainWindow_OnLoaded"
 		Title="PetLab"
 		Height="350" Width="525" MinWidth="500"
 		WindowState="Maximized"

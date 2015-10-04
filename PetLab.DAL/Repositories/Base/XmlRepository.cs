@@ -138,8 +138,13 @@ namespace PetLab.DAL.Repositories.Base {
 				if (Directory.Exists(PathXmlLog) == false) {
 					Directory.CreateDirectory(PathXmlLog);
 				}
-				File.Move(fullPath, Path.Combine(PathXmlLog, Path.GetFileName(fullPath)));
-			} catch (Exception) {
+                var newFullPath = Path.Combine(PathXmlLog, Path.GetFileName(fullPath));
+                if (File.Exists(newFullPath) == false) {
+                    File.Move(fullPath, newFullPath);
+                } else {
+                    File.Delete(fullPath);
+                }
+			} catch (Exception exception) {
 				// ignored
 			}
 		}

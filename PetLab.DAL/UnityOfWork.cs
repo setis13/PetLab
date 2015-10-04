@@ -11,6 +11,7 @@ using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Contracts.Models.Base;
 using PetLab.DAL.Contracts.Repositories.Base;
 using PetLab.DAL.Repositories.Base;
+using PetLab.DAL.Contracts.Scanners.Base;
 
 namespace PetLab.DAL {
 	public class UnitOfWork : IUnitOfWork {
@@ -18,7 +19,12 @@ namespace PetLab.DAL {
 		/// <summary>
 		/// Holds registered repositories
 		/// </summary>
-		private readonly Dictionary<Type, IEntityRepository> _enityRepositories;
+		private readonly Dictionary<Type, IEntityRepository> _entityRepositories;
+
+		/// <summary>
+		/// Holds registered scanners
+		/// </summary>
+		private readonly Dictionary<Type, IScanner> _scanners;
 
 		/// <summary>
 		/// Holds registered custom repositories
@@ -46,8 +52,9 @@ namespace PetLab.DAL {
 		/// <param name="context">Application db context</param>
 		/// <param name="xmlContext">Aplication xml context</param>
 		public UnitOfWork(IPetLabDbContext context, IPetLabXmlContext xmlContext) {
-			_enityRepositories = new Dictionary<Type, IEntityRepository>();
+			_entityRepositories = new Dictionary<Type, IEntityRepository>();
 			_xmlRepositories = new Dictionary<Type, IXmlRepository>();
+			_scanners = new Dictionary<Type, IScanner>();
 			Context = context;
 			XmlContext = xmlContext;
 		}
@@ -68,14 +75,29 @@ namespace PetLab.DAL {
 		/// <returns>Repository instance</returns>
 		public IEntityRepository<T> GetRepository<T>() where T : BaseEntity {
 			// check if repository exist in cache
-			if (_enityRepositories.ContainsKey(typeof(T)))
-				return _enityRepositories[typeof(T)] as IEntityRepository<T>;
+			if (_entityRepositories.ContainsKey(typeof(T)))
+				return _entityRepositories[typeof(T)] as IEntityRepository<T>;
 			// if not then create a new instance and add to cache
 			var repositoryType = typeof(EntityRepository<>).MakeGenericType(typeof(T));
 			var repository = (IEntityRepository<T>)Activator.CreateInstance(repositoryType, this.Context);
-			_enityRepositories.Add(typeof(T), repository);
+			_entityRepositories.Add(typeof(T), repository);
 
 			return repository;
+		}
+
+		/// <summary>
+		/// Get scanner by type
+		/// </summary>
+		/// <typeparam name="T">Scanner type</typeparam>
+		/// <returns>Scanner instance</returns>
+		public T GetScanner<T>() where T : IScanner {
+			// check if repository exist in cache
+			if (_scanners.ContainsKey(typeof(T))) {
+				return (T)_scanners[typeof(T)];
+			}
+			var scanner = (T)ServiceLocator.Current.GetService(typeof(T));
+			_scanners.Add(typeof(T), scanner);
+			return scanner;
 		}
 
 		/// <summary>

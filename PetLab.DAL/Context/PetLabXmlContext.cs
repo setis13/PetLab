@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using PetLab.DAL.Contracts.Context;
-using PetLab.DAL.Contracts.Repositories.Base;
 
 namespace PetLab.DAL.Context {
 	public class PetLabXmlContext : IPetLabXmlContext {
-		private Dictionary<object, IXmlRepository> _savingList = new Dictionary<object, IXmlRepository>();
+		public List<object> ExportSet { get; set; } = new List<object>();
 
 		public string Serialize<T>(T entry) {
 			XmlSerializer formatter = new XmlSerializer(typeof(T));
@@ -27,5 +25,7 @@ namespace PetLab.DAL.Context {
 			var entry = formatter.Deserialize(stream);
 			return (T)entry;
 		}
+
+
 	}
 }

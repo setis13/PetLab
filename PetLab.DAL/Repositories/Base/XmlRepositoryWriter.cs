@@ -8,6 +8,8 @@ using System.Xml;
 using System.Xml.Serialization;
 using PetLab.DAL.Contracts.Context;
 using PetLab.DAL.Contracts.Repositories.Base;
+using PetLab.DAL.Models.xml;
+using PetLab.DAL.Contracts.Models.Base;
 
 namespace PetLab.DAL.Repositories.Base {
 	/// <summary>
@@ -16,6 +18,10 @@ namespace PetLab.DAL.Repositories.Base {
 	public abstract class XmlRepositoryWriter<T> : XmlRepository<T>, IXmlRepository where T : class {
 
 		#region private 
+		//
+		private Task ExportTask;
+		private DateTime ExportStart;
+		private object _lock = new object();
 
 		protected sealed override string FileRequestStringFormat => "ZGPTOTZ*.txt";
 		protected sealed override string FileResponseStringFormat => "petlab_cc_export_{0}.xml";
@@ -29,73 +35,18 @@ namespace PetLab.DAL.Repositories.Base {
 		public XmlRepositoryWriter(IPetLabXmlContext context) : base(context) {
 		}
 
-		#region private methods
+		#region public
 
 		/// <summary>
-		/// создать файл ответа
+		/// сохраняет в xml все добавленные entry
 		/// </summary>
-		protected void CreateResponse(T entry) {
+		public virtual void Export(T entry) {
 			var queryString = GenerateQuerySubstring();
 			var fullPath = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, queryString));
 			var serializer = new XmlSerializer(typeof(T));
 			using (var writer = new StreamWriter(fullPath))
 			using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true, })) {
 				serializer.Serialize(xmlWriter, entry);
-			}
-		}
-
-		/// <summary>
-		/// найти файл для инициализации экспорта
-		/// примеры:
-		/// ZGPTOTZ20150824203901.txt
-		/// </summary>
-		private Dictionary<string, string> FindAllRequest() {
-			var result = new Dictionary<string, string>();
-			var files = Directory.GetFiles(PathRequest, FileRequestStringFormat);
-			if (files.Length > 0) {
-				foreach (var file in files) {
-					result.Add(file, TryReadAllText(file));
-				}
-			}
-			return result;
-		}
-
-		#endregion private methods
-
-		#region protected methods
-
-		/// <summary>
-		/// проверяет содержимое файла
-		/// </summary>
-		protected abstract bool FileCheckContent(string content, T entry);
-
-		#endregion protected methods
-
-		#region public
-
-		//public void Insert(T entry) {
-		//	Context.Insert(entry, this);
-		//}
-
-		/// <summary>
-		/// сохраняет в xml все добавленные entry
-		/// </summary>
-		public virtual void Export(T entry) {
-			try {
-				var dt = DateTime.Now;
-				while (DateTime.Now - dt < Timeout) {
-					var keyValues = FindAllRequest();
-					foreach (var keyValue in keyValues) {
-						if (FileCheckContent(keyValue.Value, entry)) {
-							CreateResponse(entry);
-							break;
-						}
-					}
-					keyValues.ToList().ForEach(kv => DeleteFile(kv.Key));
-				}
-				throw new TimeoutException();
-			} catch (Exception) {
-				throw;
 			}
 		}
 

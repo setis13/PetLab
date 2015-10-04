@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using PetLab.BLL.Common.Dto;
 using PetLab.BLL.Common.Services.Results;
 using PetLab.BLL.Contracts.Services.Base;
+using PetLab.DAL.Contracts.Scanners.Base;
+using PetLab.DAL.Contracts.Models.Scan;
 
 namespace PetLab.BLL.Contracts.Services {
 	public interface IPickupService : IService {
@@ -49,7 +50,7 @@ namespace PetLab.BLL.Contracts.Services {
 		/// <param name="take">когда взят съём</param>
 		/// <param name="stationId">станция охлаждения</param>
 		/// <returns>PickupDto</returns>
-		ServiceResult<PickupDto> OpenPickup(string orderId, string boxId, int shiftId,  DateTime take, byte stationId);
+		ServiceResult<PickupDto> OpenPickup(string orderId, string boxId, int shiftId, DateTime take, byte stationId);
 
 		/// <summary>
 		/// закрыть съём
@@ -59,12 +60,7 @@ namespace PetLab.BLL.Contracts.Services {
 		/// <summary>
 		/// экспортировать съёмы
 		/// </summary>
-		Task<ServiceResult<IEnumerable<ServiceResult<PickupDto>>>> ExportPickups();
-
-		/// <summary>
-		/// экпортировать съём
-		/// </summary>
-		Task<ServiceResult<PickupDto>> ExportPickup(int pickupId);
+		ServiceResult<IEnumerable<PickupDto>> ExportPickups(string equipmentId);
 
 		/// <summary>
 		/// получить отмеченных дефектов к съему
@@ -96,5 +92,29 @@ namespace PetLab.BLL.Contracts.Services {
 		/// задать, визуальное сравнение
 		/// </summary>
 		ServiceResult SetVisualMatch(int pickupId, bool value);
+
+		/// <summary>
+		/// получили файл с орасителя и обновим datetime последнего короба
+		/// </summary>
+		string OnZgptotzReceived(Zgptotz entry);
+
+		#region scanners
+
+		/// <summary>
+		/// событие получения нового файла
+		/// </summary>
+		event ScannerReceived ScannerReceived;
+
+		/// <summary>
+		/// запустить все сканеры
+		/// </summary>
+		void StartScanners();
+
+		/// <summary>
+		/// остановить все сканеры
+		/// </summary>
+		void StopScanners();
+
+		#endregion scanners
 	}
 }

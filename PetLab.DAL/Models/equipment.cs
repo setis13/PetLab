@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using PetLab.DAL.Contracts.Models.Base;
+using System;
 
 namespace PetLab.DAL.Models {
 	[Table("equipment")]
@@ -20,6 +21,8 @@ namespace PetLab.DAL.Models {
 		public int? pickup_id { get; set; }
 
 		public virtual pickup pickup { get; set; }
+
+		public DateTime last_box { get; set; }
 
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public virtual ICollection<order> orders { get; set; }

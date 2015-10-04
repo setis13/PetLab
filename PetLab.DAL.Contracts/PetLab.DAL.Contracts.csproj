@@ -53,9 +53,12 @@
     <Compile Include="Context\IPetLabDbContext.cs" />
     <Compile Include="Context\IXmlPetLabContext.cs" />
     <Compile Include="IUnityOfWork.cs" />
+    <Compile Include="Models\Scan\Zgptotz.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Base\IEntityRepository.cs" />
     <Compile Include="Repositories\Base\IXmlRepository.cs" />
+    <Compile Include="Scanners\Base\IScanner.cs" />
+    <Compile Include="Scanners\IZgptotzScanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -24,7 +24,7 @@ namespace PetLab.DAL.Repositories.Mock {
 			if (Directory.Exists(PathResponse) == false) {
 				Directory.CreateDirectory(PathResponse);
 			}
-			CreateResponse(entry);
+			Export(entry);
 		}
 	}
 }

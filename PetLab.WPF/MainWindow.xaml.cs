@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +13,13 @@ using PetLab.BLL.Common.Dto;
 using PetLab.BLL.Contracts;
 using PetLab.BLL.Contracts.Services;
 using PetLab.BLL.Contracts.Settings;
-using PetLab.DAL.Models;
 using PetLab.WPF.Dialogs;
 using PetLab.WPF.Helpers;
 using PetLab.WPF.Models;
-using PetLab.WPF.Utils;
 using PetLab.WPF.ViewModels;
 using Xceed.Wpf.Toolkit;
 using MessageBox = System.Windows.MessageBox;
+using PetLab.DAL.Contracts.Models.Scan;
 
 namespace PetLab.WPF {
 	public partial class MainWindow : Window {
@@ -165,6 +163,10 @@ namespace PetLab.WPF {
 		private void Initialize() {
 			//var settings = _settings.GetPickupSettings();
 
+			//запустить сканер папки
+			_service.StartScanners();
+			_service.ScannerReceived += OnScannerReceived;
+
 			IEnumerable<EquipmentDto> equipments = _service.LookupEquipments().GetResult();
 			IEnumerable<DefectDto> defects = _service.LookupDefects().GetResult();
 
@@ -182,11 +184,15 @@ namespace PetLab.WPF {
 			Model = viewModel;
 		}
 
-		private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e) {
-			var results = await _service.ExportPickups();
-			var pickupsResult = results.GetResult();
-			foreach (var serviceResult in pickupsResult) {
-				serviceResult.GetResult();
+		private void OnScannerReceived(object entry) {
+			if (Application.Current.Dispatcher.CheckAccess() == false) {
+				Application.Current.Dispatcher.Invoke(new Action(() => OnScannerReceived(entry)));
+			} else {
+				if (entry is Zgptotz) {
+					var equipmentId = _service.OnZgptotzReceived((Zgptotz)entry);
+					if (equipmentId != null)
+						_service.ExportPickups(equipmentId);
+				}
 			}
 		}
 
@@ -270,8 +276,11 @@ namespace PetLab.WPF {
 		}
 
 		private void ClosePickup_Clicked(object sender, RoutedEventArgs e) {
+			//закрываем съём
 			_service.ClosePickup(Model.CurrentPickup.PickupId);
-			_service.ExportPickup(Model.CurrentPickup.PickupId);
+			//пробуем экспортировать
+			_service.ExportPickups(Model.CurrentEquipment.EquipmentId);
+			//убираем съём с экрана
 			Model.CurrentPickup = null;
 		}
 

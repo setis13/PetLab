@@ -13,10 +13,10 @@ using PetLab.DAL;
 using PetLab.DAL.Context;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Contracts.Context;
-using PetLab.DAL.Contracts.Repositories.Base;
 using PetLab.DAL.Repositories;
-using PetLab.DAL.Repositories.Mock;
 using Unity.AutoRegistration;
+using PetLab.DAL.Scanners;
+using PetLab.DAL.Contracts.Scanners;
 
 namespace PetLab.WPF.App_Start {
 	public class UnityConfig {
@@ -60,6 +60,8 @@ namespace PetLab.WPF.App_Start {
 			container.RegisterType<XmlOrderRepository, XmlOrderRepository>(new ContainerControlledLifetimeManager());
 			container.RegisterType<XmlPickupRepository, XmlPickupRepository>(new ContainerControlledLifetimeManager());
 #endif
+			// register scanners
+			container.RegisterType<IZgptotzScanner, ZgptotzScanner>(new ContainerControlledLifetimeManager());
 
 			// register Unit of Work
 			container.RegisterType<IUnitOfWork, UnitOfWork>(new HierarchicalLifetimeManager(), new InjectionFactory(c => {

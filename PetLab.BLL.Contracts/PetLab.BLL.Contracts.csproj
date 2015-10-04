@@ -56,6 +56,10 @@
       <Project>{2EECA5F9-E09B-49A4-8BB5-451F7D917C19}</Project>
       <Name>PetLab.BLL.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PetLab.DAL.Contracts\PetLab.DAL.Contracts.csproj">
+      <Project>{a3c38de1-542b-4171-a99c-8dc5a34b04c2}</Project>
+      <Name>PetLab.DAL.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -68,6 +68,10 @@
     <Compile Include="Migrations\201509130614060_root.Designer.cs">
       <DependentUpon>201509130614060_root.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510040718088_last_box.cs" />
+    <Compile Include="Migrations\201510040718088_last_box.Designer.cs">
+      <DependentUpon>201510040718088_last_box.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\defect.cs" />
     <Compile Include="Models\equipment.cs" />
     <Compile Include="Models\material.cs" />
@@ -104,6 +108,7 @@
     <Compile Include="Repositories\Base\XmlRepository.cs" />
     <Compile Include="Repositories\XmlPickupRepository.cs" />
     <Compile Include="Repositories\XmlOrderRepository.cs" />
+    <Compile Include="Scanners\ZgptotzScanner.cs" />
     <Compile Include="UnityOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +130,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201509130614060_root.resx">
       <DependentUpon>201509130614060_root.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510040718088_last_box.resx">
+      <DependentUpon>201510040718088_last_box.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

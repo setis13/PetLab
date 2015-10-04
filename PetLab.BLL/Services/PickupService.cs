@@ -9,11 +9,13 @@ using PetLab.BLL.Common.Services.Results;
 using PetLab.BLL.Contracts;
 using PetLab.BLL.Contracts.Services;
 using PetLab.BLL.Services.Base;
-using PetLab.DAL;
 using PetLab.DAL.Contracts;
 using PetLab.DAL.Models;
 using PetLab.DAL.Models.xml;
 using PetLab.DAL.Repositories;
+using PetLab.DAL.Contracts.Scanners;
+using PetLab.DAL.Contracts.Scanners.Base;
+using PetLab.DAL.Contracts.Models.Scan;
 
 namespace PetLab.BLL.Services {
 	public class PickupService : HostService<IPickupService>, IPickupService {
@@ -236,48 +238,33 @@ namespace PetLab.BLL.Services {
 		}
 
 		/// <summary>
-		/// экпортировать съёмы
+		/// экпортировать съёмы по указанной машине
 		/// </summary>
-		public async Task<ServiceResult<PickupDto>> ExportPickup(int pickupId) {
+		public ServiceResult<IEnumerable<PickupDto>> ExportPickups(string equipmentId) {
 			try {
-				var repository = UnitOfWork.GetRepository<pickup>();
+				var pickupRepository = UnitOfWork.GetRepository<pickup>();
+				var equipmentRepository = UnitOfWork.GetRepository<equipment>();
 				var repositoryXml = UnitOfWork.GetXmlRepository<XmlPickupRepository>();
-				var pickup = repository.GetById(pickupId);
-				if (pickup != null) {
-					await repositoryXml.ExportAsync(AutoMapper.Mapper.Map<pickupXml>(pickup));
+
+				var equipment = equipmentRepository.GetById(equipmentId);
+				//все съёмы, которые нужно экспортировать
+				List<pickup> pickups = pickupRepository.SearchFor(p =>
+					p.datetime_close != null &&
+					p.export == false &&
+					p.order.equipment_id == equipmentId &&
+					p.datetime_take < equipment.last_box).ToList();
+			//экспорт в xml, потом присваение значения export
+				foreach (var pickup in pickups) {
+					var pickupXml = AutoMapper.Mapper.Map<pickupXml>(pickup);
+					repositoryXml.Export(pickupXml);
 					pickup.export = true;
 					UnitOfWork.SaveChanges();
 				}
-				return new ServiceResult<PickupDto>(AutoMapper.Mapper.Map<PickupDto>(pickup));
-			} catch (Exception exception) {
-				return ServiceResult.ExceptionFactory<ServiceResult<PickupDto>>(exception);
-			}
-		}
 
-		/// <summary>
-		/// экпортировать съёмы
-		/// </summary>
-		public async Task<ServiceResult<IEnumerable<ServiceResult<PickupDto>>>> ExportPickups() {
-			var results = new List<ServiceResult<PickupDto>>();
-			try {
-				var repository = UnitOfWork.GetRepository<pickup>();
-				var repositoryXml = UnitOfWork.GetXmlRepository<XmlPickupRepository>();
-				List<pickup> pickups = repository.SearchFor(p => p.datetime_close != null && p.export == false).ToList();
-				var tasks = pickups.Select(async p => {
-					try {
-						var pickupXml = AutoMapper.Mapper.Map<pickupXml>(p);
-						await repositoryXml.ExportAsync(pickupXml);
-						p.export = true;
-						UnitOfWork.SaveChanges();
-						results.Add(new ServiceResult<PickupDto>(AutoMapper.Mapper.Map<PickupDto>(p)));
-					} catch (Exception exception) {
-						results.Add(ServiceResult.ExceptionFactory<ServiceResult<PickupDto>>(exception));
-					}
-				});
-				await Task.WhenAll(tasks);
-				return new ServiceResult<IEnumerable<ServiceResult<PickupDto>>>(results);
+				var results = AutoMapper.Mapper.Map<IEnumerable<PickupDto>>(pickups);
+				return new ServiceResult<IEnumerable<PickupDto>>(results);
 			} catch (Exception exception) {
-				return ServiceResult.ExceptionFactory<ServiceResult<IEnumerable<ServiceResult<PickupDto>>>>(exception);
+				return ServiceResult.ExceptionFactory<ServiceResult<IEnumerable<PickupDto>>>(exception);
 			}
 		}
 
@@ -379,7 +366,7 @@ namespace PetLab.BLL.Services {
 				var repository = UnitOfWork.GetRepository<pickup>();
 				var pickup = repository.GetById(pickupId);
 				if (pickup == null) {
-					throw new Exception("съём не найдем");
+					throw new Exception("съём не найден");
 				}
 				pickup.etalon_match = value;
 				repository.Save(pickup);
@@ -409,5 +396,64 @@ namespace PetLab.BLL.Services {
 			}
 		}
 
+		/// <summary>
+		/// получили файл с орасителя и обновим datetime последнего короба
+		/// </summary>
+		public string OnZgptotzReceived(Zgptotz entry) {
+			var eqId = "PETLIN" + entry.EquipmentId.ToString("D2");
+			var equipmentRepository = UnitOfWork.GetRepository<equipment>();
+			var equipment = equipmentRepository.GetById(eqId);
+			if (equipment == null) {
+				throw new Exception("equipment not found: " + eqId);
+			}
+			if (equipment.last_box < entry.End) {
+				equipment.last_box = entry.End;
+				UnitOfWork.SaveChanges();
+				return eqId;
+			}
+			return null;
+		}
+
+		#region scanners
+
+		/// <summary>
+		/// событие получения нового файла
+		/// </summary>
+		public event ScannerReceived ScannerReceived;
+
+		/// <summary>
+		/// вызвать событие
+		/// </summary>
+		private void OnScannerReceived(object entry) {
+			if (ScannerReceived != null) {
+				ScannerReceived.Invoke(entry);
+			}
+		}
+
+		/// <summary>
+		/// запустить все сканеры
+		/// </summary>
+		public void StartScanners() {
+			var scanners = new List<IScanner>();
+			scanners.Add(UnitOfWork.GetScanner<IZgptotzScanner>());
+			foreach (var scanner in scanners) {
+				scanner.Start();
+				scanner.Received += OnScannerReceived;
+			}
+		}
+
+		/// <summary>
+		/// остановить все сканеры
+		/// </summary>
+		public void StopScanners() {
+			var scanners = new List<IScanner>();
+			scanners.Add(UnitOfWork.GetScanner<IZgptotzScanner>());
+			foreach (var scanner in scanners) {
+				scanner.Stop();
+				scanner.Received -= OnScannerReceived;
+			}
+		}
+
+		#endregion scanners
 	}
 }

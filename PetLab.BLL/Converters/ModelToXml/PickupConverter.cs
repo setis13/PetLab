@@ -35,7 +35,7 @@ namespace PetLab.BLL.Converters.ModelToXml {
 				result.defect = new pickupDefect_meas[defects.Count];
 				for (int i = 0; i < defects.Count; i++) {
 					result.defect[i] = new pickupDefect_meas();
-					result.defect[i].socket = defects[i].socket;
+					result.defect[i].socket = (byte)(defects[i].socket + 1);
 					result.defect[i].defect_id = defects[i].defect_id;
 					result.defect[i].grade = defects[i].grade;
 				}

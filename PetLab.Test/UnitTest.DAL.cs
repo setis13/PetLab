@@ -116,7 +116,7 @@ namespace PetLab.Test {
 			pickup.date_end = (DateTime.Now - new TimeSpan(0, 0, 10)).ToString("yyyy-MM-dd HH:mm:ss");
 			pickup.date_take = (DateTime.Now - new TimeSpan(0, 0, 2)).ToString("yyyy-MM-dd HH:mm:ss");
 			pickup.equipment = "PETLIN" + (random.Next(11) + 1).ToString("D2");
-			pickup.etalon_match = random.Next(2) == 1;
+			pickup.etalon_match = (byte)random.Next(2);
 			pickup.number = (byte)random.Next(10);
 			pickup.slip = new[] {
 				new pickupSlip_meas() {value = (decimal) 4.9, deviation = (decimal) 1.1, step = 120}

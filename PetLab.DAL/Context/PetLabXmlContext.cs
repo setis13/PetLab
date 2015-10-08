@@ -9,13 +9,13 @@ namespace PetLab.DAL.Context {
 	public class PetLabXmlContext : IPetLabXmlContext {
 		public List<object> ExportSet { get; set; } = new List<object>();
 
-		public string Serialize<T>(T entry) {
+		public void Serialize<T>(string fullPath, T entry) {
 			XmlSerializer formatter = new XmlSerializer(typeof(T));
-			StringWriter stream = new StringWriter();
-			XmlWriter writer = XmlWriter.Create(stream);
-			formatter.Serialize(writer, entry);
-			var xml = stream.ToString();
-			return xml;
+			StreamWriter stream = new StreamWriter(fullPath);
+			XmlWriter writer = XmlWriter.Create(stream, new XmlWriterSettings { Indent = true });
+			var ns = new XmlSerializerNamespaces();
+			ns.Add("", "");
+			formatter.Serialize(writer, entry, ns);
 		}
 
 		public T Deserialize<T>(string content) {

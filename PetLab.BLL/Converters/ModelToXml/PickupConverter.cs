@@ -15,7 +15,7 @@ namespace PetLab.BLL.Converters.ModelToXml {
 				throw new Exception("Нет даты закрытия съёма");
 			}
 			result.equipment = source.order.equipment_id;
-			result.etalon_match = source.etalon_match;
+			result.etalon_match = (byte)(source.etalon_match ? 1 : 0);
 			result.station_cooling = source.pickup_station_cooling.name;
 			result.number = source.number;
 			//color

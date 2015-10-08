@@ -43,11 +43,7 @@ namespace PetLab.DAL.Repositories.Base {
 		public virtual void Export(T entry) {
 			var queryString = GenerateQuerySubstring();
 			var fullPath = Path.Combine(PathResponse, String.Format(FileResponseStringFormat, queryString));
-			var serializer = new XmlSerializer(typeof(T));
-			using (var writer = new StreamWriter(fullPath))
-			using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true, })) {
-				serializer.Serialize(xmlWriter, entry);
-			}
+			Context.Serialize<T>(fullPath, entry);
 		}
 
 		public Task ExportAsync(T entry) {

@@ -28,7 +28,7 @@ public partial class pickupXml {
 
 	private string equipmentField;
 
-	private bool etalon_matchField;
+	private byte etalon_matchField;
 
 	private string userField;
 
@@ -154,7 +154,7 @@ public partial class pickupXml {
 
 	/// <remarks/>
 	[System.Xml.Serialization.XmlAttributeAttribute()]
-	public bool etalon_match {
+	public byte etalon_match {
 		get {
 			return this.etalon_matchField;
 		}
